@@ -6,7 +6,7 @@
 #    By: dclark <dclark@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/04 11:59:29 by dclark            #+#    #+#              #
-#    Updated: 2022/05/17 11:45:00 by dclark           ###   ########.fr        #
+#    Updated: 2022/05/18 13:50:15 by dclark           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,11 +19,11 @@ SDIR	=	./src
 
 NAME	=	Containers
 
-_DEPS	=	*.h
+_DEPS	=	vector.h
 
 DEPS	=	$(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ	=	*.o
+_OBJ	=	main.o
 
 OBJ		=	$(patsubst %,$(ODIR)/%,$(_OBJ))
 

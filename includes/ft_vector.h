@@ -6,19 +6,34 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/05/17 15:33:09 by dclark           ###   ########.fr       */
+/*   Updated: 2022/05/18 13:43:57 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <>
 
 namespace ft {
-	template<class T, std::allocator<T>>
-	class Vector {
+	template<class T, class std::allocator<T>>
+	class vector {
 		public:
-		//Constructor (Surcharge de constructor ?)
-				//Destructor (Surcharge de destructor ?)
-			//Operator (=)
+			// Constructor (Surcharge de constructor ?)
+			// Destructor (Surcharge de destructor ?)
+			// Operator =
+
+			/*-------- Member_type --------*/
+			T										value_type				
+			std::allocator::value_type				allocator_type			
+			std::allocator::reference				reference
+			std::allocator::const_reference			const_reference
+			std::allocator::pointer					pointer
+			std::allocator::const_pointer			const_pointer
+			//iterator
+			//cosnt_iterator
+			signed int								difference_type
+			std::reverse_iterator<iterator>			reverse_iterator
+			std::reverse_iterator<const_iterator>	const_reverse_iterator
+			signed int							difference_type
+			unsigned int							size_type
 
 			/*-------- Iterators --------*/
 			// begin
@@ -34,7 +49,7 @@ namespace ft {
 			// reserve
 
 			/*-------- Element_access --------*/
-			// operator ([])
+			// Operator []
 			// at
 			// front
 			// back
@@ -52,7 +67,12 @@ namespace ft {
 			// get_allocator
 
 			/*-------- Non-member function overlords --------*/
-			//relational operator
-			//swap
+			// Operator ==
+			// Operator !=
+			// Operator <
+			// Operator <=
+			// Operator >
+			// Operator >=
+			// swap
 	};
 }
