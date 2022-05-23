@@ -6,16 +6,33 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/05/18 16:33:40 by dclark           ###   ########.fr       */
+/*   Updated: 2022/05/23 15:19:55 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef FT_VECTOR_H
+#define FT_VECTOR_H
 
 #include <>
 
 namespace ft {
-	template<class T, class Alloc std::allocator<T>>
+	template<class T, class Alloc = std::allocator<T>>
 	class vector {
 		public:
+			/*-------- Member_type --------*/
+			typedef	T										_element_type
+			typedef	std::allocator::reference				_reference_to_element
+			typedef	std::allocator::const_reference			_reference_to_const_reference
+			typedef	std::allocator::pointer					_pointer_to_element
+			typedef	std::allocator::const_pointer			_pointer_to_const_element
+			//iterator
+			//cosnt_iterator
+			//typedef ft::iterator_traits<A_VOIR>								difference_type
+			std::reverse_iterator<iterator>			reverse_iterator
+			std::reverse_iterator<const_iterator>	const_reverse_iterator
+			signed int							difference_type
+			unsigned int							size_type
+
 			// Constructor (Surcharge de constructor ?)
 			// Destructor (Surcharge de destructor ?)
 			// Operator =
@@ -59,20 +76,7 @@ namespace ft {
 			// Operator >
 			// Operator >=
 			// swap			
-
-			/*-------- Member_type --------*/
-			T										value_type				
-			std::allocator::value_type				allocator_type			
-			std::allocator::reference				reference
-			std::allocator::const_reference			const_reference
-			std::allocator::pointer					pointer
-			std::allocator::const_pointer			const_pointer
-			//iterator
-			//cosnt_iterator
-			signed int								difference_type
-			std::reverse_iterator<iterator>			reverse_iterator
-			std::reverse_iterator<const_iterator>	const_reverse_iterator
-			signed int							difference_type
-			unsigned int							size_type
 	};
 }
+
+#endif
