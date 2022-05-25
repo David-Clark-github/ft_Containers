@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:04:31 by dclark            #+#    #+#             */
-/*   Updated: 2022/05/24 15:17:36 by dclark           ###   ########.fr       */
+/*   Updated: 2022/05/25 12:36:19 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,14 @@
 #include <cstddef>  // For std::ptrdiff_t
 #include <iostream>
 
-#define TYPE	int
-
 class Integers {
 	public:
 		struct	Iterator {
 			using iterator_category = std::forward_iterator_tag;
 			using difference_type   = std::ptrdiff_t;
-			using value_type        = TYPE;
-			using pointer           = TYPE*;  // or also value_type*
-			using reference         = TYPE&;  // or also value_type&
+			using value_type        = int;
+			using pointer           = int*;  // or also value_type*
+			using reference         = int&;  // or also value_type&
 
 			//Constructeur de Iterator
 			Iterator(pointer ptr) : m_ptr(ptr) {}
@@ -36,7 +34,6 @@ class Integers {
 
 			//prefix
 			Iterator	&operator++() {m_ptr++; return *this;}
-
 			//postfix
 			Iterator	operator++(int) {Iterator tmp = *this; ++(*this); return tmp;}
 
