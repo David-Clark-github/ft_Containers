@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 11:13:48 by dclark            #+#    #+#             */
-/*   Updated: 2022/05/31 11:18:35 by dclark           ###   ########.fr       */
+/*   Updated: 2022/05/31 19:16:57 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,64 +18,68 @@ namespace ft {
 
 		/*-------- Constructor --------*/
 
-		/*Default*/
+		/* Default */
 		pair(void)
-		:_first(first_type), _second(second_type) {}
+		:first(), second() {}
 
-		/*Copy / Move*/
+		/* Copy */
 		template< class U1, class U2 >
 		pair( const pair<U1, U2>& p ) {
 			*this = p;
 		}
 
-		/*Initialization*/
+		/* Initialization */
 		pair( const first_type& a, const second_type& b)
-		:_first(a), _second(b) {}
-
-		pair( const pair& p) = default;
+		:first(a), second(b) {}
 
 		/*-------- Operators --------*/
 
 		pair& operator=(const pair &p) {
 			if (this != &p) {
-				this->_first = p._first;
-				this->_second = p._second;
+				this->first = p.first;
+				this->second = p.second;
 			}
 			return (*this);
 		}
 
-		bool operator==(const pair& p1, const pair& p2) {
-			return ((p1._first == p2._first) && (p1._second == p2._second));
-		}
-
-		bool operator!=(const pair& p1, const pair& p2) {
-			return ((p1._first != p2._first) && (p1._second != p2._second));
-		}
-
-		bool operator<(const pair& p1, const pair& p2) {
-			return ((p1._first < p2._first) && (p1._second < p2._second));
-		}
-
-		bool operator<=(const pair& p1, const pair& p2) {
-			return ((p1._first <= p2._first) && (p1._second <= p2._second));
-		}
-
-		bool operator>(const pair& p1, const pair& p2) {
-			return ((p1._first > p2._first) && (p1._second > p2._second));
-		}
-
-		bool operator>=(const pair& p1, const pair& p2) {
-			return ((p1._first >= p2._first) && (p1._second >= p2._second));
-		}
-
-		friend pair<first_type, second_type> make_pair(first_type a, second_type b);
-
-		/*-------- Member Objects --------*/
-		first_type	_first;
-		second_type	_second;
+		first_type	first;
+		second_type	second;
 	};
 
-	pair<first_type, second_type> make_pair(first_type a, second_type b) {
-		return (pair<first_type, second_type>(a, b));
+	template <class T1, class T2>
+	bool operator==(const pair<T1, T2> &p1, const pair<T1, T2> &p2) {
+		return ((p1.first == p2.first) && (p1.second == p2.second));
+	}
+
+	template <class T1, class T2>
+	bool operator!=(const pair<T1, T2> &p1, const pair<T1, T2> &p2) {
+		return ((p1.first != p2.first) && (p1.second != p2.second));
+	}
+
+	template <class T1, class T2>
+	bool operator<(const pair<T1, T2> &p1, const pair<T1, T2> &p2) {
+		return ((p1.first < p2.first) && (p1.second < p2.second));
+	}
+
+	template <class T1, class T2>
+	bool operator<=(const pair<T1, T2> &p1, const pair<T1, T2> &p2) {
+		return ((p1.first <= p2.first) && (p1.second <= p2.second));
+	}
+
+	template <class T1, class T2>
+	bool operator>(const pair<T1, T2> &p1, const pair<T1, T2> &p2) {
+		return ((p1.first > p2.first) && (p1.second > p2.second));
+	}
+
+	template <class T1, class T2>
+	bool operator>=(const pair<T1, T2> &p1, const pair<T1, T2> &p2) {
+		return ((p1.first >= p2.first) && (p1.second >= p2.second));
+	}
+
+	/*-------- Member Objects --------*/
+
+	template <class T1, class T2>
+	ft::pair<T1, T2> make_pair(T1 a, T2 b) {
+		return (ft::pair<T1, T2>(a, b));
 	}
 };
