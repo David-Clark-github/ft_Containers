@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 11:13:48 by dclark            #+#    #+#             */
-/*   Updated: 2022/05/25 14:29:33 by dclark           ###   ########.fr       */
+/*   Updated: 2022/05/31 11:18:35 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ namespace ft {
 		/*-------- Constructor --------*/
 
 		/*Default*/
-		pair(void);
+		pair(void)
+		:_first(first_type), _second(second_type) {}
 
 		/*Copy / Move*/
 		template< class U1, class U2 >
