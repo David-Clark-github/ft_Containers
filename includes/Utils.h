@@ -6,11 +6,16 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:22:35 by dclark            #+#    #+#             */
-/*   Updated: 2022/05/23 15:25:00 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/01 13:29:28 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 #define UTILS_H
+
+namespace ft {
+	template <class T>
+	
+};
 
 #endif
