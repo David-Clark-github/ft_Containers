@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 11:13:48 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/02 11:22:33 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/02 13:56:55 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ namespace ft {
 		return ((p1.first >= p2.first) && (p1.second >= p2.second));
 	}
 
-	/*-------- make_pair --------*/
+	/*-------- MAKE_PAIR --------*/
 
 	template <class T1, class T2>
 	ft::pair<T1, T2> make_pair(T1 a, T2 b) {

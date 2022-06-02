@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_equal.h                                         :+:      :+:    :+:   */
+/*   is_integral_test.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/02 11:40:29 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/02 11:51:24 by dclark           ###   ########.fr       */
+/*   Created: 2022/06/02 13:47:27 by dclark            #+#    #+#             */
+/*   Updated: 2022/06/02 13:49:09 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_EQUAL_H
-#define FT_EQUAL_H
+#include <ft_is_integral.h>
+#include <iostream>
 
-namespace ft {
-	template <class It1, It2>
-	bool equal(It1 first1; It1 last1; It2 first2) {
-		while (first1 != last1) {
-			if (!(*first1 == *first2))
-				return false;
-			first1++;
-			first2++;
-		}
-		return true;
-	}
-};
-
-#endif
+int main() {
+	std::cout << std::boolalpha;
+	std::cout << "is_integral:" << std::endl;
+	std::cout << "char: " << ft::is_integral<char>::value << std::endl;
+	std::cout << "int: " << ft::is_integral<int>::value << std::endl;
+	std::cout << "float: " << ft::is_integral<float>::value << std::endl;
+	return 0;
+}
