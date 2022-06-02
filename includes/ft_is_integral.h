@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 18:42:05 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/01 18:55:20 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/02 11:21:12 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,62 @@ namespace ft {
 
 	template <class T, T v>
 	struct	integral_constant {
-		ft::integral_constant<bool, true>	true_type;
-		ft::integral_constant<bool, false>	false_type;
-		T									value_type;
-		ft::integral_constant<T, v>			type;
-		value;
-
+		typedef 		T							value_type;
+		typedef			ft::integral_constant<T, v>	type;
+		static const	T							value = v;
+		operator const value_type() {return value;}
 	};
+
+	typedef	ft::integral_constant<bool, true>	true_type;
+	typedef	ft::integral_constant<bool, false>	false_type;
+	
+	template <class T>
+	struct is_integral							: public false_type {};
 
 	template <class T>
-	struct is_integral : integral_constant {
-		bool								value_type;
-											value;
-		ft::integral_constant<bool, value> type;
-	};
+	struct is_integral<bool>					: public true_type {};
+
+	template <class T>
+	struct is_integral<char>					: public true_type {};
+
+	template <class T>
+	struct is_integral<char16_t>				: public true_type {};
+
+	template <class T>
+	struct is_integral<char32_t>				: public true_type {};
+
+	template <class T>
+	struct is_integral<wchar_t>					: public true_type {};
+
+	template <class T>
+	struct is_integral<signed char>				: public true_type {};
+
+	template <class T>
+	struct is_integral<short int>				: public true_type {};
+
+	template <class T>
+	struct is_integral<int>						: public true_type {};
+
+	template <class T>
+	struct is_integral<long int>				: public true_type {};
+
+	template <class T>
+	struct is_integral<long long int>			: public true_type {};
+
+	template <class T>
+	struct is_integral<unsigned char>			: public true_type {};
+
+	template <class T>
+	struct is_integral<unsigned short int>		: public true_type {};
+
+	template <class T>
+	struct is_integral<unsigned int>			: public true_type {};
+
+	template <class T>
+	struct is_integral<unsigned long int>		: public true_type {};
+
+	template <class T>
+	struct is_integral<unsigned long long int>	: public true_type {};
 
 };
 
