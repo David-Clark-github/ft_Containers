@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/05/23 15:19:55 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/04 17:04:36 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,19 @@ namespace ft {
 	class vector {
 		public:
 			/*-------- Member_type --------*/
-			typedef	T										_element_type
-			typedef	std::allocator::reference				_reference_to_element
-			typedef	std::allocator::const_reference			_reference_to_const_reference
-			typedef	std::allocator::pointer					_pointer_to_element
-			typedef	std::allocator::const_pointer			_pointer_to_const_element
+			typedef	T									value_type;
+			typedef	Alloc								allocator_type;
+			typedef	allocator_type::reference			reference
+			typedef	allocator_type::const_reference		const_reference;
+			typedef	allocator_type::pointer				pointer;
+			typedef	allocator_type::const_pointer		const_pointer;
 			//iterator
 			//cosnt_iterator
 			//typedef ft::iterator_traits<A_VOIR>								difference_type
 			std::reverse_iterator<iterator>			reverse_iterator
 			std::reverse_iterator<const_iterator>	const_reverse_iterator
-			signed int							difference_type
-			unsigned int							size_type
+			typedef signed int							difference_type
+			typedef unsigned int						size_type
 
 			// Constructor (Surcharge de constructor ?)
 			// Destructor (Surcharge de destructor ?)
