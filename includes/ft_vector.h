@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/04 17:04:36 by david            ###   ########.fr       */
+/*   Updated: 2022/06/05 18:39:31 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ namespace ft {
 			typedef	allocator_type::pointer				pointer;
 			typedef	allocator_type::const_pointer		const_pointer;
 			//iterator
-			//cosnt_iterator
+			//const_iterator
 			//typedef ft::iterator_traits<A_VOIR>								difference_type
 			std::reverse_iterator<iterator>			reverse_iterator
 			std::reverse_iterator<const_iterator>	const_reverse_iterator
