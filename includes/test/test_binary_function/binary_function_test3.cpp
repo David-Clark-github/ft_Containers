@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include <ft_binary_function.h>
+#include <ft_pair.h>
 
 #define NC "\e[0m"
 #define RED "\e[0;31m"
