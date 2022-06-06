@@ -6,12 +6,16 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 17:04:55 by david             #+#    #+#             */
-/*   Updated: 2022/06/04 17:11:58 by david            ###   ########.fr       */
+/*   Updated: 2022/06/06 10:42:03 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_ITERATOR_H
 #define FT_ITERATOR_H
+
+#include <cstddef>
+
+typedef	std::ptrdiff_t	ptrdiff_t;
 
 namespace ft {
 
