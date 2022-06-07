@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:39:02 by david             #+#    #+#             */
-/*   Updated: 2022/06/06 23:24:47 by david            ###   ########.fr       */
+/*   Updated: 2022/06/07 13:42:36 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,61 @@ namespace ft {
 		protected:
 			pointer	_p;
 	};
+
+	//+
+	template <typename Iterator>
+	vector_iterator<Iterator> operator+(typename vector_iterator<Iterator>::difference_type d, const vector_iterator<Iterator> &it) {
+		return (vector_iterator<Iterator>(it.base() + d));
+	}
+
+	//-
+	template <typename Iterator>
+	vector_iterator<Iterator> operator-(typename vector_iterator<Iterator>::difference_type d, const vector_iterator<Iterator> &it) {
+		return (vector_iterator<Iterator>(it.base() - d));
+	}
+
+	//==
+	template <typename it1, typename it2>
+	bool operator==(const vector_iterator<it1> &vi1, const vector_iterator<it2> &vi2) {
+		return (vi1.get_ptr() == vi2.get_ptr());
+	}
+
+	//!=
+	template <typename it1, typename it2>
+	bool operator!=(const vector_iterator<it1> &vi1, const vector_iterator<it2> &vi2) {
+		return (vi1.get_ptr() != vi2.get_ptr());
+	}
+
+	//<
+	template <typename it1, typename it2>
+	bool operator<(const vector_iterator<it1> &vi1, const vector_iterator<it2> &vi2) {
+		return (vi1.get_ptr() < vi2.get_ptr());
+	}
+
+	//<=
+	template <typename it1, typename it2>
+	bool operator<=(const vector_iterator<it1> &vi1, const vector_iterator<it2> &vi2) {
+		return (vi1.get_ptr() <= vi2.get_ptr());
+	}
+
+	//>
+	template <typename it1, typename it2>
+	bool operator>(const vector_iterator<it1> &vi1, const vector_iterator<it2> &vi2) {
+		return (vi1.get_ptr() > vi2.get_ptr());
+	}
+
+	//>=
+	template <typename it1, typename it2>
+	bool operator>=(const vector_iterator<it1> &vi1, const vector_iterator<it2> &vi2) {
+		return (vi1.get_ptr() >= vi2.get_ptr());
+	}
+
+	//<<
+	template <typename Iterator>
+	std::ostream &operator<<(std::ostream &o, vector_iterator<Iterator> &vi) {
+		o << *vi.get_ptr();
+		return o;
+	}
 
 };
 
