@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 10:29:52 by david             #+#    #+#             */
-/*   Updated: 2022/06/07 22:02:01 by david            ###   ########.fr       */
+/*   Updated: 2022/06/08 18:06:23 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,78 +20,96 @@ namespace ft {
 	template <class Iterator>
 	class reverse_iterator {
 
+
 		public:
 		/*-------- Member Types --------*/
-		typedef	Iterator										iterator_type;
-		typedef	iterator_traits<Iterator>::iterator_category	iterator_category;
-		typedef	iterator_traits<Iterator>::value_type			value_type;
-		typedef	iterator_traits<Iterator>::difference_type		difference_type;
-		typedef	iterator_traits<Iterator>::pointer				pointer;
-		typedef	iterator_traits<Iterator>::reference			reference;
+		typedef	Iterator												iterator_type;
+		typedef	typename iterator_traits<Iterator>::iterator_category	iterator_category;
+		typedef	typename iterator_traits<Iterator>::value_type			value_type;
+		typedef	typename iterator_traits<Iterator>::difference_type		difference_type;
+		typedef	typename iterator_traits<Iterator>::pointer				pointer;
+		typedef	typename iterator_traits<Iterator>::reference			reference;
 
 		/*-------- Constructor / Destructor --------*/
-		reverse_iterator() : _ptr(NULL) {}
-		reverse_iterator(iterator_type it) : _ptr(it) {}
-		template <class Iter>
-		reverse_iterator(const reverse_iterator<Iter> &rev_it) : _ptr(rev_it.base()) {}
 
+		// Default
+		reverse_iterator() {}
+
+		// Initialization
+		reverse_iterator(iterator_type it) : _current(it) {}
+
+		// Copy
+		template <class Iter>
+		reverse_iterator(const reverse_iterator<Iter> &rev_it) : _current(rev_it.base()) {}
+
+		// Destructor
 		virtual	~reverse_iterator() {}
 
 		/*-------- Member function --------*/
 		iterator_type	base() const {
-			return (this->_ptr);
+			return (this->_current);
 		}
 		
+		// =
+		template< class U >
+		reverse_iterator &operator=( const ft::reverse_iterator<U>& other ) {
+			if (this != &other) {
+				_current = other.base();
+			}
+			return _current;
+		}
+
 		//*
 		reference	operator*() const {
-			return (*--this->_ptr);
+			iterator_type tmp = _current;
+			return *(--tmp);
 		}
 
 		//+
 		reverse_iterator	operator+(difference_type d) const {
-			return (reverse_iterator(this->_ptr - d));
+			return (reverse_iterator(this->_current - d));
 		}
 
-		//++_ptr
+		//++_current
 		reverse_iterator	&operator++() {
-			--this->_ptr;
+			--this->_current;
 			return (*this);
 		}
 
-		//_ptr++
+		//_current++
 		reverse_iterator	operator++(int) {
 			reverse_iterator tmp(*this);
-			this->_ptr--;
+			this->_current--;
 			return (tmp);
 		}
 
 		//+=
 		reverse_iterator	&operator+=(difference_type d) {
-			this->_ptr -= d;
+			this->_current -= d;
 			return (*this);
 		}
 
 		//-
 		reverse_iterator	operator-(difference_type d) const {
-			return (reverse_iterator(this->_ptr + d));
+			return (reverse_iterator(this->_current + d));
 		}
 
-		//--_ptr
+		//--_current
 		reverse_iterator	&operator--() {
-			++this->_ptr;
+			++this->_current;
 			return (*this);
 		}
 
-		//_ptr--
+		//_current--
 		reverse_iterator	operator--(int) {
 			reverse_iterator tmp(*this);
-			this->_ptr++;
+			this->_current++;
 			return (tmp);
 		}
 
 		//-=
 		reverse_iterator	&operator-=(difference_type d) {
-			this->_ptr += d;
+			this->_current += d;
 			return (*this);
 		}
 
@@ -102,11 +120,13 @@ namespace ft {
 
 		//[]
 		reference	operator[](difference_type d) const {
-			return (*(this->_ptr - n - 1));
+			return (*(this->_current - d - 1));
 		}
 
+		/* https://en.cppreference.com/w/cpp/iterator/reverse_iterator*/
+		/* current (protected) 	the underlying iterator of which base() returns a copy */
 		protected:
-		iterator_type	_ptr;
+			iterator_type	_current;
 	};
 
 	/*-------- Relational Operators --------*/
@@ -149,8 +169,9 @@ namespace ft {
 
 	// +
 	template <class Iterator>
-	reverse_iterator<Iterator> operator+(typename reverse_iterator<Iterator>::difference_type n, const reverse_iterator<Iterator>& rev_it) {
-		return (reverse_iterator<Iter>(it.base() - n));
+	reverse_iterator<Iterator> operator+(typename reverse_iterator<Iterator>::difference_type n,
+		const reverse_iterator<Iterator>& rev_it) {
+		return (reverse_iterator<Iterator>(rev_it.base() - n));
 	}
 
 	// -
