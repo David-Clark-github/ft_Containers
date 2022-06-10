@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/10 17:55:09 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/10 18:15:37 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,9 +184,44 @@ namespace ft {
 
 			/*-------- Element_access --------*/
 			// Operator []
+			reference	operator[](size_type n) {
+				return *(begin() + n);
+			}
+
+			const_reference	operator[](size_type n) const {
+				return *(begin() + n)
+			}
+
 			// at
+			reference at (size_type n) {
+				if !(n < size())
+					throw std::out_of_range("vector::range_check");
+				return *(begin() + n);
+			}
+
+			const_reference at (size_type n) const {
+				if !(n < size())
+					throw std::out_of_range("vector::range_check");
+				return *(begin() + n);
+			}
+
 			// front
+			reference front() {
+				return *(begin());
+			}
+
+			const_reference front() const {
+				return *(begin());
+			}
+
 			// back
+			reference back() {
+				return *(end() - 1);
+			}
+
+			const_reference back() const {
+				return *(end() - 1);
+			}
 
 			/*-------- Modifiers --------*/
 			// assign
