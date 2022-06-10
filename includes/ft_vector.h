@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/10 12:01:58 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/10 12:23:12 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ namespace ft {
 			// Operator Copy
 			vector& operator= (const vector& x) {
 				if (this != &x) {
-					//do something
+					//Copier chaque élément de x dans vector(this)
 				}
 				return (*this);
 			}
@@ -88,14 +88,36 @@ namespace ft {
 				return (iterator(this->_current));
 			}
 
-			const_iterator begin () {
+			const_iterator begin () const {
 				return (const_iterator(this->_current));
 			}
 
 			// end
-			iterator 
+			iterator end() {
+				return (iterator(this->_current + _size));
+			}
+
+			const_iterator end() const {
+				return (const_iterator(this->_current + _size));
+			}
+
 			// rbegin
+			reverse_iterator rbegin() {
+				return (reverse_iterator(this->_current + _size - 1));
+			}
+
+			const_reverse_iterator rbegin() const {
+				return (const_reverse_iterator(this->_current + _size - 1));
+			}
+
 			// rend
+			reverse_iterator rend() {
+				return (reverse_iterator(this->_current - 1));
+			}
+
+			const_reverse_iterator rend() const {
+				return (const_reverse_iterator(this->_current - 1));
+			}
 
 			/*-------- Capacity --------*/
 			// size
@@ -130,7 +152,14 @@ namespace ft {
 			// Operator >
 			// Operator >=
 			// swap			
+
+		private:
+			allocator	_alloc;
+			pointer		_ptr;
+			size_type	_capacity;
+			size_type	_size;
+
 	};
-}
+};
 
 #endif
