@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/10 12:23:12 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/10 17:55:09 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,7 @@ namespace ft {
 
 			// Copy
 			vector (const vector &x) {
-				/*
-				** Copier chaque éléments de x dans this,
-				** dans le même ordre
-				*/
-
-				// *this = x { (Maybe ?) ==> [operator=] }
+				// Do something about other thing
 			}
 
 			// Destructor
@@ -94,20 +89,20 @@ namespace ft {
 
 			// end
 			iterator end() {
-				return (iterator(this->_current + _size));
+				return (iterator(this->_current + size()));
 			}
 
 			const_iterator end() const {
-				return (const_iterator(this->_current + _size));
+				return (const_iterator(this->_current + size()));
 			}
 
 			// rbegin
 			reverse_iterator rbegin() {
-				return (reverse_iterator(this->_current + _size - 1));
+				return (reverse_iterator(this->_current + size() - 1));
 			}
 
 			const_reverse_iterator rbegin() const {
-				return (const_reverse_iterator(this->_current + _size - 1));
+				return (const_reverse_iterator(this->_current + size() - 1));
 			}
 
 			// rend
@@ -121,10 +116,71 @@ namespace ft {
 
 			/*-------- Capacity --------*/
 			// size
+			size_type	size() const {
+				return (this->_size);
+			}
+
 			// max_size
+			size_type	max_size() const {
+				return (std::numeric_limits<difference_type>::max());
+			}
+
 			// resize
+			void	resize(size_type n, value_type val = value_type()) {
+				if (n < size()) {
+					while (n < size()) {
+						_alloc.destroy(--end());
+						--_size;
+					}
+				}
+				if (n > capacity()) {
+					if ((capacity() * 2) >= n)
+						reserve(capacity() * 2);
+					reserve(n);
+				}
+				if (n > size()) {
+					while (n > size()) {
+						_alloc.construct(end(), val);
+						_size++;
+					}
+				}
+			}
+
 			// capacity
+			size_type	capacity() const {
+				return (this->_capacity);
+			}
+
+			// empty
+			bool empty() const {
+				if (size()) // if isn't 0, it return false
+					return (false);
+				return (true);
+			}
+
 			// reserve
+			void reserve (size_type n) {
+
+				if (n > max_size())
+					throw std::length_error("vector::reserve");
+
+				if (n > capacity()) {
+					pointer		oldB1 = begin();
+					pointer		oldB2 = begin();
+					pointer		oldE = end();
+					size_type	oldC = capacity();
+
+					_ptr = _alloc.allocate(n);
+					_capacity = n;
+					pointer	tmp = _ptr;
+					while (tmp != oldE) {
+						_alloc.construct(tmp, *oldB1);
+						tmp++;
+						oldB1++;
+					}
+					_alloc.deallocate(oldB2, oldC);
+				}
+			}
 
 			/*-------- Element_access --------*/
 			// Operator []
@@ -136,7 +192,9 @@ namespace ft {
 			// assign
 			// push_back
 			// pop_back
-			// insert
+			// insert (single element)
+			// insert (fill)
+			// insert (range)
 			// erase
 			// swap
 			// clear
