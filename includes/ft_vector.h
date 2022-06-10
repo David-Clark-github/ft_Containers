@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/08 14:25:06 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/10 12:01:58 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ namespace ft {
 			/*-------- [MEMBER_TYPES] --------*/
 			typedef	T														value_type;
 			typedef	Alloc													allocator_type;
+			typedef	typename ft::iterator_traits<iterator>::difference_type	difference_type;
 			typedef	typename allocator_type::size_type						size_type;
-			typedef	typename ft::iterator_traits<iterator>::difference_type	difference_type;			
 			typedef	typename allocator_type::reference						reference
 			typedef	typename allocator_type::const_reference				const_reference;
 			typedef	typename allocator_type::pointer						pointer;
@@ -63,7 +63,12 @@ namespace ft {
 
 			// Copy
 			vector (const vector &x) {
-				//do something
+				/*
+				** Copier chaque éléments de x dans this,
+				** dans le même ordre
+				*/
+
+				// *this = x { (Maybe ?) ==> [operator=] }
 			}
 
 			// Destructor
@@ -80,13 +85,15 @@ namespace ft {
 			/*-------- Iterators --------*/
 			// begin
 			iterator begin() {
-				//do something
+				return (iterator(this->_current));
 			}
 
 			const_iterator begin () {
-				//do something
+				return (const_iterator(this->_current));
 			}
+
 			// end
+			iterator 
 			// rbegin
 			// rend
 

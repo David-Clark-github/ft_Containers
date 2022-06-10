@@ -17,9 +17,9 @@ int main ()
 		//         ------>
 		iter_type until (myvector.end());                      //                       ^
 		//
-		ft::reverse_iterator<iter_type> rev_until (from);     // ^
+		std::reverse_iterator<iter_type> rev_until (from);     // ^
 		//         <------
-		ft::reverse_iterator<iter_type> rev_from (until);     //                     ^
+		std::reverse_iterator<iter_type> rev_from (until);     //                     ^
 
 		std::cout << "myvector:";
 		while (rev_from != rev_until)
@@ -52,15 +52,18 @@ int main ()
 		//         ------>
 		iter_type until (myvector.end());                      //                       ^
 		//
-		ft::reverse_iterator<iter_type> rev_until (from);     // ^
+		ft::reverse_iterator<iter_type> rev_until (from);
 		//         <------
-		ft::reverse_iterator<iter_type> rev_from (until);     //                     ^
+		ft::reverse_iterator<iter_type> rev_from (until);
 
 		std::cout << "myvector:";
 		while (rev_from != rev_until)
 			std::cout << ' ' << *rev_from++;
 		std::cout << '\n';
 	}
+	// rev_it ne peut pas recevoir un std::reverse, il attend un ft::reverse
+	// attendre que vector soit finis :)
+	/*
 	std::cout << "\noperator + ()\n";
 	{
 		std::vector<int> myvector;
@@ -75,5 +78,6 @@ int main ()
 		std::cout << "The fourth element from the end is: " << *rev_it << '\n';
 
 	}
+	*/
 	return 0;
 }

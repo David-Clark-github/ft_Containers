@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:39:02 by david             #+#    #+#             */
-/*   Updated: 2022/06/07 13:42:36 by david            ###   ########.fr       */
+/*   Updated: 2022/06/10 11:16:43 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ namespace ft {
 
 			/*-------- Member types --------*/
 			typedef	T								value_type;
-			typedef	std::random_access_iterator_tag	iterator_category;
+			typedef	T*								pointer;
+			typedef	T&								reference;
 			typedef	std::ptrdiff_t					difference_type;
-			typedef	value_type*						pointer;
-			typedef	value_type&						reference;
+			typedef	std::random_access_iterator_tag	iterator_category;
 
 			/*-------- Constructor / Destructor --------*/
 			vector_iterator() : _p(NULL) {}
@@ -88,7 +88,7 @@ namespace ft {
 			}
 
 			//*
-			value_type &operator*() {
+			reference operator*() {
 				return (*this->_p);
 			}
 

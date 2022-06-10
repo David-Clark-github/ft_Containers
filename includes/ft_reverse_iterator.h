@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 10:29:52 by david             #+#    #+#             */
-/*   Updated: 2022/06/08 18:28:35 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/10 11:42:28 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ namespace ft {
 		}
 
 		//*
-		reference	operator*() const {
+		value_type	&operator*() const {
 			iterator_type tmp = _current;
 			return *(--tmp);
 		}
