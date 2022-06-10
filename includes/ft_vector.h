@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/10 18:15:37 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/10 18:46:52 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,6 @@
 namespace ft {
 	template<class T, class Alloc = std::allocator<T>>
 	class vector {
-		private:
-			allocator	_alloc;
-			pointer		_ptr;
-			size_type	_capacity;
-			size_type	_size;
-
 
 		public:
 			/*-------- [MEMBER_TYPES] --------*/
@@ -49,12 +43,12 @@ namespace ft {
 			
 			// Default
 			explicit vector (const allocator_type& alloc = allocator_type())
-			: _alloc(alloc), _ptr(NULL), _capacity(0), _size(0) {}
+			: _alloc(alloc), _current(NULL), _capacity(0), _size(0) {}
 
 			// Fill
 			explicit vector (size_type n, const value_type& val = value_type(),
 				const allocator_type& alloc = allocator_type())
-			: _alloc(alloc), _ptr(), _capacity(), _size(n)
+			: _alloc(alloc), _current(), _capacity(), _size(n)
 
 			// Range
 			template <class InputIterator>
@@ -170,9 +164,9 @@ namespace ft {
 					pointer		oldE = end();
 					size_type	oldC = capacity();
 
-					_ptr = _alloc.allocate(n);
+					_current = _alloc.allocate(n);
 					_capacity = n;
-					pointer	tmp = _ptr;
+					pointer	tmp = _current;
 					while (tmp != oldE) {
 						_alloc.construct(tmp, *oldB1);
 						tmp++;
@@ -224,15 +218,50 @@ namespace ft {
 			}
 
 			/*-------- Modifiers --------*/
-			// assign
+			// assign (range)
+			template <class InputIterator>
+  			void assign (InputIterator first, InputIterator last) {
+				if ((last - first) > capacity())
+					reserve(last - first);
+
+			}
+			// assign (fill)
+
 			// push_back
 			// pop_back
 			// insert (single element)
 			// insert (fill)
 			// insert (range)
 			// erase
+			iterator erase(iterator_traits position) {
+				//prototype d'idée
+				/* copier x elements sauf le pointeur dans un autre vector				
+				** et detruire l'original
+				*/
+			}
+
+			iterator erase (iterator first, iterator last) {
+				//prototype d'idée
+				/*
+				**
+				*/
+			}
 			// swap
+			void swap(vector &x) {
+				pointer swap = begin();
+				set_current(x.begin());
+				x.set_current(swap);
+			}
+
 			// clear
+			void clear() {
+				pointer bg = begin();
+				while (bg != end()) {
+					_alloc.destroy(bg);
+					bg++;
+				}
+				_size = 0;
+			}
 
 			/*-------- Allocator --------*/
 			// get_allocator
@@ -246,9 +275,13 @@ namespace ft {
 			// Operator >=
 			// swap			
 
+			
+			void	set_current(pointer p) {
+				this->_current = p;
+			}
 		private:
 			allocator	_alloc;
-			pointer		_ptr;
+			pointer		_current;
 			size_type	_capacity;
 			size_type	_size;
 
