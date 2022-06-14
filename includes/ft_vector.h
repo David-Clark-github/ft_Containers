@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/14 12:22:24 by david            ###   ########.fr       */
+/*   Updated: 2022/06/14 17:12:07 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 #include <ft_vector_iterator.h>
 #include <ft_reverse_iterator.h>
+#include <ft_enable_if.h>
+#include <ft_is_integral.h>
 
 namespace ft {
 	template<class T, class Alloc = std::allocator<T>>
@@ -43,30 +45,67 @@ namespace ft {
 			
 			// Default
 			explicit vector (const allocator_type& alloc = allocator_type())
-			: _alloc(alloc), _current(NULL), _capacity(0), _size(0) {}
+			: _alloc(alloc), _begin(NULL), _end(NULL), _capacity(0) {}
 
 			// Fill
-			explicit vector (size_type n, const value_type& val = value_type(),
+			explicit vector (size_type n,
+				const value_type& val = value_type(),
 				const allocator_type& alloc = allocator_type())
-			: _alloc(alloc), _current(), _capacity(), _size(n)
+			: _alloc(alloc), _begin(NULL), _end(NULL), _capacity(0) {
+				try {
+					_begin = _alloc.construct(n);
+				} catch (std::length_error &l) {
+					throw std::length_error("vector error");
+				}
+
+				_end = begin();
+				_capacity = begin() + n;
+
+				for (; n != 0; n--) {
+					_alloc.construct(_end++, val);
+				}
+			}
 
 			// Range
 			template <class InputIterator>
-			vector (InputIterator first, InputIterator last,
-				const allocator_type& alloc = allocator_type());
+			vector (ft::enable_if<!ft::is_integral<InputIterator>::value> first,
+				InputIterator last,
+				const allocator_type& alloc = allocator_type()) {
+				difference_type	n = std::distance(first, last);
+
+				_begin = _alloc.allocate(n):
+				_end = begin();
+				_capacity = begin() + n;
+
+				for (; n != 0; n--) {
+					_alloc.construct(_end++, *first++);
+				}
+			}
 
 			// Copy
 			vector (const vector &x) {
-				// Do something about other thing
+				_begin = alloc.allocate(x.size());
+				_end = begin();
+				_capacity = begin() + x.size();
+
+				for (pointer tmp = x.begin(); tmp != x.end(); tmp++; _end++) {
+					_alloc.construct(_end, *tmp);
+				}
 			}
 
 			// Destructor
-			~vector ();
+			~vector () {
+				clear();
+				_alloc.deallocate(begin(), capacity());
+			}
 
 			// Operator Copy
+			// reste a faire insert
 			vector& operator= (const vector& x) {
 				if (this != &x) {
-					//Copier chaque élément de x dans vector(this)
+					clear();
+					reserve(x.size());
+//	-->		//		insert(begin(), x.begin(), x.end());
 				}
 				return (*this);
 			}
@@ -74,49 +113,49 @@ namespace ft {
 			/*-------- Iterators --------*/
 			// begin
 			iterator begin() {
-				return (iterator(this->_current));
+				return (iterator(this->_begin));
 			}
 
 			const_iterator begin () const {
-				return (const_iterator(this->_current));
+				return (const_iterator(this->_begin));
 			}
 
 			// end
 			iterator end() {
-				return (iterator(this->_current + size()));
+				return (iterator(this->_end));
 			}
 
 			const_iterator end() const {
-				return (const_iterator(this->_current + size()));
+				return (const_iterator(this->_end));
 			}
 
 			// rbegin
 			reverse_iterator rbegin() {
-				return (reverse_iterator(this->_current + size() - 1));
+				return (reverse_iterator(end()));
 			}
 
 			const_reverse_iterator rbegin() const {
-				return (const_reverse_iterator(this->_current + size() - 1));
+				return (const_reverse_iterator(end()));
 			}
 
 			// rend
 			reverse_iterator rend() {
-				return (reverse_iterator(this->_current - 1));
+				return (reverse_iterator(begin()));
 			}
 
 			const_reverse_iterator rend() const {
-				return (const_reverse_iterator(this->_current - 1));
+				return (const_reverse_iterator(begin()));
 			}
 
 			/*-------- Capacity --------*/
 			// size
 			size_type	size() const {
-				return (this->_size);
+				return (end() - begin());
 			}
 
 			// max_size
 			size_type	max_size() const {
-				return (std::numeric_limits<difference_type>::max());
+				return (allocator_type().max_size());
 			}
 
 			// resize
@@ -160,18 +199,16 @@ namespace ft {
 					throw std::length_error("vector::reserve");
 
 				if (n > capacity()) {
-					pointer		oldB1 = begin();
-					pointer		oldB2 = begin();
-					pointer		oldE = end();
-					size_type	oldC = capacity();
+					pointer		oldB1 = begin(); //Ancienne valeur a copier dans le nouveau
+					pointer		oldB2 = begin(); //Ancienn pointeur a copier pour suppression
+					pointer		oldE = end();	 // Ancien pointeur (_end) pour s'arreter
+					size_type	oldC = capacity(); // anciens capacity pour la capacité a supprimer
 
-					_current = _alloc.allocate(n);
+					_begin = _alloc.allocate(n);
+					_end = begin();
 					_capacity = n;
-					pointer	tmp = _current;
-					while (tmp != oldE) {
-						_alloc.construct(tmp, *oldB1);
-						tmp++;
-						oldB1++;
+					while (oldB1 != oldE) {
+						_alloc.construct(_end++, *oldB1++); // Alloue les anciennes valeurs de oldB1 dans le nouveau avec _end (qui avance jusqu'a oldE)
 					}
 					_alloc.deallocate(oldB2, oldC);
 				}
@@ -236,7 +273,15 @@ namespace ft {
 			// push_back
 			// pop_back
 			// insert (single element)
+			iterator insert (iterator position, const value_type& val) {
+				insert(position, 1, val);
+				return iterator(position);
+			}
+
 			// insert (fill)
+			void insert (iterator position, size_type n, const value_type& val) {
+				
+			}
 			// insert (range)
 			// erase
 			iterator erase(iterator_traits position) {
@@ -285,14 +330,11 @@ namespace ft {
 			// swap			
 
 			
-			void	set_current(pointer p) {
-				this->_current = p;
-			}
 		private:
 			allocator	_alloc;
-			pointer		_current;
 			size_type	_capacity;
-			size_type	_size;
+			pointer		_begin;
+			pointer		_end;
 
 	};
 };
