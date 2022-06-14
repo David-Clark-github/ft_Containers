@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/10 18:46:52 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/14 12:22:24 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,8 @@ namespace ft {
 				if (n > capacity()) {
 					if ((capacity() * 2) >= n)
 						reserve(capacity() * 2);
-					reserve(n);
+					else
+						reserve(n);
 				}
 				if (n > size()) {
 					while (n > size()) {
@@ -223,9 +224,14 @@ namespace ft {
   			void assign (InputIterator first, InputIterator last) {
 				if ((last - first) > capacity())
 					reserve(last - first);
+			}
+
+			// assign (fill)
+			void assign (size_type n, const value_type& val) {
+				clear();
+				reserve(n);
 
 			}
-			// assign (fill)
 
 			// push_back
 			// pop_back
@@ -257,14 +263,17 @@ namespace ft {
 			void clear() {
 				pointer bg = begin();
 				while (bg != end()) {
-					_alloc.destroy(bg);
-					bg++;
+					_alloc.destroy(bg++);
 				}
 				_size = 0;
 			}
 
 			/*-------- Allocator --------*/
 			// get_allocator
+			allocator_type get_allocator() const {
+				return (this->_alloc);
+			}
+
 
 			/*-------- Non-member function overlords --------*/
 			// Operator ==
