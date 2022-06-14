@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/14 17:12:07 by david            ###   ########.fr       */
+/*   Updated: 2022/06/14 19:55:13 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ namespace ft {
 			void	resize(size_type n, value_type val = value_type()) {
 				if (n < size()) {
 					while (n < size()) {
-						_alloc.destroy(--end());
+						_alloc.destroy(--_end);
 						--_size;
 					}
 				}
@@ -174,8 +174,7 @@ namespace ft {
 				}
 				if (n > size()) {
 					while (n > size()) {
-						_alloc.construct(end(), val);
-						_size++;
+						_alloc.construct(_end++, val);
 					}
 				}
 			}
@@ -280,9 +279,35 @@ namespace ft {
 
 			// insert (fill)
 			void insert (iterator position, size_type n, const value_type& val) {
+				size_type pos = ft::distance(begin(), position);
+
+				resize(size() + n);
+				position = begin() + pos;
 				
+				// delta du commencement de rajout a n
+				size_type toMoveRight = ft::distance(position, end() - n);
+				//delta de de la fin (resizer) et debut de N 
+				pointer oldEnd = _end - n - 1;
+
+				// la valeur a l'dresse [changer avec resize] 
+				// (_end - 0 - 1) = l'ancienne valeur plus tôt
+				// on deplace la valeur plus ancienne plus haut dans le tableau
+				for (size_type i = 0; i < toMoveRight; i++) {
+					*(_end - i - 1) = *oldEnd--;
+				}
+
+				// la valeur a l'dresse (position + 0) (la où l'on veut rajouter la(les) nouvelles valeurs)
+				// = nouvelle val
+				for (size_type i = 0; i < n; i++) {
+					*(position + i) = val;
+				}
 			}
 			// insert (range)
+			template <class InputIterator>
+			void insert (iterator position, InputIterator first, InputIterator last) {
+
+			}
+
 			// erase
 			iterator erase(iterator_traits position) {
 				//prototype d'idée
