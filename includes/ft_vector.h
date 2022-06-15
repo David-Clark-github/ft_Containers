@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/14 19:55:13 by david            ###   ########.fr       */
+/*   Updated: 2022/06/15 11:17:50 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,7 +270,20 @@ namespace ft {
 			}
 
 			// push_back
+			void push_back (const value_type& val) {
+				if (size() == capacity()) {
+					reserve(size() + 1);
+				}
+				_alloc.construct(end(), val);
+				_end++;
+			}
+
 			// pop_back
+			void pop_back() {
+				_alloc.destroy(end() - 1);
+				_end--;
+			}
+
 			// insert (single element)
 			iterator insert (iterator position, const value_type& val) {
 				insert(position, 1, val);
@@ -304,38 +317,66 @@ namespace ft {
 			}
 			// insert (range)
 			template <class InputIterator>
-			void insert (iterator position, InputIterator first, InputIterator last) {
+			void insert (iterator position,  InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value) {
+				size_type pos = ft::distance(begin(), position);
+				size_type n = ft::distance(first, last);
 
+				resize(size() + n);
+				position = begin() + pos;
+				
+				size_type toMoveRight = ft::distance(position, end() - n);
+				pointer oldEnd = _end - n - 1;
+				for (size_type i = 0; i < toMoveRight; i++) {
+					*(_end - i - 1) = *oldEnd--;
+				}
+				for (size_type i = 0; i < n && first != last; i++, first++) {
+					*(position + i) = *first;
+				}
 			}
 
 			// erase
 			iterator erase(iterator_traits position) {
-				//prototype d'idée
-				/* copier x elements sauf le pointeur dans un autre vector				
-				** et detruire l'original
-				*/
+				iterator pos = position;
+				size_type toDestroyPos = ft::distance(begin(), position);
+
+				_alloc.destroy(_begin + toDestroyPos);
+
+				for (; pos + 1 != end(); ++pos)
+					*pos = *(pos + 1);
+				--_end;
+				return iterator(position);
 			}
 
 			iterator erase (iterator first, iterator last) {
-				//prototype d'idée
-				/*
-				**
-				*/
+				for (; first != last; --last)
+					erase(first);
+				return iterator(first);
 			}
+
 			// swap
 			void swap(vector &x) {
-				pointer swap = begin();
-				set_current(x.begin());
-				x.set_current(swap);
+				allocator tmpA = get_allocator();
+				pointer tmpB = begin();
+				pointer tmpE = end();
+				size_type tmpC = capacity();
+
+				_alloc = x.get_allocator();
+				_begin = x.begin();
+				_end = x.end();
+				_capacity = x.capacity();
+
+				x._alloc = tmpA;
+				x._begin = tmpB;
+				x._end = tmpE;
+				x._capacity = tmpC;
 			}
 
 			// clear
 			void clear() {
-				pointer bg = begin();
-				while (bg != end()) {
-					_alloc.destroy(bg++);
+				size_type len = size();
+				for (size_type i = 0; i < len; i++) {
+					_alloc.destroy(_end--);
 				}
-				_size = 0;
 			}
 
 			/*-------- Allocator --------*/
@@ -345,15 +386,6 @@ namespace ft {
 			}
 
 
-			/*-------- Non-member function overlords --------*/
-			// Operator ==
-			// Operator !=
-			// Operator <
-			// Operator <=
-			// Operator >
-			// Operator >=
-			// swap			
-
 			
 		private:
 			allocator	_alloc;
@@ -361,7 +393,53 @@ namespace ft {
 			pointer		_begin;
 			pointer		_end;
 
-	};
+	};			
+	
+	/*-------- Non-member function overlords --------*/
+	// Operator ==
+	template <class T, class Alloc>
+	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		if (lhs.size() != rhs.size())
+			return (false);
+		return (std::equal(lhs.begin(), lhs.end(), rhs.begin()));
+	}
+
+	// Operator !=
+	template <class T, class Alloc>
+	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		return !(lhs == rhs);
+	}
+
+	// Operator <
+	template <class T, class Alloc>
+	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
+
+	// Operator <=
+	template <class T, class Alloc>
+	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		return !(rhs < lhs);
+	}
+
+ 	// Operator >
+	template <class T, class Alloc>
+	bool operator> (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		return (rhs < lhs);
+	}
+
+	// Operator >=
+	template <class T, class Alloc>
+	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		return !(lhs < rhs);
+	}
+
+	// swap			
+	template <class T, class Alloc>
+	void swap (vector<T,Alloc>& x, vector<T,Alloc>& y) {
+		x.swap(y);
+	}
+
 };
 
 #endif
