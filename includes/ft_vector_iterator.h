@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:39:02 by david             #+#    #+#             */
-/*   Updated: 2022/06/15 11:24:30 by david            ###   ########.fr       */
+/*   Updated: 2022/06/15 16:29:38 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ namespace ft {
 
 			//*
 			vector_iterator &operator*() {
-				return (this->_p);
+				return (base());
 			}
 			/*
 			// *
@@ -95,35 +95,35 @@ namespace ft {
 
 			/*-------- Bool Operator --------*/
 			//==
-			bool &operator==(const vector_iterator &v) const {
-				return (this->_p == v._p);
+			friend bool operator==(const vector_iterator &v1, const vector_iterator &v2) {
+				return (v1.base() == v2.base());
 			}
 
 			//!=
-			bool &operator!=(const vector_iterator &v) const {
-				return (this->_p != v._p);
+			friend bool operator!=(const vector_iterator &v1, const vector_iterator &v2) {
+				return (v1.base() != v2.base());
 			}
 
 			//<
-			bool &operator<(const vector_iterator &v) const {
-				return (this->_p < v._p);
+			friend bool operator<(const vector_iterator &v1, const vector_iterator &v2) {
+				return (v1.base() < v2.base());
 			}
 
 			//<=
-			bool &operator<=(const vector_iterator &v) const {
-				return (this->_p <= v._p);
+			friend bool operator<=(const vector_iterator &v1, const vector_iterator &v2) {
+				return (v1.base() <= v2/base());
 			}
 
 			//>
-			bool &operator>(const vector_iterator &v) const {
-				return (this->_p > v._p);
+			friend bool operator>(const vector_iterator &v1, const vector_iterator &v2) {
+				return (v1.base() > v2.base());
 			}
 
 			//>=
-			bool &operator>=(const vector_iterator &v) const {
-				return (this->_p >= v._p);
+			friend bool operator>=(const vector_iterator &v1, const vector_iterator &v2) {
+				return (v1.base() >= v2/base());
 			}
-			
+
 			//+
 			vector_iterator operator+(difference_type d) const
 			{

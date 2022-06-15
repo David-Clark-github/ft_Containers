@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/15 12:48:33 by david            ###   ########.fr       */
+/*   Updated: 2022/06/15 14:13:34 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ namespace ft {
 				const allocator_type& alloc = allocator_type())
 			: _alloc(alloc), _begin(NULL), _end(NULL), _capacity(0) {
 				try {
-					_begin = _alloc.construct(n);
+					_begin = _alloc.allocate(n);
 				} catch (std::length_error &l) {
-					throw std::length_error("vector error");
+					throw std::length_error("vector");
 				}
 
-				_end = begin();
-				_capacity = begin() + n;
+				_end = _begin;
+				_capacity = n;
 
 				for (; n != 0; n--) {
 					_alloc.construct(_end++, val);
@@ -70,14 +70,15 @@ namespace ft {
 
 			// Range
 			template <class InputIterator>
-			vector (ft::enable_if<!ft::is_integral<InputIterator>::value> first,
-				InputIterator last,
-				const allocator_type& alloc = allocator_type()) {
-				difference_type	n = std::distance(first, last);
+			vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, 
+			InputIterator last, 
+			const allocator_type &alloc = allocator_type()) {
+
+				difference_type n = (std::distance(first, last));
 
 				_begin = _alloc.allocate(n);
-				_end = begin();
-				_capacity = begin() + n;
+				_end = _begin;
+				_capacity = std::distance(_begin, _begin + n);
 
 				for (; n != 0; n--) {
 					_alloc.construct(_end++, *first++);
@@ -87,10 +88,10 @@ namespace ft {
 			// Copy
 			vector (const vector &x) {
 				_begin = _alloc.allocate(x.size());
-				_end = begin();
-				_capacity = begin() + x.size();
+				_end = _begin;
+				_capacity = std::distance(_begin, _begin + x.size());
 
-				for (pointer tmp = x.begin(); tmp != x.end(); tmp++, _end++) {
+				for (pointer tmp = x._begin; tmp != x._end; tmp++, _end++) {
 					_alloc.construct(_end, *tmp);
 				}
 			}
