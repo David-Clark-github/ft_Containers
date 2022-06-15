@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:39:02 by david             #+#    #+#             */
-/*   Updated: 2022/06/10 11:16:43 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/15 11:24:30 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ namespace ft {
 			//++p
 			vector_iterator	&operator++() {
 				*this->_p++;
-				return (*this)
+				return (*this);
 			}
 
 			//p++
@@ -65,13 +65,13 @@ namespace ft {
 			}
 
 			//--p
-			vector_iterator	&operator++() {
+			vector_iterator	&operator--() {
 				*this->_p--;
-				return (*this)
+				return (*this);
 			}
 
 			//p--
-			vector_iterator &operator++(int) {
+			vector_iterator &operator--(int) {
 				vector_iterator tmp = *this;
 				--(*this);
 				return (tmp);
@@ -86,11 +86,12 @@ namespace ft {
 			vector_iterator &operator*() {
 				return (this->_p);
 			}
-
-			//*
+			/*
+			// *
 			reference operator*() {
 				return (*this->_p);
 			}
+			*/
 
 			/*-------- Bool Operator --------*/
 			//==
