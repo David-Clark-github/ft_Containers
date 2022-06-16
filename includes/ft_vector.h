@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/16 13:57:24 by david            ###   ########.fr       */
+/*   Updated: 2022/06/16 21:28:39 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,21 +170,55 @@ namespace ft {
 
 			// resize
 			void	resize(size_type n, value_type val = value_type()) {
+			/*
+				if (n > max_size())
+					throw std::length_error("vector::resize");
+
 				if (n < size()) {
 					while (n < size()) {
 						_alloc.destroy(--_end);
 					}
 				}
+
 				if (n > capacity()) {
-					if ((capacity() * 2) >= n)
+					if ((capacity() * 2) >= n) {
 						reserve(capacity() * 2);
-					else
+					} else {
 						reserve(n);
+					}
 				}
+
 				if (n > size()) {
 					while (n > size()) {
 						_alloc.construct(_end++, val);
 					}
+				}
+			 */
+			 std::cout << "n = " << n << std::endl;
+			 std::cout << "capacity() = " << capacity() << std::endl;
+				if (n > capacity())
+				{
+					if (n < capacity() * 2) {
+						std::cout << "toto1" << std::endl;
+						reserve(capacity() * 2);
+						std::cout << "toto2" << std::endl;
+					} else {
+						std::cout << "toto3" << std::endl;
+						reserve(n);
+						std::cout << "toto4" << std::endl;
+						}
+				}
+				size_type i = size();
+				while (i < n)
+				{
+					_alloc.construct(_end++, val);
+					i++;
+				}
+				i = n;
+				while (i < size())
+				{
+					_alloc.destroy(_end--);
+					i++;
 				}
 			}
 
@@ -205,20 +239,37 @@ namespace ft {
 
 				if (n > max_size())
 					throw std::length_error("vector::reserve");
-
+				
 				if (n > capacity()) {
+				/*
 					pointer		oldB1 = _begin; //Ancienne valeur a copier dans le nouveau
 					pointer		oldB2 = _begin; //Ancienn pointeur a copier pour suppression
 					pointer		oldE = _end;	 // Ancien pointeur (_end) pour s'arreter
 					size_type	oldC = capacity(); // anciens capacity pour la capacité a supprimer
 
-					_begin = _alloc.allocate(n);
+					_begin = _alloc.allocate(n, oldB1);
 					_end = _begin;
-					_capacity = n;
+					_capacity = size() + n;
 					while (oldB1 != oldE) {
 						_alloc.construct(_end++, *oldB1++); // Alloue les anciennes valeurs de oldB1 dans le nouveau avec _end (qui avance jusqu'a oldE)
 					}
+						std::cout << "OK ?" << std::endl;
 					_alloc.deallocate(oldB2, oldC);
+				*/
+					pointer oldStart = _begin;
+					pointer oldEnd = _end;
+					size_type oldN = size();
+					size_type oldCap = capacity();
+
+					_begin = _alloc.allocate(n);
+					_end = _begin;
+					_capacity = size() + n;
+					while (oldStart != oldEnd)
+						_alloc.construct(_end++, *oldStart++);
+					/*------------------*/
+					_alloc.deallocate(oldStart - oldN, oldCap); // << ERROR !
+					/*------------------*/
+
 				}
 			}
 
@@ -266,16 +317,22 @@ namespace ft {
 			/*-------- Modifiers --------*/
 			// assign (range)
 			template <class InputIterator>
-  			void assign (InputIterator first, InputIterator last) {
-				if ((last - first) > capacity())
-					reserve(last - first);
+  			void assign (typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
+			InputIterator last ) {
+				clear();
+				reserve(std::distance(first, last));
+				for (; first != last; first++, _end++) {
+					_alloc.constr_uct(_end, *first);
+				}
 			}
 
 			// assign (fill)
 			void assign (size_type n, const value_type& val) {
 				clear();
 				reserve(n);
-
+				for (; n != 0; n--, _end++) {
+					_alloc.construct(_end, val);
+				}
 			}
 
 			// push_back
@@ -295,19 +352,21 @@ namespace ft {
 
 			// insert (single element)
 			iterator insert (iterator position, const value_type& val) {
+				std::cout << "error single" << std::endl;
 				insert(position, 1, val);
 				return iterator(position);
 			}
 
 			// insert (fill)
 			void insert (iterator position, size_type n, const value_type& val) {
+				std::cout << "error fill" << std::endl;
 				size_type pos = std::distance(begin(), position);
 
 				resize(size() + n);
-				position = begin() + pos;
+				position = _begin + pos;
 				
 				// delta du commencement de rajout a n
-				size_type toMoveRight = std::distance(position, end() - n);
+				size_type toMoveRight = std::distance(position, (end() - n));
 				//delta de de la fin (resizer) et debut de N 
 				pointer oldEnd = _end - n - 1;
 
@@ -329,13 +388,19 @@ namespace ft {
 			void insert (iterator position,
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
 			InputIterator last) {
+				std::cout << "error range1" << std::endl;
 				size_type pos = std::distance(begin(), position);
+				std::cout << "error range2" << std::endl;
 				size_type n = std::distance(first, last);
-
+				std::cout << "error range3" << std::endl;
+				std::cout << "size() + n = " << size() + n << std::endl;
+				std::cout << "error range4" << std::endl;
 				resize(size() + n);
-				position = begin() + pos;
+				std::cout << "error range5" << std::endl;
+				position = _begin + pos;
+				std::cout << "error range6" << std::endl;
 				
-				size_type toMoveRight = std::distance(position, end() - n);
+				size_type toMoveRight = std::distance(position, (end() - n));
 				pointer oldEnd = _end - n - 1;
 				for (size_type i = 0; i < toMoveRight; i++) {
 					*(_end - i - 1) = *oldEnd--;
