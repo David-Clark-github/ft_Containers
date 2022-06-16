@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/15 14:13:34 by david            ###   ########.fr       */
+/*   Updated: 2022/06/16 13:57:24 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <ft_is_integral.h>
 #include <ft_equal_lexico_comp.h>
 #include <iterator>
-
+#include <iostream>
 namespace ft {
 	template<class T, class Alloc = std::allocator<T>>
 	class vector {
@@ -75,10 +75,11 @@ namespace ft {
 			const allocator_type &alloc = allocator_type()) {
 
 				difference_type n = (std::distance(first, last));
+				std::cout << "n = " << n << std::endl;
 
 				_begin = _alloc.allocate(n);
 				_end = _begin;
-				_capacity = std::distance(_begin, _begin + n);
+				_capacity = std::distance(_begin, (_begin + n));
 
 				for (; n != 0; n--) {
 					_alloc.construct(_end++, *first++);
@@ -86,7 +87,12 @@ namespace ft {
 			}
 
 			// Copy
-			vector (const vector &x) {
+			vector (const vector &x)
+			: _alloc(x._alloc), _begin(NULL), _end(NULL)
+			{
+				std::cout << "Cons Copy, x.size() = " << x.size() << std::endl;
+				insert(begin(), x.begin(), x.end());
+			/*
 				_begin = _alloc.allocate(x.size());
 				_end = _begin;
 				_capacity = std::distance(_begin, _begin + x.size());
@@ -94,6 +100,7 @@ namespace ft {
 				for (pointer tmp = x._begin; tmp != x._end; tmp++, _end++) {
 					_alloc.construct(_end, *tmp);
 				}
+			*/
 			}
 
 			// Destructor
@@ -108,7 +115,7 @@ namespace ft {
 				if (this != &x) {
 					clear();
 					reserve(x.size());
-//	-->		//		insert(begin(), x.begin(), x.end());
+					insert(end(), x.begin(), x.end());
 				}
 				return (*this);
 			}
@@ -153,7 +160,7 @@ namespace ft {
 			/*-------- Capacity --------*/
 			// size
 			size_type	size() const {
-				return (end() - begin());
+				return (std::distance(begin(), end()));
 			}
 
 			// max_size
@@ -274,7 +281,7 @@ namespace ft {
 			// push_back
 			void push_back (const value_type& val) {
 				if (size() == capacity()) {
-					reserve(size() + 1);
+					reserve(size() > 0 ? size() * 2 : 1);
 				}
 				_alloc.construct(_end, val);
 				_end++;
@@ -282,7 +289,7 @@ namespace ft {
 
 			// pop_back
 			void pop_back() {
-				_alloc.destroy(end() - 1);
+				_alloc.destroy(_end - 1);
 				_end--;
 			}
 
@@ -319,7 +326,9 @@ namespace ft {
 			}
 			// insert (range)
 			template <class InputIterator>
-			void insert (iterator position,  InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type) {
+			void insert (iterator position,
+			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
+			InputIterator last) {
 				size_type pos = std::distance(begin(), position);
 				size_type n = std::distance(first, last);
 

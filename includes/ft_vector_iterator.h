@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:39:02 by david             #+#    #+#             */
-/*   Updated: 2022/06/15 16:29:38 by david            ###   ########.fr       */
+/*   Updated: 2022/06/16 12:59:48 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,23 @@ namespace ft {
 			}
 
 			/*-------- Getter --------*/
-			pointer	get_p(void) const {
-				return (this->_p);
-			}
-
 			pointer	base(void) const {
 				return (this->_p);
 			}
 
 			/*-------- Operator --------*/
+			//*
+			reference operator*() {
+				return *(this->_p);
+			}
+
+			//+
+			vector_iterator operator+(difference_type d) const {
+				vector_iterator v(*this);
+				v._p += d;
+				return (v);
+			}
+
 			//++p
 			vector_iterator	&operator++() {
 				*this->_p++;
@@ -58,8 +66,8 @@ namespace ft {
 			}
 
 			//p++
-			vector_iterator &operator++(int) {
-				vector_iterator tmp = *this;
+			vector_iterator operator++(int) {
+				vector_iterator tmp(*this);
 				++(*this);
 				return (tmp);
 			}
@@ -71,7 +79,7 @@ namespace ft {
 			}
 
 			//p--
-			vector_iterator &operator--(int) {
+			vector_iterator operator--(int) {
 				vector_iterator tmp = *this;
 				--(*this);
 				return (tmp);
@@ -81,17 +89,6 @@ namespace ft {
 			vector_iterator &operator[](int index) {
 				return *(this->_p + index);
 			}
-
-			//*
-			vector_iterator &operator*() {
-				return (base());
-			}
-			/*
-			// *
-			reference operator*() {
-				return (*this->_p);
-			}
-			*/
 
 			/*-------- Bool Operator --------*/
 			//==
@@ -122,13 +119,6 @@ namespace ft {
 			//>=
 			friend bool operator>=(const vector_iterator &v1, const vector_iterator &v2) {
 				return (v1.base() >= v2/base());
-			}
-
-			//+
-			vector_iterator operator+(difference_type d) const
-			{
-				vector_iterator v = this->_p + d;
-				return (v);
 			}
 
 			//+
