@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/16 21:28:39 by david            ###   ########.fr       */
+/*   Updated: 2022/06/17 22:27:24 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ namespace ft {
 			const allocator_type &alloc = allocator_type()) {
 
 				difference_type n = (std::distance(first, last));
-				std::cout << "n = " << n << std::endl;
 
 				_begin = _alloc.allocate(n);
 				_end = _begin;
@@ -165,60 +164,31 @@ namespace ft {
 
 			// max_size
 			size_type	max_size() const {
-				return (allocator_type().max_size());
+				return (_alloc.max_size());
 			}
 
 			// resize
 			void	resize(size_type n, value_type val = value_type()) {
-			/*
 				if (n > max_size())
 					throw std::length_error("vector::resize");
 
-				if (n < size()) {
-					while (n < size()) {
-						_alloc.destroy(--_end);
-					}
-				}
+				size_type oldS = size();
+				size_type oldC = capacity();
 
-				if (n > capacity()) {
-					if ((capacity() * 2) >= n) {
-						reserve(capacity() * 2);
-					} else {
-						reserve(n);
+				if (n < oldS) {
+					while (size() > n) {
+						_alloc.destroy(_end--);
 					}
-				}
-
-				if (n > size()) {
-					while (n > size()) {
+				} else {
+					if (n > oldC) {
+						if ((oldC * 2) >= n)
+							reserve(oldC * 2);
+						else
+							reserve(n);
+					}
+					for (; oldS < n; oldS++) {
 						_alloc.construct(_end++, val);
 					}
-				}
-			 */
-			 std::cout << "n = " << n << std::endl;
-			 std::cout << "capacity() = " << capacity() << std::endl;
-				if (n > capacity())
-				{
-					if (n < capacity() * 2) {
-						std::cout << "toto1" << std::endl;
-						reserve(capacity() * 2);
-						std::cout << "toto2" << std::endl;
-					} else {
-						std::cout << "toto3" << std::endl;
-						reserve(n);
-						std::cout << "toto4" << std::endl;
-						}
-				}
-				size_type i = size();
-				while (i < n)
-				{
-					_alloc.construct(_end++, val);
-					i++;
-				}
-				i = n;
-				while (i < size())
-				{
-					_alloc.destroy(_end--);
-					i++;
 				}
 			}
 
@@ -241,10 +211,10 @@ namespace ft {
 					throw std::length_error("vector::reserve");
 				
 				if (n > capacity()) {
-				/*
 					pointer		oldB1 = _begin; //Ancienne valeur a copier dans le nouveau
 					pointer		oldB2 = _begin; //Ancienn pointeur a copier pour suppression
 					pointer		oldE = _end;	 // Ancien pointeur (_end) pour s'arreter
+					size_type	oldS = size();
 					size_type	oldC = capacity(); // anciens capacity pour la capacité a supprimer
 
 					_begin = _alloc.allocate(n, oldB1);
@@ -253,23 +223,7 @@ namespace ft {
 					while (oldB1 != oldE) {
 						_alloc.construct(_end++, *oldB1++); // Alloue les anciennes valeurs de oldB1 dans le nouveau avec _end (qui avance jusqu'a oldE)
 					}
-						std::cout << "OK ?" << std::endl;
-					_alloc.deallocate(oldB2, oldC);
-				*/
-					pointer oldStart = _begin;
-					pointer oldEnd = _end;
-					size_type oldN = size();
-					size_type oldCap = capacity();
-
-					_begin = _alloc.allocate(n);
-					_end = _begin;
-					_capacity = size() + n;
-					while (oldStart != oldEnd)
-						_alloc.construct(_end++, *oldStart++);
-					/*------------------*/
-					_alloc.deallocate(oldStart - oldN, oldCap); // << ERROR !
-					/*------------------*/
-
+					_alloc.deallocate((oldB1 - oldS), oldC);
 				}
 			}
 
@@ -352,17 +306,16 @@ namespace ft {
 
 			// insert (single element)
 			iterator insert (iterator position, const value_type& val) {
-				std::cout << "error single" << std::endl;
 				insert(position, 1, val);
 				return iterator(position);
 			}
 
 			// insert (fill)
 			void insert (iterator position, size_type n, const value_type& val) {
-				std::cout << "error fill" << std::endl;
-				size_type pos = std::distance(begin(), position);
+				difference_type pos;
+				pos = std::distance(begin(), position);
 
-				resize(size() + n);
+				resize(size() + n); // resize OK
 				position = _begin + pos;
 				
 				// delta du commencement de rajout a n
@@ -373,9 +326,12 @@ namespace ft {
 				// la valeur a l'dresse [changer avec resize] 
 				// (_end - 0 - 1) = l'ancienne valeur plus tôt
 				// on deplace la valeur plus ancienne plus haut dans le tableau
+				/*
 				for (size_type i = 0; i < toMoveRight; i++) {
+					std::cout << "*(_end - i 1) = " << 	*(_end - i - 1) << std::endl;
 					*(_end - i - 1) = *oldEnd--;
 				}
+				*/
 
 				// la valeur a l'dresse (position + 0) (la où l'on veut rajouter la(les) nouvelles valeurs)
 				// = nouvelle val
@@ -388,17 +344,10 @@ namespace ft {
 			void insert (iterator position,
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
 			InputIterator last) {
-				std::cout << "error range1" << std::endl;
 				size_type pos = std::distance(begin(), position);
-				std::cout << "error range2" << std::endl;
 				size_type n = std::distance(first, last);
-				std::cout << "error range3" << std::endl;
-				std::cout << "size() + n = " << size() + n << std::endl;
-				std::cout << "error range4" << std::endl;
 				resize(size() + n);
-				std::cout << "error range5" << std::endl;
 				position = _begin + pos;
-				std::cout << "error range6" << std::endl;
 				
 				size_type toMoveRight = std::distance(position, (end() - n));
 				pointer oldEnd = _end - n - 1;
@@ -432,13 +381,13 @@ namespace ft {
 			// swap
 			void swap(vector &x) {
 				allocator_type tmpA = get_allocator();
-				pointer tmpB = begin();
-				pointer tmpE = end();
+				pointer tmpB = _begin;
+				pointer tmpE = _end;
 				size_type tmpC = capacity();
 
 				_alloc = x.get_allocator();
-				_begin = x.begin();
-				_end = x.end();
+				_begin = x._begin;
+				_end = x._end;
 				_capacity = x.capacity();
 
 				x._alloc = tmpA;
