@@ -1,9 +1,9 @@
 #include <iostream>
-#include <vector>
+#include <ft_vector.h>
 
 int main ()
 {
-  std::vector<int> myvector;
+  ft::vector<int> myvector;
 
   // set some content in the vector:
   for (int i=0; i<100; i++) myvector.push_back(i);
