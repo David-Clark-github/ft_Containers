@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/17 22:27:24 by david            ###   ########.fr       */
+/*   Updated: 2022/06/19 17:23:39 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,19 +87,12 @@ namespace ft {
 
 			// Copy
 			vector (const vector &x)
-			: _alloc(x._alloc), _begin(NULL), _end(NULL)
 			{
-				std::cout << "Cons Copy, x.size() = " << x.size() << std::endl;
+				size_type n = x.size();
+				this->_begin = _alloc.allocate(n);
+				this->_end = this->_begin;
+				this->_capacity = n;
 				insert(begin(), x.begin(), x.end());
-			/*
-				_begin = _alloc.allocate(x.size());
-				_end = _begin;
-				_capacity = std::distance(_begin, _begin + x.size());
-
-				for (pointer tmp = x._begin; tmp != x._end; tmp++, _end++) {
-					_alloc.construct(_end, *tmp);
-				}
-			*/
 			}
 
 			// Destructor
@@ -109,7 +102,6 @@ namespace ft {
 			}
 
 			// Operator Copy
-			// reste a faire insert
 			vector& operator= (const vector& x) {
 				if (this != &x) {
 					clear();
