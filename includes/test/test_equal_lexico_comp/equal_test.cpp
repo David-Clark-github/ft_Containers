@@ -1,4 +1,4 @@
-#include <ft_equal_lexico_comp.h>
+#include <equal_lexico_comp.hpp>
 #include <iostream>     // std::cout
 #include <vector>       // std::vector
 

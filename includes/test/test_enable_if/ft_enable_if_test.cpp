@@ -1,7 +1,7 @@
 #include <iostream>
 #include <type_traits>
-#include <ft_is_integral.h>
-#include <ft_enable_if.h>
+#include <is_integral.hpp>
+#include <enable_if.hpp>
 
 // 1. the return type (bool) is only valid if T is an integral type:
 template <class T>

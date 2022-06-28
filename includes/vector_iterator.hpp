@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vector_iterator.h                               :+:      :+:    :+:   */
+/*   vector_iterator.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:39:02 by david             #+#    #+#             */
-/*   Updated: 2022/06/16 12:59:48 by david            ###   ########.fr       */
+/*   Updated: 2022/06/28 11:50:19 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_VECTOR_ITERATOR_H
-#define FT_VECTOR_ITERATOR_H
+#ifndef FT_VECTOR_ITERATOR_HPP
+#define FT_VECTOR_ITERATOR_HPP
 
 #include <iterator>
 

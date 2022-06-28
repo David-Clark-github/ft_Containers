@@ -2,7 +2,7 @@
 #include <functional>
 #include <iostream>
 #include <vector>
-#include <ft_binary_function.h>
+#include <binary_function.hpp>
  
 struct same : ft::binary_function<int, int, bool>
 {

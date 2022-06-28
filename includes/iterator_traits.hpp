@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_iterator_traits.h                               :+:      :+:    :+:   */
+/*   iterator_traits.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:20:36 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/08 17:10:25 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/28 11:45:19 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_ITERATOR_TRAITS
-#define FT_ITERATOR_TRAITS
+#ifndef FT_ITERATOR_TRAITS_HPP
+#define FT_ITERATOR_TRAITS_HPP
 
 #include <iterator>
 #include <stddef.h>

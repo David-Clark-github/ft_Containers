@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vector.h                                        :+:      :+:    :+:   */
+/*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/28 11:42:34 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/28 11:49:43 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_VECTOR_H
-#define FT_VECTOR_H
+#ifndef FT_VECTOR_HPP
+#define FT_VECTOR_HPP
 
 #include <vector_iterator.h>
 #include <reverse_iterator.h>

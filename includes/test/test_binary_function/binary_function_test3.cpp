@@ -2,8 +2,8 @@
 #include <functional>
 #include <algorithm>
 
-#include <ft_binary_function.h>
-#include <ft_pair.h>
+#include <binary_function.hpp>
+#include <pair.hpp>
 
 #define NC "\e[0m"
 #define RED "\e[0;31m"

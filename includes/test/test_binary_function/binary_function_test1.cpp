@@ -1,6 +1,6 @@
 #include <iostream>     // std::cout, std::cin
 #include <functional>   // std::binary_function
-#include <ft_binary_function.h>
+#include <binary_function.hpp>
 
 struct Compare : public ft::binary_function<int,int,bool> {
   bool operator() (int a, int b) {return (a==b);}

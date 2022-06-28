@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_stack.h                                         :+:      :+:    :+:   */
+/*   stack.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 10:04:35 by david             #+#    #+#             */
-/*   Updated: 2022/06/18 14:55:09 by david            ###   ########.fr       */
+/*   Updated: 2022/06/28 11:49:14 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STACK_H
-#define FT_STACK_H
+#ifndef FT_STACK_HPP
+#define FT_STACK_HPP
 
-#include <ft_vector.h>
+#include <vector.hpp>
 
 namespace ft {
 	template <class T, class Container = ft::vector<T> >

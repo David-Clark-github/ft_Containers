@@ -1,7 +1,7 @@
 #include <iostream>     // std::cout, std::boolalpha
 #include <algorithm>    // std::lexicographical_compare
 #include <cctype>       // std::tolower
-#include <ft_equal_lexico_comp.h>
+#include <equal_lexico_comp.hpp>
 
 // a case-insensitive comparison function:
 bool mycomp (char c1, char c2) {
