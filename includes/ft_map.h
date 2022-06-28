@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 11:51:52 by david             #+#    #+#             */
-/*   Updated: 2022/06/20 12:00:34 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/28 11:25:48 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ namespace ft {
 
 	template < class Key,
 		class T,
-		class Compare = less<Key>,
+		class Compare = ft::less<Key>,
 		class Alloc = allocator<pair<const Key,T>> >
 	class map {
 		public:
@@ -28,7 +28,6 @@ namespace ft {
 			typedef typename 	T											mapped_type;
 			typedef 			pair<const key_type, mapped_type>			value_type;
 			typedef typename	Compare										key_compare;
-			typedef	typename	/*Something*/								value_compare;
 			typedef typename	Alloc										allocator_type;
 			typedef				allocator_type::reference					reference;
 			typedef				allocator_type::const_reference				const_reference;
@@ -40,6 +39,11 @@ namespace ft {
 			typedef				ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 			typedef				ft::iterator_traits<iterator>::difference_type	difference_type;
 			typedef				size_t										size_type;
+
+			/*-------- [MEMBER CLASSES] --------*/
+			class value_compare {
+				
+			}
 
 		private:
 	};

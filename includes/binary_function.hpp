@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_binary_function.h                               :+:      :+:    :+:   */
+/*   binary_function.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 16:50:03 by david             #+#    #+#             */
-/*   Updated: 2022/06/04 21:20:06 by david            ###   ########.fr       */
+/*   Updated: 2022/06/28 11:38:36 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_BINARY_FUNCTION_H
-#define FT_BINARY_FUNCTION_H
+#ifndef FT_BINARY_FUNCTION_HPP
+#define FT_BINARY_FUNCTION_HPP
 
 namespace ft {
 

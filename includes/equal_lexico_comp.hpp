@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_equal_lexico_comp.h                             :+:      :+:    :+:   */
+/*   equal_lexico_comp.hpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 11:40:29 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/04 21:05:57 by david            ###   ########.fr       */
+/*   Updated: 2022/06/28 11:41:47 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_EQUAL_LEXICO_COMP_H
-#define FT_EQUAL_LEXICO_COMP_H
+#ifndef FT_EQUAL_LEXICO_COMP_HPP
+#define FT_EQUAL_LEXICO_COMP_HPP
 
 namespace ft {
 

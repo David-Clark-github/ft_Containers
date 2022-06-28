@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_is_integral.h                                   :+:      :+:    :+:   */
+/*   is_integral.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 18:42:05 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/02 13:52:01 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/28 11:43:01 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_IS_INTEGRAL_H
-#define FT_IS_INTEGRAL_H
+#ifndef FT_IS_INTEGRAL_HPP
+#define FT_IS_INTEGRAL_HPP
 
 namespace ft {
 
