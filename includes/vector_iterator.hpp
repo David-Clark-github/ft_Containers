@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:39:02 by david             #+#    #+#             */
-/*   Updated: 2022/06/28 11:50:19 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/01 14:01:31 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ namespace ft {
 			vector_iterator	&operator=(const vector_iterator &v) {
 				if (this != &v) {
 					this->_p = v._p;
-				}
+			}
 				return (*this);
 			}
 

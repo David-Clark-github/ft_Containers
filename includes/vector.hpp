@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/30 15:21:24 by david            ###   ########.fr       */
+/*   Updated: 2022/07/01 12:55:02 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,7 +268,7 @@ namespace ft {
 				clear();
 				reserve(std::distance(first, last));
 				for (; first != last; first++, _end++) {
-					_alloc.constr_uct(_end, *first);
+					_alloc.construct(_end, *first);
 				}
 			}
 
