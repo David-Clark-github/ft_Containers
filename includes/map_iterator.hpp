@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 10:16:28 by david             #+#    #+#             */
-/*   Updated: 2022/07/01 13:54:26 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/01 19:14:20 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 #define MAP_ITERATOR_HPP
 
 #include <iterator>
+#include <map_node.hpp>
 
 namespace ft {
 
-	template<typename T>
+	template<typename T, typename Node>
 	class map_iterator {
 		public:
 			typedef T								value_type;
@@ -48,6 +49,11 @@ namespace ft {
 			// *
 			reference	operator*() {
 				return *(base());
+			}
+
+			// ->
+			reference	operator->() {
+				return (this->_p);
 			}
 
 			// +
