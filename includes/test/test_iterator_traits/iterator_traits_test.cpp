@@ -1,5 +1,5 @@
 #include <iostream>					// std::cout
-#include <ft_iterator_traits.h>		// std::iterator_traits
+#include <iterator_traits.hpp>		// std::iterator_traits
 #include <typeinfo>					// typeid
 #include <iterator>
 #include <vector>

@@ -1,4 +1,4 @@
-#include <ft_pair.h>
+#include <pair.hpp>
 #include <iostream>
 
 int main(void) {
@@ -6,7 +6,7 @@ int main(void) {
   ft::pair <int,int> bar;
 
   foo = ft::make_pair (10,20);
-  bar = ft::make_pair (10.5,'A'); // ok: implicit conversion from pair<double,char>
+  bar = ft::make_pair (10.5,'A');
 
   std::cout << "foo: " << foo.first << ", " << foo.second << '\n';
   std::cout << "bar: " << bar.first << ", " << bar.second << '\n';

@@ -1,5 +1,5 @@
 #include <iostream>
-#include <ft_stack.h>
+#include <stack.hpp>
 
 int main ()
 {

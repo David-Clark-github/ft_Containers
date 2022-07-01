@@ -6,12 +6,12 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 11:51:52 by david             #+#    #+#             */
-/*   Updated: 2022/06/28 11:45:54 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/30 21:55:12 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_MAP_HPP
-#define FT_MAP_HPP
+#ifndef MAP_HPP
+#define MAP_HPP
 
 #include <pair.hpp>
 
@@ -20,7 +20,7 @@ namespace ft {
 	template < class Key,
 		class T,
 		class Compare = ft::less<Key>,
-		class Alloc = allocator<pair<const Key,T>> >
+		class Alloc = allocator<ft::pair<const Key,T>> >
 	class map {
 		public:
 			/*-------- [MEMBER_TYPES] --------*/

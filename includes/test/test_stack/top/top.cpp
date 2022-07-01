@@ -1,5 +1,5 @@
 #include <iostream>       // std::cout
-#include <ft_stack.h>          // ft::stack
+#include <stack.hpp>          // ft::stack
 
 int main ()
 {

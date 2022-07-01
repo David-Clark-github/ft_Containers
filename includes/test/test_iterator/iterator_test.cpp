@@ -1,6 +1,6 @@
 #include <iostream>     // std::cout
 #include <iterator>     // std::iterator, std::input_iterator_tag
-#include <ft_iterator.h>
+#include <iterator.hpp>
 
 class MyIterator : public ft::iterator<std::input_iterator_tag, int>
 {

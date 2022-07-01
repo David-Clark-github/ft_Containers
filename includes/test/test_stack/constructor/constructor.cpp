@@ -1,6 +1,6 @@
 #include <iostream>       // std::cout
-#include <ft_stack.h>          // ft::stack
-#include <ft_vector.h>         // ft::vector
+#include <stack.hpp>          // ft::stack
+#include <vector.hpp>         // ft::vector
 #include <deque>          // std::deque
 
 int main ()

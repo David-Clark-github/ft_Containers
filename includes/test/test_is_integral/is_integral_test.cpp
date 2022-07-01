@@ -6,11 +6,11 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 13:47:27 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/02 13:49:09 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/30 10:55:09 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_is_integral.h>
+#include "is_integral.hpp"
 #include <iostream>
 
 int main() {

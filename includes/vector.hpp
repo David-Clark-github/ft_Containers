@@ -6,18 +6,18 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/28 11:49:43 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/30 15:21:24 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_VECTOR_HPP
 #define FT_VECTOR_HPP
 
-#include <vector_iterator.h>
-#include <reverse_iterator.h>
-#include <enable_if.h>
-#include <is_integral.h>
-#include <equal_lexico_comp.h>
+#include <vector_iterator.hpp>
+#include <reverse_iterator.hpp>
+#include <enable_if.hpp>
+#include <is_integral.hpp>
+#include <equal_lexico_comp.hpp>
 #include <iterator>
 #include <iostream>
 namespace ft {

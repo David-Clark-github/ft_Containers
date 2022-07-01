@@ -6,12 +6,12 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 10:04:35 by david             #+#    #+#             */
-/*   Updated: 2022/06/28 11:49:14 by dclark           ###   ########.fr       */
+/*   Updated: 2022/06/30 18:52:50 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STACK_HPP
-#define FT_STACK_HPP
+#ifndef STACK_HPP
+#define STACK_HPP
 
 #include <vector.hpp>
 
