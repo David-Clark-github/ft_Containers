@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 10:16:28 by david             #+#    #+#             */
-/*   Updated: 2022/07/01 19:14:20 by david            ###   ########.fr       */
+/*   Updated: 2022/07/02 23:21:31 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ namespace ft {
 	class map_iterator {
 		public:
 			typedef T								value_type;
-			typedef T*								pointer;
-			typedef T&								reference;
+			typedef Node							node_type;
+			typedef Node*							node_pointer;
+			typedef Node&							node_reference;
 			typedef std::ptrdiff_t					difference_type;
 			typedef std::bidirectional_iterator_tag	iterator_category;
 
@@ -48,7 +49,7 @@ namespace ft {
 			/*-------- Operator --------*/
 			// *
 			reference	operator*() {
-				return *(base());
+				return *(this->_p);
 			}
 
 			// ->
@@ -56,15 +57,54 @@ namespace ft {
 				return (this->_p);
 			}
 
-			// +
-			map_iterator	operator+(difference_type d) const {
-				map_iterator m(*this);
-				m._p += d;
-				return (m);
+			// map_i++
+			map_iterator operator++(int) {
+				map_iterator	tmp(*this);
+				++(*this);
+				return (tmp);
+			}
+
+			// ++map_i
+			map_iterator &operator--() {
+				*this->_p++;
+				return (*this);
+			}
+
+			// map_i--
+			map_iterator operator--(int) {
+				map_iterator	tmp(*this);
+				--(*this);
+				return (tmp);
+			}
+
+			// --map_i
+			map_iterator &operator--() {
+				*this->_p--;
+				return (*this);
+			}
+
+			// ==
+			friend	bool operator==(const map_iterator &m1, const map_iterator &m2) {
+				return (m1.base() == m2.base());
+			}
+
+			// !=
+			friend	bool operator!=(const map_iterator &m1, const map_iterator &m2) {
+				return (m1.base() != m2.base());
+			}
+
+			void	increase() {
+				if (_ptr->right) {
+					_ptr = ptr_right;
+					while (_ptr->right)
+						_ptr = _ptr->right;
+				} else {
+					//_ptr = _ptr->parent; A cogiter ...
+				}
 			}
 
 		private:
-			pointer	_p;
+			node_pointer	_p;
 	};
 
 };

@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 11:37:58 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/01 14:00:05 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/02 23:11:45 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ namespace ft {
 	struct Node {
 		Node		*left;
 		Node		*right;
+		Node		*parent;
 		int			height;
 		value_type	value;
 	};
