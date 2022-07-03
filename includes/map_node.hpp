@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 11:37:58 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/02 23:11:45 by david            ###   ########.fr       */
+/*   Updated: 2022/07/03 18:54:35 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ namespace ft {
 
 	/*-------- Destructor / Constructor --------*/
 	Node(T t, Node* l, Node* r, int h, value_type val)
-	: left(l), right(r), height(h), value_type(val) {}
+	: left(l), right(r), height(h), value(val) {}
 
 	~Node() {}
 

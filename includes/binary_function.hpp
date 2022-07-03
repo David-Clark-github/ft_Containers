@@ -6,12 +6,12 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 16:50:03 by david             #+#    #+#             */
-/*   Updated: 2022/06/28 11:38:36 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/03 22:08:05 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_BINARY_FUNCTION_HPP
-#define FT_BINARY_FUNCTION_HPP
+#ifndef BINARY_FUNCTION_HPP
+#define BINARY_FUNCTION_HPP
 
 namespace ft {
 

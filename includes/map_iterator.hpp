@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 10:16:28 by david             #+#    #+#             */
-/*   Updated: 2022/07/02 23:21:31 by david            ###   ########.fr       */
+/*   Updated: 2022/07/03 18:34:03 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,26 +60,26 @@ namespace ft {
 			// map_i++
 			map_iterator operator++(int) {
 				map_iterator	tmp(*this);
-				++(*this);
+				increase();
 				return (tmp);
 			}
 
 			// ++map_i
 			map_iterator &operator--() {
-				*this->_p++;
+				increase();
 				return (*this);
 			}
 
 			// map_i--
 			map_iterator operator--(int) {
 				map_iterator	tmp(*this);
-				--(*this);
+				decrease();
 				return (tmp);
 			}
 
 			// --map_i
 			map_iterator &operator--() {
-				*this->_p--;
+				decrease();
 				return (*this);
 			}
 
@@ -94,12 +94,32 @@ namespace ft {
 			}
 
 			void	increase() {
-				if (_ptr->right) {
-					_ptr = ptr_right;
-					while (_ptr->right)
-						_ptr = _ptr->right;
+				if (_p->right) {
+					_p = ptr_right;
+					while (_p->left)
+						_p = _p->left;
 				} else {
-					//_ptr = _ptr->parent; A cogiter ...
+					node_pointer tmp = _p;
+					_p = _p->parent;
+					while (_p->left != tmp) {
+						tmp = _p;
+						_p = _p->parent;
+					}
+				}
+			}
+
+			void	decrease() {
+				if (_p-left) {
+					_p = _p->left;
+					while (_p->right)
+						_p->right;
+				} else {
+					node_pointer tmp = _p;
+					_p = _p->parent;
+					while (_p->right != tmp) {
+						tmp = _p;
+						_p = _p->parent;
+					}
 				}
 			}
 
