@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 11:37:58 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/06 10:40:56 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/06 15:16:21 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ namespace ft {
 	: pair(t), left(l), right(r), parent(p), height(h) {}
 
 	~Node() {}
+
+	template<typename T>
+	Node	*insert()
 	};
 
 };
