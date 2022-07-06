@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 11:51:52 by david             #+#    #+#             */
-/*   Updated: 2022/07/06 10:55:09 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/06 13:32:00 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,126 @@ namespace ft {
 			// empty
 			explicit map(const key_compare &comp = key_compare(),
 						const allocator_type &alloc = allocator_type()) 
-			: _alloc(alloc) {}
+			: _alloc(alloc), _begin(NULL), _end(NULL), _size(0) {}
+
+			// range
+			template<class InputIterator>
+			map (typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
+			InputIterator last,
+			const key_compare& comp = key_compare(),
+			const allocator_type& alloc = allocator_type()) {
+				difference_type	n = std::distance(first, last);
+				_begin = _alloc.allocate(n);
+				_end = _begin;
+				insert(first, last);
+			}
+
+			// copy
+			map (const map &m) {
+				// FILL HERE
+			}
+
+			// operator=
+			map	&operator=(const map &m) {
+				if (&m != this) {
+					clear();
+					insert(m.begin(), m.end());
+				}
+				return (*this);
+			}
+
+			/*-------- Iterators --------*/
+
+			// begin
+			iterator	begin() {
+				return (this->_begin);
+			}
+
+			const_iterator	begin()const {
+				return (this->_begin);
+			}
+
+			// end
+			iterator	end() {
+				return (this->_end);
+			}
+
+			const_iterator end()const {
+				return (this->_end);
+			}
+
+			// rbegin
+			reverse_iterator	rbegin() {
+				return (this->_end);
+			}
+
+			const_reverse_iterator	rbegin()const {
+				return (this->_end);
+			}
+
+			// rend
+			reverse_iterator	rend() {
+				return (this->_begin);
+			}
+
+			const_reverse_iterator	rend()const {
+				return (this->_begin);
+			}
+
+			/*-------- Capacity --------*/
+
+			// empty
+			bool empty()const {
+				if (size())
+					return (false);
+				return (true);
+			}
+
+			// size
+			size_type size()const {
+				return (this->_size);
+			}
+
+			// max_size
+			size_type max_size()const {
+				return (this->_alloc.max_size())
+			}
+
+			/*-------- Element access --------*/
+
+			// operator[]
+			mapped_type& operator[](const key_type& k) {
+				insert(ft::make_pair(k, mapped_type()));
+				return (find(k).second)
+			}
+			
+			/*-------- Modifiers --------*/
+
+			/* insert */
+
+			// single element
+			ft::pair<iterator,bool>	insert(const value_type& val) {
+				// FILL WITH TREE AVL
+			}
+
+			// with hint
+			iterator	insert(iterator position, const value_type& val) {
+				// FILL WITH TREE AVL
+			}
+
+			// range
+			template <class InputIterator>
+			void insert (InputIterator first, InputIterator last) {
+				// FILL WITH TREE AVL
+			}
+
+
+
 		private:
 			allocator_type	_alloc;
+			iterator		_begin;
+			iterator		_end;
+			size_type		_size;
 	};
 
 };
