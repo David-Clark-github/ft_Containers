@@ -1,38 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_node.hpp                                       :+:      :+:    :+:   */
+/*   construct.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/01 11:37:58 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/06 10:40:56 by dclark           ###   ########.fr       */
+/*   Created: 2022/07/06 09:46:16 by dclark            #+#    #+#             */
+/*   Updated: 2022/07/06 09:49:27 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAP_NODE_HPP
-#define MAP_NODE_HPP
-
-#include <pair.hpp>
 #include <map.hpp>
+#include <iostream>
 
-namespace ft {
-
-	template <typename T>
-	struct Node {
-		Node		*left;
-		Node		*right;
-		Node		*parent;
-		int			height;
-		T			pair;
-
-	/*-------- Destructor / Constructor --------*/
-	Node(T t, Node* l, Node* r, Node *p, int h)
-	: pair(t), left(l), right(r), parent(p), height(h) {}
-
-	~Node() {}
-	};
-
-};
-
-#endif
+int main(void) {
+	ft::map<char, int> test;
+}
