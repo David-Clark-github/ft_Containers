@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 10:16:28 by david             #+#    #+#             */
-/*   Updated: 2022/07/06 10:57:48 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/03 18:34:03 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ namespace ft {
 		public:
 			typedef T								value_type;
 			typedef Node							node_type;
-			typedef Node*							pointer;
-			typedef Node&							reference;
+			typedef Node*							node_pointer;
+			typedef Node&							node_reference;
 			typedef std::ptrdiff_t					difference_type;
 			typedef std::bidirectional_iterator_tag	iterator_category;
 
@@ -65,7 +65,7 @@ namespace ft {
 			}
 
 			// ++map_i
-			map_iterator &operator++() {
+			map_iterator &operator--() {
 				increase();
 				return (*this);
 			}
@@ -95,11 +95,11 @@ namespace ft {
 
 			void	increase() {
 				if (_p->right) {
-					_p = _p->right;
+					_p = ptr_right;
 					while (_p->left)
 						_p = _p->left;
 				} else {
-					pointer tmp = _p;
+					node_pointer tmp = _p;
 					_p = _p->parent;
 					while (_p->left != tmp) {
 						tmp = _p;
@@ -109,12 +109,12 @@ namespace ft {
 			}
 
 			void	decrease() {
-				if (_p->left) {
+				if (_p-left) {
 					_p = _p->left;
 					while (_p->right)
 						_p->right;
 				} else {
-					pointer tmp = _p;
+					node_pointer tmp = _p;
 					_p = _p->parent;
 					while (_p->right != tmp) {
 						tmp = _p;
@@ -124,7 +124,7 @@ namespace ft {
 			}
 
 		private:
-			pointer	_p;
+			node_pointer	_p;
 	};
 
 };
