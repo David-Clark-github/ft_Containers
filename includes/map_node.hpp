@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 11:37:58 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/06 15:16:21 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/07 12:27:27 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,33 @@ namespace ft {
 
 	template <typename T>
 	struct Node {
+		T			data;
 		Node		*left;
 		Node		*right;
 		Node		*parent;
-		int			height;
-		T			pair;
+		int			color;
 
 	/*-------- Destructor / Constructor --------*/
-	Node(T t, Node* l, Node* r, Node *p, int h)
-	: pair(t), left(l), right(r), parent(p), height(h) {}
+		Node(T d, Node* l, Node* r, Node *p, int c)
+			: data(d), left(l), right(r), parent(p), color(c) {}
 
-	~Node() {}
+		~Node() {}
 
-	template<typename T>
-	Node	*insert()
+		template<typename T>
+		Node	*insert()
 	};
+
+	template <typename T,
+			class Compare,
+			class Node = ft::Node<T>,
+			class Allocator = std::alocator<Node>>
+	class RB_tree {
+		public:
+			typedef	T		value_type;
+			typedef Compare	value_compare;
+
+	};
+
 
 };
 

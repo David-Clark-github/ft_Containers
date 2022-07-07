@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 11:51:52 by david             #+#    #+#             */
-/*   Updated: 2022/07/06 13:32:00 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/07 11:19:41 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,38 +100,38 @@ namespace ft {
 
 			// begin
 			iterator	begin() {
-				return (this->_begin);
+				return (_begin);
 			}
 
 			const_iterator	begin()const {
-				return (this->_begin);
+				return (_begin);
 			}
 
 			// end
 			iterator	end() {
-				return (this->_end);
+				return (_end);
 			}
 
 			const_iterator end()const {
-				return (this->_end);
+				return (_end);
 			}
 
 			// rbegin
 			reverse_iterator	rbegin() {
-				return (this->_end);
+				return (_end);
 			}
 
 			const_reverse_iterator	rbegin()const {
-				return (this->_end);
+				return (_end);
 			}
 
 			// rend
 			reverse_iterator	rend() {
-				return (this->_begin);
+				return (_begin);
 			}
 
 			const_reverse_iterator	rend()const {
-				return (this->_begin);
+				return (_begin);
 			}
 
 			/*-------- Capacity --------*/
@@ -145,12 +145,12 @@ namespace ft {
 
 			// size
 			size_type size()const {
-				return (this->_size);
+				return (_size);
 			}
 
 			// max_size
 			size_type max_size()const {
-				return (this->_alloc.max_size())
+				return (_alloc.max_size())
 			}
 
 			/*-------- Element access --------*/
@@ -185,8 +185,9 @@ namespace ft {
 
 		private:
 			allocator_type	_alloc;
-			iterator		_begin;
-			iterator		_end;
+			pointer			_root;
+			pointer			_begin;
+			pointer			_end;
 			size_type		_size;
 	};
 

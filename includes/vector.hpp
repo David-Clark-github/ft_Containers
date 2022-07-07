@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/01 12:55:02 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/07 11:16:18 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -406,9 +406,9 @@ namespace ft {
 			
 		private:
 			allocator_type	_alloc;
-			size_type	_capacity;
-			pointer		_begin;
-			pointer		_end;
+			size_type		_capacity;
+			pointer			_begin;
+			pointer			_end;
 
 	};			
 	
