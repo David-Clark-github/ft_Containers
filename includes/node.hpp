@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_node.hpp                                       :+:      :+:    :+:   */
+/*   node.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 11:37:58 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/07 12:27:27 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/07 18:18:35 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAP_NODE_HPP
-#define MAP_NODE_HPP
+#ifndef NODE_HPP
+#define NODE_HPP
 
 #include <pair.hpp>
 #include <map.hpp>
