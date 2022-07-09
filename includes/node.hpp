@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 11:37:58 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/08 14:12:11 by david            ###   ########.fr       */
+/*   Updated: 2022/07/09 20:10:09 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ namespace ft {
 		Node(const Node &n)
 		: data(n.data), left(n.left), right(n.right), parent(n.parent), color(n.color) {}
 
-		Node(const T& d, const color c = BLACK_N, Node *p = nullptr, Node *l = nullptr, Node *r = nullptr)
+		Node(const T& d, const size_t c = BLACK_N, Node *p = nullptr, Node *l = nullptr, Node *r = nullptr)
 		: data(d), left(l), right(r), parent(p), color(c) {}
 
 		~Node() {}

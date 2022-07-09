@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 11:51:52 by david             #+#    #+#             */
-/*   Updated: 2022/07/07 11:19:41 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/09 20:08:51 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 #include <pair.hpp>
 #include <binary_function.hpp>
-#include <map_iterator.hpp>
-#include <map_node.hpp>
+#include <node_iterator.hpp>
+#include <node.hpp>
 #include <iterator_traits.hpp>
 #include <reverse_iterator.hpp>
 
