@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 11:51:52 by david             #+#    #+#             */
-/*   Updated: 2022/07/09 20:08:51 by david            ###   ########.fr       */
+/*   Updated: 2022/07/10 11:54:16 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <node.hpp>
 #include <iterator_traits.hpp>
 #include <reverse_iterator.hpp>
+#include <enable_if.hpp>
+#include <is_integral.hpp>
 
 namespace ft {
 
@@ -38,8 +40,8 @@ namespace ft {
 			typedef	typename	allocator_type::const_reference							const_reference;
 			typedef	typename	allocator_type::pointer									pointer;
 			typedef	typename	allocator_type::const_pointer							const_pointer;
-			typedef				map_iterator<value_type, ft::Node<value_type>>			iterator;
-			typedef				map_iterator<const value_type, ft::Node<value_type>>	const_iterator;
+			typedef				ft::node_iterator<value_type, ft::Node<value_type>>			iterator;
+			typedef				ft::node_iterator<const value_type, ft::Node<value_type>>	const_iterator;
 			typedef				ft::reverse_iterator<iterator>							reverse_iterator;
 			typedef				ft::reverse_iterator<const_iterator>					const_reverse_iterator;
 			typedef	typename	ft::iterator_traits<iterator>::difference_type			difference_type;

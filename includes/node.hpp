@@ -3,63 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   node.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/01 11:37:58 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/09 20:10:09 by david            ###   ########.fr       */
+/*   Created: 2022/07/10 15:47:36 by david             #+#    #+#             */
+/*   Updated: 2022/07/10 22:18:23 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef NODE_HPP
 #define NODE_HPP
 
-#include <pair.hpp>
-#include <cstddef>
-
-#define BLACK_N	0
-#define RED_N	1
+#define B_N	0
+#define R_N	1
 
 namespace ft {
 
-	template <typename T>
-	struct Node {
-		T			data;
-		Node		*left;
-		Node		*right;
-		Node		*parent;
-		size_t		color;
+	template<typename T>
+	struct	node {
+		typedef	T		value_type;
+		typedef	node*	node_pointer;
+		typedef	node&	node_reference;
+		typedef	size_t	color_type;
 
+		node_pointer	parent;
+		node_pointer	left;
+		node_pointer	right;
+		color_type		color;
+		value_type		data;
 
-		/*-------- Destructor / Constructor --------*/
+		node() : parent(NULL), left(NULL), right(NULL), color(B_N), data() {}
 
-		Node(void)
-		: data(), left(nullptr), right(nullptr), parent(nullptr), color(BLACK_N) {}
+		node(node_pointer p, node_pointer l, node_pointer r,
+		color_type c = B_N, const value_type d)
+		: parent(p), left(l), right(r), color(c), data(d) {}
 
-		Node(const Node &n)
-		: data(n.data), left(n.left), right(n.right), parent(n.parent), color(n.color) {}
+		node(const &node n)
+		: parent(n.parent), left(n.left), right(n.right),
+		color(n.color), data(n.data) {}
 
-		Node(const T& d, const size_t c = BLACK_N, Node *p = nullptr, Node *l = nullptr, Node *r = nullptr)
-		: data(d), left(l), right(r), parent(p), color(c) {}
+		~node() {}
 
-		~Node() {}
-
-		Node	&operator=(const Node &n) {
-			if (this != n) {
-				data = n.data;
-				left = n.left;
-				right = n.right;
-				parent = n.parent;
-				color = n.color;
+		node_reference	operator=(const node &n) {
+			if (this != &n) {
+				parent	= n.parent;
+				left	= n.left;
+				right	= n.right;
+				color	= n.color;
+				data	= n.data;
 			}
 			return (*this);
 		}
 
-		bool operator==(const Node &n) {
-			if (data == n.data)
-				return (true);
-			return (false);
+		bool	operator==(const node &n) {
+			return (data == n.data);
 		}
-
 	};
 
 };

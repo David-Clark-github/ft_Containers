@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 10:16:28 by david             #+#    #+#             */
-/*   Updated: 2022/07/08 16:33:17 by david            ###   ########.fr       */
+/*   Updated: 2022/07/10 11:51:21 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ namespace ft {
 			: _current(), _root(), _end() {}
 
 			node_iterator(const pointer &p, const pointer &root, const pointer &end)
-			: _current((p == nullptr) ? end ! p), _root(root), _end(end) {} 
+			: _current((p == nullptr) ? end : p), _root(root), _end(end) {} 
 			
 			node_iterator(const node_iterator &m)
 			: _current(m._current), _root(m._root), _end(m._end) {}
@@ -119,7 +119,7 @@ namespace ft {
 			pointer	increase() {
 				if (_current->right != _end)
 					return (min(_current->right));
-				node_pointer tmp = _current->parent;
+				pointer tmp = _current->parent;
 				for(;(tmp != _end && _current == tmp->right); _current = tmp, tmp = tmp->parent);
 				return (tmp);
 
@@ -128,7 +128,7 @@ namespace ft {
 			pointer	decrease() {
 				if (_current->left != _end)
 					return (max(_current->left));
-				node_pointer tmp = _current->parent;
+				pointer tmp = _current->parent;
 				for(;(tmp != _end && _current == tmp->left); _current = tmp, tmp = tmp->parent);
 				return (tmp);
 			}
