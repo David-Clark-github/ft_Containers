@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 10:16:28 by david             #+#    #+#             */
-/*   Updated: 2022/07/10 11:51:21 by david            ###   ########.fr       */
+/*   Updated: 2022/07/13 18:32:10 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,28 @@
 
 #include <iterator>
 #include <node.hpp>
+#include <iterator.hpp>
 
 namespace ft {
 
 	template<typename T, typename Node>
-	class node_iterator {
+	class node_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 		public:
-			typedef T								value_type;
-			typedef Node							node_type;
-			typedef Node*							pointer;
-			typedef Node&							reference;
-			typedef std::ptrdiff_t					difference_type;
-			typedef std::bidirectional_iterator_tag	iterator_category;
+			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>::value_type			value_type;
+			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>::difference_type		difference_type;
+			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>::pointer				pointer;
+			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>::reference			reference;
+			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>::iterator_category	iterator_category;
+			typedef Node																			node_type;
+			typedef Node*																			node_pointer;
+			typedef Node&																			node_reference;
 
 		/*-------- Constructor / Destructor --------*/
 
 			node_iterator(void)
 			: _current(), _root(), _end() {}
 
-			node_iterator(const pointer &p, const pointer &root, const pointer &end)
+			node_iterator(const node_pointer &p, const node_pointer &root, const node_pointer &end)
 			: _current((p == nullptr) ? end : p), _root(root), _end(end) {} 
 			
 			node_iterator(const node_iterator &m)
@@ -42,7 +45,7 @@ namespace ft {
 			virtual ~node_iterator() {}
 
 			operator node_iterator<T, Node> (void) {
-				return (node_iterator<T, Node>(_current, _root, _end));
+				return (node_iterator<const T, Node>(_current, _root, _end));
 			}
 
 
@@ -58,21 +61,24 @@ namespace ft {
 			/*-------- Operator --------*/
 			// *
 			reference	operator*() {
-				return *(this->_current->data);
+				return (_current->data);
 			}
 
 			// ->
-			pointer	operator->() {
+			node_pointer	operator->() {
 				return (&operator*());
 			}
 
 			// node_i++
 			node_iterator operator++(int) {
 				node_iterator tmp = *this;
+				/*
 				if (_current == _end)
 					_current = min(_root);
 				else
 					_current = increase();
+					*/
+				++this;
 				return (tmp);
 			}
 
@@ -88,10 +94,13 @@ namespace ft {
 			// node_i--
 			node_iterator operator--(int) {
 				node_iterator tmp = *this;
+				/*
 				if (_current == _end)
 					_current = max(_root);
 				else
 					_current = decrease();
+					*/
+				++this;
 				return (tmp);
 			}
 
@@ -106,34 +115,35 @@ namespace ft {
 			}
 
 			// ==
-			friend	bool operator==(const node_iterator &m1, const node_iterator &m2) {
-				return (m1.base() == m2.base());
+			friend	bool operator==(const node_iterator<value_type, node_type> &l, const node_iterator<value_type, node_type> &r) {
+				return (l._current == r._current);
 			}
 
 			// !=
-			friend	bool operator!=(const node_iterator &m1, const node_iterator &m2) {
-				return (m1.base() != m2.base());
+			friend	bool operator!=(const node_iterator<value_type, node_type> &l, const node_iterator<value_type, node_type> &r) {
+				return (l._current != r._current);
 			}
 
 		private:
-			pointer	increase() {
+ 
+			node_pointer	_increase() {
 				if (_current->right != _end)
 					return (min(_current->right));
-				pointer tmp = _current->parent;
+				node_pointer tmp = _current->parent;
 				for(;(tmp != _end && _current == tmp->right); _current = tmp, tmp = tmp->parent);
 				return (tmp);
 
 			}
 
-			pointer	decrease() {
+			node_pointer	_decrease() {
 				if (_current->left != _end)
 					return (max(_current->left));
-				pointer tmp = _current->parent;
+				node_pointer tmp = _current->parent;
 				for(;(tmp != _end && _current == tmp->left); _current = tmp, tmp = tmp->parent);
 				return (tmp);
 			}
 
-			pointer	max(pointer node) {
+			node_pointer	_max(node_pointer node) {
 				if (!node || node == _end)
 					return (_end);
 				else {
@@ -142,7 +152,7 @@ namespace ft {
 				}
 			}
 
-			pointer	min(pointer node) {
+			node_pointer	_min(node_pointer node) {
 				if (!node || node == _end)
 					return (_end);
 				else {
@@ -152,9 +162,9 @@ namespace ft {
 
 			}
 
-			pointer	_current;
-			pointer	_root;
-			pointer	_end;
+			node_pointer	_current;
+			node_pointer	_root;
+			node_pointer	_end;
 	};
 
 };

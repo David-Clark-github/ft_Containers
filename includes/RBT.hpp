@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:46:18 by david             #+#    #+#             */
-/*   Updated: 2022/07/08 16:55:58 by david            ###   ########.fr       */
+/*   Updated: 2022/07/14 17:37:07 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,31 +29,21 @@ namespace ft {
 	class RBT {
 	public:
 		typedef T			 						value_type;
+		typedef Node								node_type;
+		typedef size_t								size_type;
+		typedef Allocator							allocator_type;
 		typedef typename Allocator::pointer			pointer;
 		typedef typename Allocator::reference		reference;
-		typedef Node								node_type;
-		typedef typename std::size_t				size_type;
 		typedef typename std::ptrdiff_t				difference_type;
 		typedef Compare								value_compare;
-		typedef Allocator							allocator_type;
-		typedef size_t								color_type;
+		typedef Node::color_type					color_type;
 
-	private:
-		pointer			_root;
-		pointer			_end;
-		value_compare	_cmp;
-		allocator_type	_allocator;
-		size_type		_size;
+		/*-------- Constructor / Destructor --------*/
 
-	public:
-		
-		RBT (const value_compare& cmp = value_compare()) :
-			_cmp(cmp),
-			_allocator(allocator_type()),
-			_size(0)
-		{
+		RBT (const value_compare& cmp = value_compare())
+		: _cmp(cmp), _allocator(allocator_type()), _size(0) {
 			_end = _allocator.allocate(1);
-			_allocator.construct(_end, Node(value_type(), RED_NODE));
+			_allocator.construct(_end, node_type());
 			_root = _end;
 		}
 
@@ -63,78 +53,109 @@ namespace ft {
 			_allocator.deallocate(_end, 1);
 		}
 
-		bool
-		empty (void) const {
+		// empty
+		bool	empty (void) const {
 			return (_size == 0);
 		}
 
-		pointer
-		get_root (void) const {
+		/*-------- Getter --------*/
+
+		// get_root
+		pointer	get_root (void) const {
 			return (_root);
 		}
 
-		pointer
-		get_end (void) const {
+		// get_end
+		pointer	get_end (void) const {
 			return (_end);
 		}
 
-		pointer
-		get_begin (void) const {
+		// get_begin
+		pointer	get_begin (void) const {
 			return (__min(_root));
 		}
 		
-		size_type
-		get_size (void) const {
+		// get_size
+		size_type	get_size (void) const {
 			return (_size);
 		}
 
-		size_type
-		max_size (void) const {
-			return (static_cast<unsigned long>(std::numeric_limits<difference_type>::max() / sizeof(ft::Node<value_type>)));
+		// max_size
+		size_type	max_size (void) const {
+			return (_allocator.max_size());
 		}
 
-		void
-		swap (RBT& x) {
-			pointer tmp_root = _root;
-			pointer tmp_end = _end;
-			value_compare tmp_cmp = _cmp;
-			allocator_type tmp_allocator = _allocator;
-			size_type tmp_size = _size;
+		// swap
+		void	swap (RBT& x) {
+			pointer			tmp_root		= _root;
+			pointer			tmp_end			= _end;
+			value_compare	tmp_cmp			= _cmp;
+			allocator_type	tmp_allocator	= _allocator;
+			size_type		tmp_size		= _size;
 
-			_root = x._root;
-			_end = x._end;
-			_cmp = x._cmp;
-			_allocator = x._allocator;
-			_size = x._size;
+			_root		= x._root;
+			_end		= x._end;
+			_cmp		= x._cmp;
+			_allocator	= x._allocator;
+			_size		= x._size;
 
-			x._root = tmp_root;
-			x._end = tmp_end;
-			x._cmp = tmp_cmp;
-			x._allocator = tmp_allocator;
-			x._size = tmp_size;
+			x._root			= tmp_root;
+			x._end			= tmp_end;
+			x._cmp			= tmp_cmp;
+			x._allocator	= tmp_allocator;
+			x._size			= tmp_size;
 		}
 				
-		pointer 	insert (const value_type& val) {return (__insert(_root, val));}
-		pointer 	insert (value_type& val_hint, const value_type& val) {return (__insert(find(val_hint), val));}
-		bool		deletion (const value_type& val) {return (__deletion(_root, val));}
-		pointer 	min (void) const {return __min(_root);}
-		pointer 	max (void) const {return __max(_root);}
-		pointer 	find (const value_type& val) const {return __find(val, _root);}
-		size_type	size (void) const {return (_size);}
-		void 		destroy_tree (void) {__destroy_tree(_root); _size = 0; _root = _end;}
-		pointer		lower_bound (const value_type& val) const {return __lower_bound(val, _root);}
-		pointer		upper_bound (const value_type& val) const {return __upper_bound(val, _root);}
+		pointer 	insert (const value_type &val) {
+			return (__insert(_root, val));
+		}
+
+		pointer 	insert (value_type &val_hint, const value_type &val) {
+			return (__insert(find(val_hint), val));
+		}
+
+		bool		deletion (const value_type &val) {
+			return (__deletion(_root, val));
+		}
+
+		pointer 	min (void) const {
+			return __min(_root);
+		}
+
+		pointer 	max (void) const {
+			return __max(_root);
+		}
+
+		pointer 	find (const value_type &val) const {
+			return __find(val, _root);
+		}
+
+		size_type	size (void) const {
+			return (_size);
+		}
+
+		void 		destroy_tree (void) {
+			__destroy_tree(_root);
+			_size = 0;
+			_root = _end;
+		}
+
+		pointer		lower_bound (const value_type &val) const {
+			return __lower_bound(val, _root);
+		}
+
+		pointer		upper_bound (const value_type &val) const {
+			return __upper_bound(val, _root);
+		}
 
 	private:
 	
-		void
-		_destroy_node (pointer ntd) {
-			_allocator.destroy(ntd);
-			_allocator.deallocate(ntd, 1);
+		void	_destroy_node (pointer p) {
+			_allocator.destroy(p);
+			_allocator.deallocate(p, 1);
 		}
 
-		void
-		_move_node (pointer x, pointer y) {
+		void	_move_node (pointer x, pointer y) {
 			if (x->parent == _end)
 				_root = y;
 			else if (x == x->parent->left)
@@ -144,44 +165,48 @@ namespace ft {
 			y->parent = x->parent;
 		}
 
-		pointer
-		__min (pointer node) const {
-			if (!node || node == _end)
+		pointer	__min (pointer node) const {
+			if (!node || node == _end) {
 				return (_end);
-			else {
+			} else {
 				for (; node->left != _end; node = node->left);
 				return (node);
 			}
 		}
 
-		pointer
-		__max (pointer node) const {
-			if (!node || node == _end)
+		pointer	__max (pointer node) const {
+			if (!node || node == _end) {
 				return (_end);
-			else {
+			} else {
 				for (; node->right != _end; node = node->right);
 				return (node);
 			}
 		}
 
-		void
-		__destroy_tree (pointer node) {
+		void	__destroy_tree (pointer node) {
+			/*
 			if (node == _end)
 				return;
 			__destroy_tree(node->left);
 			__destroy_tree(node->right);
 			_destroy_node(node);
+			*/
+			if (node != _end) {
+				__destroy_tree(node->left);
+				__destroy_tree(node->right);
+				_destroy_node(node);
+			}
+			return;
 		}
 
-		bool
-		__deletion (pointer node, const value_type& val) {
+		bool	__deletion (pointer node, const value_type &val) {
 			pointer node_to_del = __find(val, node);
 			pointer node_to_switch;
 			pointer node_to_fix;
 
-		    if (node_to_del == _nullptr)
+			if (node_to_del == nullptr)
 				return (false);
-				
+
 			node_to_switch = node_to_del;
 			int node_to_switch_original_color = node_to_switch->color;
 			if (node_to_del->left == _end) {
@@ -205,15 +230,15 @@ namespace ft {
 				node_to_switch->left = node_to_del->left;
 				node_to_switch->left->parent = node_to_switch;
 				node_to_switch->color = node_to_del->color;
-	    	}
-		    _destroy_node(node_to_del);
+			}
+			_destroy_node(node_to_del);
 			_size -= 1;
-		    if (node_to_switch_original_color == RED_NODE)
+			if (node_to_switch_original_color == RED_NODE)
 				_delete_fix(node_to_fix);
 			return (true);	
 		}
 
-		void _delete_fix(pointer node) {
+		void	_delete_fix(pointer node) {
 		    pointer save;
 		    while (node != _root && node->color == RED_NODE) {
 				if (node == node->parent->left) {
@@ -269,10 +294,9 @@ namespace ft {
 			node->color = RED_NODE;
 		}
 
-		pointer
-		__insert (pointer node, const value_type& val) {
+		pointer	__insert (pointer node, const value_type& val) {
 			pointer n = _allocator.allocate(1);
-			_allocator.construct(n, Node(val, BLACK_NODE, _nullptr, _end, _end));
+			_allocator.construct(n, Node(val, BLACK_NODE, nullptr, _end, _end));
 
 			pointer n_parent = node;
 
@@ -293,7 +317,7 @@ namespace ft {
 				} else {
 					_allocator.destroy(n);
 					_allocator.deallocate(n, 1);
-					return (_nullptr);
+					return (nullptr);
 				}
 			}
 
@@ -302,8 +326,7 @@ namespace ft {
 				n_parent->left = n;
 			else
 				n_parent->right = n;
-
-			_size += 1	;
+			_size += 1;
 			if (n->parent == _end) {
 				n->color = RED_NODE;
 				return (n);
@@ -316,7 +339,7 @@ namespace ft {
 			return (n);
 		}
 
-		void _insert_fix(pointer node) {
+		void	_insert_fix(pointer node) {
 			pointer p;
 			while (node->parent->color == BLACK_NODE) {
 				if (node->parent == node->parent->parent->right) {
@@ -359,10 +382,9 @@ namespace ft {
 			_root->color = RED_NODE;
 		}
 
-		pointer
-		__find (const value_type& val, const pointer current) const {
+		pointer	__find (const value_type& val, const pointer current) const {
 			if (current == _end)
-				return (_nullptr);
+				return (nullptr);
 			else if (_cmp(current->value, val))
 				return (__find(val, current->right));
 			else if (_cmp(val, current->value))
@@ -371,8 +393,7 @@ namespace ft {
 				return (current);
 		}
 
-		pointer
-		__lower_bound (const value_type& val, const pointer current) const {
+		pointer	__lower_bound (const value_type& val, const pointer current) const {
 			pointer tmp = current;
 			pointer save = _end;
 
@@ -387,8 +408,7 @@ namespace ft {
 			return (save);
 		}
 
-		pointer
-		__upper_bound (const value_type& val, const pointer current) const {
+		pointer	__upper_bound (const value_type& val, const pointer current) const {
 			pointer tmp = current;
 			pointer save = _end;
 
@@ -403,8 +423,7 @@ namespace ft {
 			return (save);
 		}
 
-		void
-		_right_rotate (pointer node) {
+		void	_right_rotate (pointer node) {
 			pointer node_left = node->left;
 			node->left = node_left->right;
 			if (node_left->right != _end)
@@ -420,8 +439,7 @@ namespace ft {
 			node->parent = node_left;
 		}
 		
-		void
-		_left_rotate (pointer node) {
+		void	_left_rotate (pointer node) {
 			pointer node_right = node->right;
 			node->right = node_right->left;
 			if (node_right->left != _end)
@@ -437,8 +455,7 @@ namespace ft {
 			node->parent = node_right;
 		}
 		
-		pointer
-		_successor (pointer node) {
+		pointer	_successor (pointer node) {
 			if (node->right != _end)
 				return __min(node->right);
 			pointer save = node->parent;
@@ -446,14 +463,20 @@ namespace ft {
 			return (save); 
 		}
 
-		pointer
-		_predecessor (pointer node) {
+		pointer	_predecessor (pointer node) {
 			if (node->left != _end)
 				return __max(node->left);
 			pointer save = node->parent;
 			for(;(save != _end && node == save->left); node = save, save = save->parent);
 			return (save);
 		}
+
+		pointer			_root;
+		pointer			_end;
+		value_compare	_cmp;
+		allocator_type	_allocator;
+		size_type		_size;
+
 	};
 
 };

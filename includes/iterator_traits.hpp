@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:20:36 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/30 10:59:07 by david            ###   ########.fr       */
+/*   Updated: 2022/07/13 18:08:41 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,16 @@
 #include <stddef.h>
 
 namespace ft {
+
+	template<class Category, class T, class Distance = std::ptrdiff_t,
+	class Pointer = T*, class Reference = T&>
+	struct		iterator {
+		typedef Category	iterator_category;
+		typedef	T			value_type;
+		typedef	Distance	difference_type;
+		typedef	Pointer		pointer;
+		typedef	Reference	reference;
+	};
 
 	template	<class Iterator>
 	struct		iterator_traits {
