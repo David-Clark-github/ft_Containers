@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:46:18 by david             #+#    #+#             */
-/*   Updated: 2022/07/15 01:46:27 by david            ###   ########.fr       */
+/*   Updated: 2022/07/15 15:16:34 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 namespace ft {
 
 	template <typename T, class Compare,
-			class Node = ft::node<T>, class Allocator = std::allocator<Node>>
+			class Node = ft::node<T>, class Allocator = std::allocator<Node> >
 	class RBT {
 
 	public:
@@ -54,7 +54,7 @@ namespace ft {
 
 		pointer		min(pointer s) const
 		{
-			if (s == nullptr || s == _end)
+			if (s == NULL || s == _end)
 				return _end;
 			for ( ; s->left != _end; s = s->left);
 			return s;
@@ -64,7 +64,7 @@ namespace ft {
 
 		pointer		max(pointer s) const
 		{
-			if (s == nullptr || s == _end)
+			if (s == NULL || s == _end)
 				return _end;
 			for ( ; s->right != _end; s = s->right);
 			return s;
@@ -87,7 +87,7 @@ namespace ft {
 		{
 			if (s->right != _end)
 				return min(s->right);
-			if (s->parent == nullptr || s == max())
+			if (s->parent == NULL || s == max())
 				return _end;
 
 			pointer	tmp = s->parent;
@@ -103,7 +103,7 @@ namespace ft {
 		{
 			if (s->left != _end)
 				return max(s->left);
-			if (s->parent == nullptr || s == min())
+			if (s->parent == NULL || s == min())
 				return _end;
 
 			pointer	tmp = s->parent;
@@ -117,11 +117,11 @@ namespace ft {
 
 		bool	insert(const value_type& key)
 		{
-			pointer	y = nullptr;
+			pointer	y = NULL;
 			pointer	x = _root;
 
 			pointer	s = allocator_type().allocate(1);
-			allocator_type().construct(s, node_type(key, R_N, nullptr, _end, _end));
+			allocator_type().construct(s, node_type(key, R_N, NULL, _end, _end));
 
 			while (x != _end)
 			{
@@ -139,20 +139,20 @@ namespace ft {
 			}
 
 			s->parent = y;
-			if (y == nullptr)
+			if (y == NULL)
 				_root = s;
 			else if (_cmp(s->data, y->data))
 				y->left = s;
 			else
 				y->right = s;
 
-			if (s->parent == nullptr)
+			if (s->parent == NULL)
 			{
 				s->color = B_N;
 				return true;
 			}
 
-			if (s->parent->parent == nullptr)
+			if (s->parent->parent == NULL)
 				return true;
 
 			_fix_insertion(s);
@@ -234,7 +234,7 @@ namespace ft {
 			if (tmp->left != _end)
 				tmp->left->parent = s;
 			tmp->parent = s->parent;
-			if (s->parent == nullptr)
+			if (s->parent == NULL)
 				_root = tmp;
 			else if (s == s->parent->left)
 				s->parent->left = tmp;
@@ -252,7 +252,7 @@ namespace ft {
 			if (y->right != _end)
 				y->right->parent = x;
 			y->parent = x->parent;
-			if (x->parent == nullptr)
+			if (x->parent == NULL)
 				_root = y;
 			else if (x == x->parent->right)
 				x->parent->right = y;
@@ -394,7 +394,7 @@ namespace ft {
 
 		void		_rb_transplant(pointer u, pointer v)
 		{
-			if (u->parent == nullptr)
+			if (u->parent == NULL)
 				_root = v;
 			else if (u == u->parent->left)
 				u->parent->left = v;

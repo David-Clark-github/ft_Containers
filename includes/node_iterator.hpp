@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 10:16:28 by david             #+#    #+#             */
-/*   Updated: 2022/07/15 01:47:18 by david            ###   ########.fr       */
+/*   Updated: 2022/07/15 15:14:33 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ namespace ft {
 
 
 		public:
-			node_iterator(void) : _begin(nullptr), _end(nullptr), _cur(nullptr) {}
+			node_iterator(void) : _begin(NULL), _end(NULL), _cur(NULL) {}
 
 			node_iterator(node_pointer const& begin, node_pointer const& end, node_pointer const& current) :
 				_begin(begin),
@@ -86,7 +86,7 @@ namespace ft {
 				}
 				else if (_cur == _end)
 				{
-					_cur = nullptr;
+					_cur = NULL;
 					return *this;
 				}
 				_cur = successor(_cur);

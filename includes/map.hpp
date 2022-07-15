@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 11:51:52 by david             #+#    #+#             */
-/*   Updated: 2022/07/15 13:13:45 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/15 16:00:47 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@
 #include <is_integral.hpp>
 #include <RBT.hpp>
 
+#define UNUSED __attribute__((unused)) 
+
 namespace ft {
 
 	template < class Key,
 		class T,
 		class Compare = ft::less<Key>,
-		class Allocator = std::allocator<ft::pair<const Key,T>> >
+		class Allocator = std::allocator<ft::pair<const Key,T> > >
 	class map {
 		public:
 			/*-------- [MEMBER_TYPES] --------*/
@@ -43,8 +45,8 @@ namespace ft {
 			typedef	typename	allocator_type::const_pointer								const_pointer;
 			typedef	typename	allocator_type::size_type									size_type;
 			typedef	typename	allocator_type::difference_type								difference_type;
-			typedef				ft::node_iterator<value_type, ft::node<value_type>>			iterator;
-			typedef				ft::node_iterator<const value_type, ft::node<value_type>>	const_iterator;
+			typedef				ft::node_iterator<value_type, ft::node<value_type> >			iterator;
+			typedef				ft::node_iterator<const value_type, ft::node<value_type> >	const_iterator;
 			typedef				ft::reverse_iterator<iterator>								reverse_iterator;
 			typedef				ft::reverse_iterator<const_iterator>						const_reverse_iterator;
 
@@ -70,14 +72,14 @@ namespace ft {
 			/* -------- Constructor / Destructor -------- */
 
 			// empty
-			explicit map(const key_compare &comp = key_compare(), __attribute__((unused)) const allocator_type &alloc = allocator_type())
+			explicit map(const key_compare &comp = key_compare(), UNUSED const allocator_type &alloc = allocator_type())
 			: _rbt(value_compare(comp)) {}
 
 			// range
 			template<class InputIterator>
 			map (typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
 			InputIterator last, const key_compare& comp = key_compare(),
-			const allocator_type& alloc = allocator_type())
+			UNUSED const allocator_type& alloc = allocator_type())
 			: _rbt(value_compare(comp)) {
 				insert(first, last);
 			}
@@ -172,7 +174,7 @@ namespace ft {
 			}
 
 			// with hint
-			iterator	insert(iterator position, const value_type &val) {
+			iterator	insert(UNUSED iterator position, const value_type &val) {
 				insert(val);
 				return find(val.first);
 			}
@@ -192,7 +194,7 @@ namespace ft {
 			}
 
 			size_type	erase(const key_type &k) {
-				return (_rbt._destroy_node(ft::make_pair(k, mapped_type())));
+				return (_rbt.delete_node(ft::make_pair(k, mapped_type())));
 			}
 
 			void	erase(iterator first, iterator last) {
