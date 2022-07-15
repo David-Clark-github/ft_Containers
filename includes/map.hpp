@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 11:51:52 by david             #+#    #+#             */
-/*   Updated: 2022/07/15 16:45:18 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/15 23:52:31 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,12 @@ namespace ft {
 			// copy
 			map (const map &m) : _rbt(value_compare(key_compare())) {
 				insert(m.begin(), m.end());
+			}
+
+			// Destructor
+			~map(void) {
+				clear();
+				_rbt.destroy_end();
 			}
 
 			// operator=
