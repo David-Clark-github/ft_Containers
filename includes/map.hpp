@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 11:51:52 by david             #+#    #+#             */
-/*   Updated: 2022/07/15 01:42:58 by david            ###   ########.fr       */
+/*   Updated: 2022/07/15 13:13:45 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ namespace ft {
 			typedef				ft::reverse_iterator<const_iterator>						const_reverse_iterator;
 
 			/*-------- [MEMBER CLASSES] --------*/
+
 			// Value Compare
 			class value_compare : ft::binary_function<value_type, value_type, bool>
 			{
@@ -69,7 +70,7 @@ namespace ft {
 			/* -------- Constructor / Destructor -------- */
 
 			// empty
-			explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type())
+			explicit map(const key_compare &comp = key_compare(), __attribute__((unused)) const allocator_type &alloc = allocator_type())
 			: _rbt(value_compare(comp)) {}
 
 			// range
@@ -183,6 +184,9 @@ namespace ft {
 					insert(*first);
 			}
 
+			/* erase */
+
+			// earse
 			void	erase(iterator position) {
 				erase(position->first);
 			}
@@ -198,22 +202,31 @@ namespace ft {
 				}
 			}
 
+			// swap
 			void	swap(map &m) {
 				_rbt.swap(m._rbt);
 			}
 
+			// clear
 			void	clear(void) {
 				return (_rbt.destroy());
 			}
+			
+			/*-------- Observers --------*/
 
+			// key_comp
 			key_compare	key_comp() const {
 				return (key_compare());
 			}
-
+			
+			// value_comp
 			value_compare value_comp() const {
 				return (value_compare(key_comp()));
 			}
 
+			/*-------- Opearations --------*/
+
+			// find
 			iterator		find(const key_type& k) {
 				return (iterator(_rbt.get_root(), _rbt.get_end(),
 					_rbt.search(ft::make_pair(k, mapped_type()))));
@@ -224,11 +237,12 @@ namespace ft {
 					_rbt.search(ft::make_pair(k, mapped_type()))));
 			}
 
-
+			// count
 			size_type count (const key_type &k) const {
 				return (find(k) != end());
 			}
 
+			// lower_bound
 			iterator lower_bound (const key_type &k) {
 				return (iterator(_rbt.get_root(), _rbt.get_last(),
 				_rbt.lower_bound(ft::make_pair(k, mapped_type()))));
@@ -239,6 +253,7 @@ namespace ft {
 				_rbt.lower_bound(ft::make_pair(k, mapped_type()))));
 			}
 
+			// upper_bound
 			iterator upper_bound (const key_type &k) {
 				return (iterator(_rbt.get_root(), _rbt.get_last(),
 				_rbt.upper_bound(ft::make_pair(k, mapped_type()))));
@@ -249,6 +264,7 @@ namespace ft {
 				_rbt.upper_bound(ft::make_pair(k, mapped_type()))));
 			}
 
+			// equal_range
 			pair<const_iterator,const_iterator> equal_range (const key_type& k) const {
 				return (ft::make_pair(lower_bound(k), upper_bound(k)));
 			}
@@ -257,6 +273,9 @@ namespace ft {
 				return (ft::make_pair(lower_bound(k), upper_bound(k)));
 			}
 
+			/*-------- Allocator --------*/
+
+			// get_allocator
 			allocator_type get_allocator() const {
 				return (allocator_type());
 			}
