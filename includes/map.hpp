@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 11:51:52 by david             #+#    #+#             */
-/*   Updated: 2022/07/15 16:00:47 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/15 16:45:18 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,18 +246,18 @@ namespace ft {
 
 			// lower_bound
 			iterator lower_bound (const key_type &k) {
-				return (iterator(_rbt.get_root(), _rbt.get_last(),
+				return (iterator(_rbt.get_root(), _rbt.get_end(),
 				_rbt.lower_bound(ft::make_pair(k, mapped_type()))));
 			}
 
 			const_iterator lower_bound (const key_type& k) const {
-				return (const_iterator(_rbt.get_root(), _rbt.get_last(),
+				return (const_iterator(_rbt.get_root(), _rbt.get_end(),
 				_rbt.lower_bound(ft::make_pair(k, mapped_type()))));
 			}
 
 			// upper_bound
 			iterator upper_bound (const key_type &k) {
-				return (iterator(_rbt.get_root(), _rbt.get_last(),
+				return (iterator(_rbt.get_root(), _rbt.get_end(),
 				_rbt.upper_bound(ft::make_pair(k, mapped_type()))));
 			}
 
