@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:46:18 by david             #+#    #+#             */
-/*   Updated: 2022/07/14 17:37:07 by david            ###   ########.fr       */
+/*   Updated: 2022/07/15 01:46:27 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,456 +27,459 @@ namespace ft {
 	template <typename T, class Compare,
 			class Node = ft::node<T>, class Allocator = std::allocator<Node>>
 	class RBT {
+
 	public:
-		typedef T			 						value_type;
-		typedef Node								node_type;
-		typedef size_t								size_type;
-		typedef Allocator							allocator_type;
-		typedef typename Allocator::pointer			pointer;
-		typedef typename Allocator::reference		reference;
-		typedef typename std::ptrdiff_t				difference_type;
-		typedef Compare								value_compare;
-		typedef Node::color_type					color_type;
+		typedef T                                           value_type;
+		typedef Compare                                     value_compare;
+		typedef Allocator                                   allocator_type;
+		typedef Node                                        node_type;
+		typedef typename allocator_type::reference          reference;
+		typedef typename allocator_type::const_reference    const_reference;
+		typedef typename allocator_type::pointer            pointer;
+		typedef typename allocator_type::const_pointer      const_pointer;
+		typedef typename allocator_type::difference_type    difference_type;
+		typedef typename allocator_type::size_type          size_type;
 
-		/*-------- Constructor / Destructor --------*/
 
-		RBT (const value_compare& cmp = value_compare())
-		: _cmp(cmp), _allocator(allocator_type()), _size(0) {
-			_end = _allocator.allocate(1);
-			_allocator.construct(_end, node_type());
+	public:
+		RBT(value_compare const& cmp = value_compare()) :
+			_cmp(cmp)
+		{
+			_end = allocator_type().allocate(1);
+			allocator_type().construct(_end, node_type());
 			_root = _end;
 		}
 
-		~RBT (void) {
-			if (_root != _end)
-				destroy_tree();
-			_allocator.deallocate(_end, 1);
+		~RBT() {}
+
+		pointer		min(pointer s) const
+		{
+			if (s == nullptr || s == _end)
+				return _end;
+			for ( ; s->left != _end; s = s->left);
+			return s;
 		}
 
-		// empty
-		bool	empty (void) const {
-			return (_size == 0);
+		pointer		min() const { return min(_root); }
+
+		pointer		max(pointer s) const
+		{
+			if (s == nullptr || s == _end)
+				return _end;
+			for ( ; s->right != _end; s = s->right);
+			return s;
 		}
 
-		/*-------- Getter --------*/
+		pointer		max() const { return max(_root); }
 
-		// get_root
-		pointer	get_root (void) const {
-			return (_root);
+		size_type	size(pointer s) const
+		{
+			if (s == _end)
+				return 0;
+			return size(s->right) + size(s->left) + 1;
 		}
 
-		// get_end
-		pointer	get_end (void) const {
-			return (_end);
+		size_type	size()                        const { return size(_root); }
+		size_type	max_size()                    const { return allocator_type().max_size(); }
+		pointer		search(const value_type& key) const { return __search_wrapper(_root, key); }
+
+		pointer		successor(pointer s) const
+		{
+			if (s->right != _end)
+				return min(s->right);
+			if (s->parent == nullptr || s == max())
+				return _end;
+
+			pointer	tmp = s->parent;
+			while (tmp != _end && s == tmp->right)
+			{
+				s = tmp;
+				tmp = tmp->parent;
+			}
+			return tmp;
 		}
 
-		// get_begin
-		pointer	get_begin (void) const {
-			return (__min(_root));
-		}
-		
-		// get_size
-		size_type	get_size (void) const {
-			return (_size);
-		}
+		pointer		predecessor(pointer s) const
+		{
+			if (s->left != _end)
+				return max(s->left);
+			if (s->parent == nullptr || s == min())
+				return _end;
 
-		// max_size
-		size_type	max_size (void) const {
-			return (_allocator.max_size());
-		}
-
-		// swap
-		void	swap (RBT& x) {
-			pointer			tmp_root		= _root;
-			pointer			tmp_end			= _end;
-			value_compare	tmp_cmp			= _cmp;
-			allocator_type	tmp_allocator	= _allocator;
-			size_type		tmp_size		= _size;
-
-			_root		= x._root;
-			_end		= x._end;
-			_cmp		= x._cmp;
-			_allocator	= x._allocator;
-			_size		= x._size;
-
-			x._root			= tmp_root;
-			x._end			= tmp_end;
-			x._cmp			= tmp_cmp;
-			x._allocator	= tmp_allocator;
-			x._size			= tmp_size;
-		}
-				
-		pointer 	insert (const value_type &val) {
-			return (__insert(_root, val));
+			pointer	tmp = s->parent;
+			while (tmp != _end && s == tmp->left)
+			{
+				s = tmp;
+				tmp = tmp->parent;
+			}
+			return tmp;
 		}
 
-		pointer 	insert (value_type &val_hint, const value_type &val) {
-			return (__insert(find(val_hint), val));
+		bool	insert(const value_type& key)
+		{
+			pointer	y = nullptr;
+			pointer	x = _root;
+
+			pointer	s = allocator_type().allocate(1);
+			allocator_type().construct(s, node_type(key, R_N, nullptr, _end, _end));
+
+			while (x != _end)
+			{
+				y = x;
+				if (_cmp(s->data, x->data))
+					x = x->left;
+				else if (_cmp(x->data, s->data))
+					x = x->right;
+				else
+				{
+					allocator_type().destroy(s);
+					allocator_type().deallocate(s, 1);
+					return false;
+				}
+			}
+
+			s->parent = y;
+			if (y == nullptr)
+				_root = s;
+			else if (_cmp(s->data, y->data))
+				y->left = s;
+			else
+				y->right = s;
+
+			if (s->parent == nullptr)
+			{
+				s->color = B_N;
+				return true;
+			}
+
+			if (s->parent->parent == nullptr)
+				return true;
+
+			_fix_insertion(s);
+			return true;
 		}
 
-		bool		deletion (const value_type &val) {
-			return (__deletion(_root, val));
-		}
+		pointer		get_root() const { return _root; }
+		pointer		get_end() const { return _end; }
 
-		pointer 	min (void) const {
-			return __min(_root);
-		}
+		bool	delete_node(const value_type& key)
+		{ return __delete_node_wrapper(_root, key); }
 
-		pointer 	max (void) const {
-			return __max(_root);
-		}
-
-		pointer 	find (const value_type &val) const {
-			return __find(val, _root);
-		}
-
-		size_type	size (void) const {
-			return (_size);
-		}
-
-		void 		destroy_tree (void) {
-			__destroy_tree(_root);
-			_size = 0;
+		void		destroy()
+		{
+			_destroy(_root);
 			_root = _end;
 		}
 
-		pointer		lower_bound (const value_type &val) const {
-			return __lower_bound(val, _root);
+		void		destroy_end()
+		{
+			allocator_type().destroy(_end);
+			allocator_type().deallocate(_end, 1);
 		}
 
-		pointer		upper_bound (const value_type &val) const {
-			return __upper_bound(val, _root);
+		pointer		lower_bound(const value_type& v) const
+		{
+			pointer	p = min();
+
+			for ( ; p != _end; p = successor(p))
+			{
+				if (!_cmp(p->data, v))
+					break ;
+			}
+			return p;
 		}
+
+		pointer		upper_bound(const value_type& v) const
+		{
+			pointer	p = min();
+
+			for ( ; p != _end; p = successor(p))
+			{
+				if (_cmp(v, p->data))
+					break ;
+			}
+			return p;
+		}
+
+		void		swap(RBT& ref)
+		{
+			pointer			tmp_root = _root;
+			pointer			tmp_end = _end;
+
+			_root = ref.get_root();
+			_end = ref.get_end();
+			ref._root = tmp_root;
+			ref._end = tmp_end;
+		}
+
 
 	private:
-	
-		void	_destroy_node (pointer p) {
-			_allocator.destroy(p);
-			_allocator.deallocate(p, 1);
-		}
-
-		void	_move_node (pointer x, pointer y) {
-			if (x->parent == _end)
-				_root = y;
-			else if (x == x->parent->left)
-				x->parent->left = y;
-			else
-				x->parent->right = y;
-			y->parent = x->parent;
-		}
-
-		pointer	__min (pointer node) const {
-			if (!node || node == _end) {
-				return (_end);
-			} else {
-				for (; node->left != _end; node = node->left);
-				return (node);
-			}
-		}
-
-		pointer	__max (pointer node) const {
-			if (!node || node == _end) {
-				return (_end);
-			} else {
-				for (; node->right != _end; node = node->right);
-				return (node);
-			}
-		}
-
-		void	__destroy_tree (pointer node) {
-			/*
+		pointer		__search_wrapper(pointer node, const value_type& key) const
+		{
 			if (node == _end)
-				return;
-			__destroy_tree(node->left);
-			__destroy_tree(node->right);
-			_destroy_node(node);
-			*/
-			if (node != _end) {
-				__destroy_tree(node->left);
-				__destroy_tree(node->right);
-				_destroy_node(node);
-			}
-			return;
-		}
-
-		bool	__deletion (pointer node, const value_type &val) {
-			pointer node_to_del = __find(val, node);
-			pointer node_to_switch;
-			pointer node_to_fix;
-
-			if (node_to_del == nullptr)
-				return (false);
-
-			node_to_switch = node_to_del;
-			int node_to_switch_original_color = node_to_switch->color;
-			if (node_to_del->left == _end) {
-				node_to_fix = node_to_del->right;
-				_move_node(node_to_del, node_to_del->right);
-			} else if (node_to_del->right == _end) {
-				node_to_fix = node_to_del->left;
-				_move_node(node_to_del, node_to_del->left);
-			} else {
-				node_to_switch = __min(node_to_del->right);
-				node_to_switch_original_color = node_to_switch->color;
-				node_to_fix = node_to_switch->right;
-				if (node_to_switch->parent == node_to_del)
-					node_to_fix->parent = node_to_switch;
-				else {
-					_move_node(node_to_switch, node_to_switch->right);
-					node_to_switch->right = node_to_del->right;
-					node_to_switch->right->parent = node_to_switch;
-				}
-				_move_node(node_to_del, node_to_switch);
-				node_to_switch->left = node_to_del->left;
-				node_to_switch->left->parent = node_to_switch;
-				node_to_switch->color = node_to_del->color;
-			}
-			_destroy_node(node_to_del);
-			_size -= 1;
-			if (node_to_switch_original_color == RED_NODE)
-				_delete_fix(node_to_fix);
-			return (true);	
-		}
-
-		void	_delete_fix(pointer node) {
-		    pointer save;
-		    while (node != _root && node->color == RED_NODE) {
-				if (node == node->parent->left) {
-					save = node->parent->right;
-					if (save->color == BLACK_NODE) {
-						save->color = RED_NODE;
-						node->parent->color = BLACK_NODE;
-						_left_rotate(node->parent);
-						save = node->parent->right;
-					}
-					if (save->left->color == RED_NODE && save->right->color == RED_NODE) {
-						save->color = BLACK_NODE;
-						node = node->parent;
-					} else {
-						if (save->right->color == RED_NODE) {
-							save->left->color = RED_NODE;
-							save->color = BLACK_NODE;
-							_right_rotate(save);
-							save = node->parent->right;
-						}
-						save->color = node->parent->color;
-						node->parent->color = RED_NODE;
-						save->right->color = RED_NODE;
-						_left_rotate(node->parent);
-						node = _root;
-					}
-				} else {
-					save = node->parent->left;
-					if (save->color == BLACK_NODE) {
-						save->color = RED_NODE;
-						node->parent->color = BLACK_NODE;
-						_right_rotate(node->parent);
-						save = node->parent->left;
-					}
-					if (save->right->color == RED_NODE && save->right->color == RED_NODE) {
-						save->color = BLACK_NODE;
-						node = node->parent;
-					} else {
-						if (save->left->color == RED_NODE) {
-							save->right->color = RED_NODE;
-							save->color = BLACK_NODE;
-							_left_rotate(save);
-							save = node->parent->left;
-						}
-						save->color = node->parent->color;
-						node->parent->color = RED_NODE;
-						save->left->color = RED_NODE;
-						_right_rotate(node->parent);
-						node = _root;
-					}
-				}
-			}
-			node->color = RED_NODE;
-		}
-
-		pointer	__insert (pointer node, const value_type& val) {
-			pointer n = _allocator.allocate(1);
-			_allocator.construct(n, Node(val, BLACK_NODE, nullptr, _end, _end));
-
-			pointer n_parent = node;
-
-			if (_root == _end) {
-				_root = n;
-				_root->color = BLACK_NODE;
-				_root->parent = _end;
-				_size += 1;
-				return (_root);
-			}
-			while(n_parent != _end) {
-				if (_cmp(val, n_parent->value)) {
-					if (n_parent->left == _end) {break;}
-					n_parent = n_parent->left;
-				} else if (_cmp(n_parent->value, val)) {
-					if (n_parent->right == _end) {break;}
-					n_parent = n_parent->right;
-				} else {
-					_allocator.destroy(n);
-					_allocator.deallocate(n, 1);
-					return (nullptr);
-				}
-			}
-
-			n->parent = n_parent;
-			if (_cmp(val, n_parent->value))
-				n_parent->left = n;
+				return node;
+			else if (_cmp(key, node->data))
+				return __search_wrapper(node->left, key);
+			else if (_cmp(node->data, key))
+				return __search_wrapper(node->right, key);
 			else
-				n_parent->right = n;
-			_size += 1;
-			if (n->parent == _end) {
-				n->color = RED_NODE;
-				return (n);
-			}
-			if (n->parent->parent == _end)
-				return (n);
-			
-			n->parent = n_parent;
-			_insert_fix(n);
-			return (n);
+				return node;
 		}
 
-		void	_insert_fix(pointer node) {
-			pointer p;
-			while (node->parent->color == BLACK_NODE) {
-				if (node->parent == node->parent->parent->right) {
-					p = node->parent->parent->left;
-					if (p->color == BLACK_NODE) {
-						p->color = RED_NODE;
-						node->parent->color = RED_NODE;
-						node->parent->parent->color = BLACK_NODE;
-						node = node->parent->parent;
-					} else {
-						if (node == node->parent->left) {
-							node = node->parent;
-							_right_rotate(node);
-						}
-						node->parent->color = RED_NODE;
-						node->parent->parent->color = BLACK_NODE;
-						_left_rotate(node->parent->parent);
+		void		_left_rotate(pointer s)
+		{
+			pointer	tmp = s->right;
+
+			s->right = tmp->left;
+			if (tmp->left != _end)
+				tmp->left->parent = s;
+			tmp->parent = s->parent;
+			if (s->parent == nullptr)
+				_root = tmp;
+			else if (s == s->parent->left)
+				s->parent->left = tmp;
+			else
+				s->parent->right = tmp;
+			tmp->left = s;
+			s->parent = tmp;
+		}
+
+		void		_right_rotate(pointer x)
+		{
+			pointer	y = x->left;
+
+			x->left = y->right;
+			if (y->right != _end)
+				y->right->parent = x;
+			y->parent = x->parent;
+			if (x->parent == nullptr)
+				_root = y;
+			else if (x == x->parent->right)
+				x->parent->right = y;
+			else
+				x->parent->left = y;
+			y->right = x;
+			x->parent = y;
+		}
+
+		void		_fix_insertion(pointer k)
+		{
+			pointer	u;
+
+			while (k->parent->color == R_N)
+			{
+				if (k->parent == k->parent->parent->right)
+				{
+					u = k->parent->parent->left;
+					if (u->color == R_N)
+					{
+						u->color = B_N;
+						k->parent->color = B_N;
+						k->parent->parent->color = R_N;
+						k = k->parent->parent;
 					}
-				} else {
-					p = node->parent->parent->right;
-					if (p->color == BLACK_NODE) {
-						p->color = RED_NODE;
-						node->parent->color = RED_NODE;
-						node->parent->parent->color = BLACK_NODE;
-						node = node->parent->parent;
-					} else {
-						if (node == node->parent->right) {
-							node = node->parent;
-							_left_rotate(node);
+					else
+					{
+						if (k == k->parent->left)
+						{
+							k = k->parent;
+							_right_rotate(k);
 						}
-						node->parent->color = RED_NODE;
-						node->parent->parent->color = BLACK_NODE;
-						_right_rotate(node->parent->parent);
+						k->parent->color = B_N;
+						k->parent->parent->color = R_N;
+						_left_rotate(k->parent->parent);
 					}
 				}
-				if (node == _root) {
-					break;
+				else
+				{
+					u = k->parent->parent->right;
+					if (u->color == R_N)
+					{
+						u->color = B_N;
+						k->parent->color = B_N;
+						k->parent->parent->color = R_N;
+						k = k->parent->parent;
+					}
+					else
+					{
+						if (k == k->parent->right)
+						{
+							k = k->parent;
+							_left_rotate(k);
+						}
+						k->parent->color = B_N;
+						k->parent->parent->color = R_N;
+						_right_rotate(k->parent->parent);
+					}
+				}
+				if (k == _root)
+					break ;
+			}
+			_root->color = B_N;
+		}
+
+		void		_fix_delete(pointer x)
+		{
+			pointer	s;
+
+			while (x != _root && x->color == B_N)
+			{
+				if (x == x->parent->left)
+				{
+					s = x->parent->right;
+					if (s->color == R_N)
+					{
+						s->color = B_N;
+						x->parent->color = R_N;
+						_left_rotate(x->parent);
+						s = x->parent->right;
+					}
+
+					if (s->left->color == B_N && s->right->color == B_N)
+					{
+						s->color = R_N;
+						x = x->parent;
+					}
+					else
+					{
+						if (s->right->color == B_N)
+						{
+							s->left->color = B_N;
+							s->color = R_N;
+							_right_rotate(s);
+							s = x->parent->right;
+						}
+						s->color = x->parent->color;
+						x->parent->color = B_N;
+						s->right->color = B_N;
+						_left_rotate(x->parent);
+						x = _root;
+					}
+				}
+				else
+				{
+					s = x->parent->left;
+					if (s->color == R_N)
+					{
+						s->color = B_N;
+						x->parent->color = R_N;
+						_right_rotate(x->parent);
+						s = x->parent->left;
+					}
+
+					if (s->left->color == B_N && s->right->color == B_N)
+					{
+						s->color = R_N;
+						x = x->parent;
+					}
+					else
+					{
+						if (s->left->color == B_N)
+						{
+							s->right->color = B_N;
+							s->color = R_N;
+							_left_rotate(s);
+							s = x->parent->left;
+						}
+						s->color = x->parent->color;
+						x->parent->color = B_N;
+						s->left->color = B_N;
+						_right_rotate(x->parent);
+						x = _root;
+					}
 				}
 			}
-			_root->color = RED_NODE;
+			x->color = B_N;
 		}
 
-		pointer	__find (const value_type& val, const pointer current) const {
-			if (current == _end)
-				return (nullptr);
-			else if (_cmp(current->value, val))
-				return (__find(val, current->right));
-			else if (_cmp(val, current->value))
-				return (__find(val, current->left));
+		void		_rb_transplant(pointer u, pointer v)
+		{
+			if (u->parent == nullptr)
+				_root = v;
+			else if (u == u->parent->left)
+				u->parent->left = v;
 			else
-				return (current);
+				u->parent->right = v;
+			v->parent = u->parent;
 		}
 
-		pointer	__lower_bound (const value_type& val, const pointer current) const {
-			pointer tmp = current;
-			pointer save = _end;
+		bool	__delete_node_wrapper(pointer node, const value_type& key)
+		{
+			pointer	z = _end;
+			pointer	x;
+			pointer	y;
 
-			while (tmp != _end) {
-				if (!_cmp(tmp->value, val)) {
-					save = tmp;
-					tmp = tmp->left;
-				} else {
-					tmp = tmp->right;
+			while (node != _end)
+			{
+				if (_cmp(node->data, key))
+					node = node->right;
+				else if (_cmp(key, node->data))
+					node = node->left;
+				else
+				{
+					z = node;
+					node = node->right;
 				}
 			}
-			return (save);
-		}
 
-		pointer	__upper_bound (const value_type& val, const pointer current) const {
-			pointer tmp = current;
-			pointer save = _end;
+			if (z == _end) // if the key doesn't exist
+				return false;
 
-			while (tmp != _end) {
-				if (_cmp(val, tmp->value)) {
-					save = tmp;
-					tmp = tmp->left;
-				} else {
-					tmp = tmp->right;
-				}
+			y = z;
+			int	y_original_color = y->color;
+			if (z->left == _end)
+			{
+				x = z->right;
+				_rb_transplant(z, z->right);
 			}
-			return (save);
-		}
-
-		void	_right_rotate (pointer node) {
-			pointer node_left = node->left;
-			node->left = node_left->right;
-			if (node_left->right != _end)
-				node_left->right->parent = node;
-			node_left->parent = node->parent;
-			if (node->parent == _end)
-				_root = node_left;
-			else if (node == node->parent->right)
-				node->parent->right = node_left;
+			else if (z->right == _end)
+			{
+				x = z->left;
+				_rb_transplant(z, z->left);
+			}
 			else
-				node->parent->left = node_left;
-			node_left->right = node;
-			node->parent = node_left;
-		}
-		
-		void	_left_rotate (pointer node) {
-			pointer node_right = node->right;
-			node->right = node_right->left;
-			if (node_right->left != _end)
-				node_right->left->parent = node;
-			node_right->parent = node->parent;
-			if (node->parent == _end)
-				_root = node_right;
-			else if (node == node->parent->left)
-				node->parent->left = node_right;
-			else
-				node->parent->right = node_right;
-			node_right->left = node;
-			node->parent = node_right;
-		}
-		
-		pointer	_successor (pointer node) {
-			if (node->right != _end)
-				return __min(node->right);
-			pointer save = node->parent;
-			for(;(save != _end && node == save->right); node = save, save = save->parent);
-			return (save); 
+			{
+				y = min(z->right);
+				y_original_color = y->color;
+				x = y->right;
+
+				if (y->parent == z)
+					x->parent = y;
+				else
+				{
+					_rb_transplant(y, y->right);
+					y->right = z->right;
+					y->right->parent = y;
+				}
+				_rb_transplant(z, y);
+				y->left = z->left;
+				y->left->parent = y;
+				y->color = z->color;
+			}
+
+			allocator_type().destroy(z);
+			allocator_type().deallocate(z, 1);
+
+			if (y_original_color == B_N)
+				_fix_delete(x);
+			return true;
 		}
 
-		pointer	_predecessor (pointer node) {
-			if (node->left != _end)
-				return __max(node->left);
-			pointer save = node->parent;
-			for(;(save != _end && node == save->left); node = save, save = save->parent);
-			return (save);
+		void		_destroy(pointer root)
+		{
+			if (root == _end)
+				return ;
+			_destroy(root->left);
+			_destroy(root->right);
+			allocator_type().destroy(root);
+			allocator_type().deallocate(root, 1);
 		}
 
+
+	private:
+		value_compare	_cmp;
 		pointer			_root;
 		pointer			_end;
-		value_compare	_cmp;
-		allocator_type	_allocator;
-		size_type		_size;
-
 	};
 
 };

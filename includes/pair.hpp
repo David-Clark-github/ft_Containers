@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 11:13:48 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/28 12:04:24 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/15 01:45:33 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ namespace ft {
 
 		/* Copy */
 		template< class U1, class U2 >
-		pair( const pair<U1, U2>& p ) {
-			this->first = p.first;
-			this->second = p.second;
-		}
+		pair( const pair<U1, U2>& p ) : first(p.first), second(p.second) {}
 
 		/* Initialization */
 		pair( const first_type& a, const second_type& b)
