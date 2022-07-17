@@ -1,5 +1,5 @@
 #include <iostream>
-#include <ft_vector.h>
+#include <vector.hpp>
 
 int main ()
 {
@@ -13,7 +13,7 @@ int main ()
   myvector.resize(12);
 
   std::cout << "myvector contains:";
-  for (int i=0;i<myvector.size();i++)
+  for (unsigned int i=0;i<myvector.size();i++)
     std::cout << ' ' << myvector[i];
   std::cout << '\n';
 
