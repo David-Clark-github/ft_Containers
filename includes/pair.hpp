@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 11:13:48 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/28 12:04:24 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/15 15:12:22 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 namespace ft {
 	template <class T1, class T2>
 	struct pair {
-		using	first_type	=	T1;
-		using	second_type	=	T2;
+		typedef	T1	first_type;
+		typedef	T2	second_type;
 
 		/*-------- Constructor --------*/
 
@@ -27,10 +27,7 @@ namespace ft {
 
 		/* Copy */
 		template< class U1, class U2 >
-		pair( const pair<U1, U2>& p ) {
-			this->first = p.first;
-			this->second = p.second;
-		}
+		pair( const pair<U1, U2>& p ) : first(p.first), second(p.second) {}
 
 		/* Initialization */
 		pair( const first_type& a, const second_type& b)
@@ -38,7 +35,7 @@ namespace ft {
 
 		/*-------- Operators --------*/
 
-		pair& operator=(const pair &p) {
+		pair& operator=(const pair& p) {
 			if (this != &p) {
 				this->first = p.first;
 				this->second = p.second;

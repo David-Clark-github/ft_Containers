@@ -1,9 +1,8 @@
 #include <iostream>
-#include <ft_vector.h>
+#include <vector.hpp>
 
 int main ()
 {
-  unsigned int i;
   ft::vector<int> foo (3,100);   // three ints with a value of 100
   ft::vector<int> bar (5,200);   // five ints with a value of 200
 

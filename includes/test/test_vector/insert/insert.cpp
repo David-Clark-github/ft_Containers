@@ -1,5 +1,5 @@
 #include <iostream>
-#include <ft_vector.h>
+#include <vector.hpp>
 
 int main ()
 {
@@ -8,6 +8,7 @@ int main ()
 
   it = myvector.begin();
   it = myvector.insert ( it , 200 );
+  it = myvector.begin();
 
   myvector.insert (it,2,300);
 

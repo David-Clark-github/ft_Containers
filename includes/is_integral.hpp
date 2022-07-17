@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 18:42:05 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/30 10:53:06 by david            ###   ########.fr       */
+/*   Updated: 2022/07/15 15:27:51 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ namespace ft {
 		typedef 		T							value_type;
 		typedef			ft::integral_constant<T, v>	type;
 		static const	T							value = v;
-		operator const value_type() {return value;}
+		operator const value_type() {return v;}
 	};
 
 	typedef	ft::integral_constant<bool, true>	true_type;
@@ -35,11 +35,11 @@ namespace ft {
 	template <>
 	struct is_integral<char>					: public true_type {};
 
-	template <>
-	struct is_integral<char16_t>				: public true_type {};
+//	template <>
+//	struct is_integral<char16_t>				: public true_type {};
 
-	template <>
-	struct is_integral<char32_t>				: public true_type {};
+//	template <>
+//	struct is_integral<char32_t>				: public true_type {};
 
 	template <>
 	struct is_integral<wchar_t>					: public true_type {};
