@@ -6,24 +6,24 @@
 #    By: dclark <dclark@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/04 11:59:29 by dclark            #+#    #+#              #
-#    Updated: 2022/05/24 15:03:36 by dclark           ###   ########.fr        #
+#    Updated: 2022/07/17 17:14:42 by david            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 IDIR	=	./includes
 CC		=	c++
-CFLAGS	=	-Wall -Wextra -Werror -I$(IDIR)# -std=c++98
+CFLAGS	=	-Wall -Wextra -Werror -std=c++98 -I $(IDIR)
 
-ODIR	=	./.obj
-SDIR	=	./src
+ODIR	=	./
+SDIR	=	./
 
-NAME	=	test_custom_iterator
+NAME	=	test_main
 
-_DEPS	=	ft_iterators_test.h
+_DEPS	=	*.h
 
 DEPS	=	$(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ	=	test_main.o
+_OBJ	=	main.o
 
 OBJ		=	$(patsubst %,$(ODIR)/%,$(_OBJ))
 
