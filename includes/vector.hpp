@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/17 02:10:33 by david            ###   ########.fr       */
+/*   Updated: 2022/07/17 15:35:11 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ namespace ft {
 			}
 
 			vector (const vector &x)
-			: _alloc(x._alloc), _capacity(x._capacity),
-			_begin(x._begin), _end(x._end) {
+			: _alloc(x._alloc), _capacity(NULL),
+			_begin(NULL), _end(NULL) {
 				insert(begin(), x.begin(), x.end());
 			}
 
