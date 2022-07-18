@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 10:16:28 by david             #+#    #+#             */
-/*   Updated: 2022/07/15 15:14:33 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/18 17:23:27 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ namespace ft {
 
 			node_iterator&		operator=(const node_iterator& u)
 			{
-				if (this == &u)
-					return *this;
+				if (this != &u) {
 
-				_begin = u._begin;
-				_end = u._end;
-				_cur = u._cur;
+					_begin = u._begin;
+					_end = u._end;
+					_cur = u._cur;
+				}
 				return *this;
 			}
 
@@ -180,11 +180,9 @@ namespace ft {
 		{ return x.get_current() == y.get_current(); }
 
 	template <class IteratorL, class IteratorR, class _Node>
-		bool	operator!=(node_iterator<IteratorL, _Node> const& x,
-				node_iterator<IteratorR, _Node> const& y)
-		{ return x.get_current() != y.get_current(); }
-
-
+		bool	operator!=(const node_iterator<IteratorL, _Node>& x, const node_iterator<IteratorR, _Node>& y) {
+			return x.get_current() != y.get_current();
+		}
 
 };
 

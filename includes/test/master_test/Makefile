@@ -6,11 +6,11 @@
 #    By: dclark <dclark@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/04 11:59:29 by dclark            #+#    #+#              #
-#    Updated: 2022/07/17 17:14:42 by david            ###   ########.fr        #
+#    Updated: 2022/07/18 13:37:15 by dclark           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-IDIR	=	./includes
+IDIR	=	../../
 CC		=	c++
 CFLAGS	=	-Wall -Wextra -Werror -std=c++98 -I $(IDIR)
 
@@ -19,7 +19,7 @@ SDIR	=	./
 
 NAME	=	test_main
 
-_DEPS	=	*.h
+_DEPS	=	*.hpp
 
 DEPS	=	$(patsubst %,$(IDIR)/%,$(_DEPS))
 

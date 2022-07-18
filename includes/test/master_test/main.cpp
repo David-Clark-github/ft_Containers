@@ -11,6 +11,13 @@
 	#include <stack.hpp>
 	#include <vector.hpp>
 #endif
+/*
+#include <map.hpp>
+#include <stack.hpp>
+#include <vector.hpp>
+#include <set.hpp>
+*/
+
 
 #include <stdlib.h>
 

@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:39:02 by david             #+#    #+#             */
-/*   Updated: 2022/07/17 01:41:39 by david            ###   ########.fr       */
+/*   Updated: 2022/07/18 12:57:02 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ namespace ft {
 
 			// <=
 			friend bool operator<=(const vector_iterator &v1, const vector_iterator &v2) {
-				return (v1.base() <= v2/base());
+				return (v1.base() <= v2.base());
 			}
 
 			// >
@@ -138,7 +138,7 @@ namespace ft {
 
 			// >=
 			friend bool operator>=(const vector_iterator &v1, const vector_iterator &v2) {
-				return (v1.base() >= v2/base());
+				return (v1.base() >= v2.base());
 			}
 
 			// +

@@ -10,8 +10,8 @@ int main ()
   mymap['z'] = 300;
 
   // show content:
-  ft::map<char,int>::reverse_iterator rit;
-  for (rit=mymap.rbegin(); rit!=mymap.rend(); ++rit)
+  ft::map<char,int>::const_reverse_iterator rit;
+  for (rit = mymap.rbegin(); rit != mymap.rend(); ++rit)
     std::cout << rit->first << " => " << rit->second << '\n';
 
   return 0;

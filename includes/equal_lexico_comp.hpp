@@ -6,12 +6,12 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 11:40:29 by dclark            #+#    #+#             */
-/*   Updated: 2022/06/28 11:41:47 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/18 17:43:20 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_EQUAL_LEXICO_COMP_HPP
-#define FT_EQUAL_LEXICO_COMP_HPP
+#ifndef EQUAL_LEXICO_COMP_HPP
+#define EQUAL_LEXICO_COMP_HPP
 
 namespace ft {
 

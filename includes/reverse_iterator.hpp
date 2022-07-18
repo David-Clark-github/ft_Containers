@@ -6,12 +6,12 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 10:29:52 by david             #+#    #+#             */
-/*   Updated: 2022/06/28 11:48:38 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/18 17:19:54 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_REVERSE_ITERATOR_HPP
-#define FT_REVERSE_ITERATOR_HPP
+#ifndef REVERSE_ITERATOR_HPP
+#define REVERSE_ITERATOR_HPP
 
 #include <iterator_traits.hpp>
 

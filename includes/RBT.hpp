@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:46:18 by david             #+#    #+#             */
-/*   Updated: 2022/07/15 15:16:34 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/18 15:32:23 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,6 +205,7 @@ namespace ft {
 		{
 			pointer			tmp_root = _root;
 			pointer			tmp_end = _end;
+
 
 			_root = ref.get_root();
 			_end = ref.get_end();
