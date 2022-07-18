@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/18 13:41:40 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/19 01:40:17 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,19 @@ namespace ft {
 	class vector {
 
 		public:
+
 			/*-------- [MEMBER_TYPES] --------*/
+
 			typedef	T														value_type;
 			typedef	Alloc													allocator_type;
-			typedef	ft::vector_iterator<value_type>							iterator;
-			typedef	ft::vector_iterator<const value_type>					const_iterator;
 			typedef	typename allocator_type::difference_type				difference_type;
 			typedef	typename allocator_type::size_type						size_type;
 			typedef	typename allocator_type::reference						reference;
 			typedef	typename allocator_type::const_reference				const_reference;
 			typedef	typename allocator_type::pointer						pointer;
 			typedef	typename allocator_type::const_pointer					const_pointer;
+			typedef	ft::vector_iterator<value_type>							iterator;
+			typedef	ft::vector_iterator<const value_type>					const_iterator;
 			typedef	ft::reverse_iterator<iterator>							reverse_iterator;
 			typedef	ft::reverse_iterator<const_iterator>					const_reverse_iterator;
 
@@ -204,7 +206,7 @@ namespace ft {
 					throw std::length_error("vector::reserve");
 				
 				if (n > capacity()) {
-					_begin = _alloc.allocate(n, oldB1);
+					_begin = _alloc.allocate(n);
 					_end = _begin;
 					_capacity = _begin + n;
 					for (; oldB2 != oldE; ++_end, ++oldB2) {
@@ -386,7 +388,7 @@ namespace ft {
 			void clear() {
 				size_type len = size();
 				for (size_type i = 0; i < len; i++) {
-					_alloc.destroy(_end--);
+					_alloc.destroy(--_end);
 				}
 			}
 

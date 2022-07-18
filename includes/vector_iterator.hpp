@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:39:02 by david             #+#    #+#             */
-/*   Updated: 2022/07/18 12:57:02 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/19 00:40:12 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,20 @@ namespace ft {
 		public:
 
 			/*-------- Member types --------*/
-			/*
+			///*
 			typedef	T								value_type;
 			typedef	T*								pointer;
 			typedef	T&								reference;
 			typedef	std::ptrdiff_t					difference_type;
 			typedef	std::random_access_iterator_tag	iterator_category;
-			*/
+			//*/
+			/*
 			typedef typename IT_RAND::value_type		value_type;
 			typedef typename IT_RAND::pointer			pointer;
 			typedef typename IT_RAND::reference			reference;
 			typedef typename IT_RAND::difference_type	difference_type;
 			typedef typename IT_RAND::iterator_category	iterator_category;
+			*/
 
 			/*-------- Constructor / Destructor --------*/
 
@@ -44,7 +46,7 @@ namespace ft {
 			vector_iterator(vector_iterator const &v) : _p(v._p) {}
 
 			// Destructor
-			virtual ~vector_iterator() {}
+			~vector_iterator() {}
 
 			// operator=
 			vector_iterator	&operator=(const vector_iterator &v) {
@@ -107,6 +109,10 @@ namespace ft {
 			// []
 			vector_iterator &operator[](difference_type index) {
 				return *(this->_p + index);
+			}
+
+			operator	vector_iterator<const T>() {
+				return (vector_iterator<const T>(_p));
 			}
 
 			/*-------- Bool Operator --------*/
@@ -195,46 +201,47 @@ namespace ft {
 	// ==
 	template <typename it1, typename it2>
 	bool operator==(const vector_iterator<it1> &vi1, const vector_iterator<it2> &vi2) {
-		return (vi1.get_ptr() == vi2.get_ptr());
+		return (vi1.base() == vi2.base());
 	}
 
 	// !=
 	template <typename it1, typename it2>
 	bool operator!=(const vector_iterator<it1> &vi1, const vector_iterator<it2> &vi2) {
-		return (vi1.get_ptr() != vi2.get_ptr());
+		return (vi1.base() != vi2.base());
 	}
 
 	// <
 	template <typename it1, typename it2>
 	bool operator<(const vector_iterator<it1> &vi1, const vector_iterator<it2> &vi2) {
-		return (vi1.get_ptr() < vi2.get_ptr());
+		return (vi1.base() < vi2.base());
 	}
 
 	// <=
 	template <typename it1, typename it2>
 	bool operator<=(const vector_iterator<it1> &vi1, const vector_iterator<it2> &vi2) {
-		return (vi1.get_ptr() <= vi2.get_ptr());
+		return (vi1.base() <= vi2.base());
 	}
 
 	// >
 	template <typename it1, typename it2>
 	bool operator>(const vector_iterator<it1> &vi1, const vector_iterator<it2> &vi2) {
-		return (vi1.get_ptr() > vi2.get_ptr());
+		return (vi1.base() > vi2.base());
 	}
 
 	// >=
 	template <typename it1, typename it2>
 	bool operator>=(const vector_iterator<it1> &vi1, const vector_iterator<it2> &vi2) {
-		return (vi1.get_ptr() >= vi2.get_ptr());
+		return (vi1.base() >= vi2.base());
 	}
 
 	// <<
 	template <typename Iterator>
 	std::ostream &operator<<(std::ostream &o, vector_iterator<Iterator> &vi) {
-		o << *vi.get_ptr();
+		o << *vi.base();
 		return o;
 	}
 
+	// distance
 	template<class InputIt>
 	typename ft::iterator_traits<InputIt>::difference_type
 	distance(InputIt first, InputIt last) {

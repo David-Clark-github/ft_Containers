@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 10:04:35 by david             #+#    #+#             */
-/*   Updated: 2022/07/17 15:08:22 by david            ###   ########.fr       */
+/*   Updated: 2022/07/19 01:18:31 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ namespace ft {
 			}
 
 			// >
-			friend bool operator>  (const stack<T, Container>& lhs, const stack<T, Container>& rhs) {
+			friend bool operator> (const stack<T, Container>& lhs, const stack<T, Container>& rhs) {
 				return lhs.c > rhs.c;
 			}
 

@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 23:12:04 by david             #+#    #+#             */
-/*   Updated: 2022/07/16 00:42:57 by david            ###   ########.fr       */
+/*   Updated: 2022/07/19 01:52:12 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ namespace ft {
 
 			// erase
 			void erase (iterator position) {
-				erase(position->first);				
+				erase(*position);				
 			}
 
 			size_type erase (const value_type& val) {
@@ -206,7 +206,7 @@ namespace ft {
 
 			// count
 			size_type count (const value_type& val) const {
-				return (find(val != end()));
+				return (find(val) != end());
 			}
 
 			// lower_bound
