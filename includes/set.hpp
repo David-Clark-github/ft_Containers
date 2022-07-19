@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 23:12:04 by david             #+#    #+#             */
-/*   Updated: 2022/07/19 01:52:12 by david            ###   ########.fr       */
+/*   Updated: 2022/07/19 15:33:24 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ namespace ft {
 
 			void erase (iterator first, iterator last) {
 				while (first != last) {
-					first = find(first->first);
+					first = find(*first);
 					erase(first++);
 				}
 			}
@@ -210,17 +210,29 @@ namespace ft {
 			}
 
 			// lower_bound
-			iterator lower_bound (const value_type& val) const {
+			iterator lower_bound (const value_type& val) {
 				return (iterator(_rbt.get_root(), _rbt.get_end(), _rbt.lower_bound(val)));
 			}
 
+			const_iterator lower_bound (const value_type& val) const {
+				return (const_iterator(_rbt.get_root(), _rbt.get_end(), _rbt.lower_bound(val)));
+			}
+
 			// upper_bound
-			iterator upper_bound (const value_type& val) const {
+			iterator upper_bound (const value_type& val) {
 				return (iterator(_rbt.get_root(), _rbt.get_end(), _rbt.upper_bound(val)));
 			}
 
+			const_iterator upper_bound (const value_type& val) const {
+				return (const_iterator(_rbt.get_root(), _rbt.get_end(), _rbt.upper_bound(val)));
+			}
+
 			//equal_range
-			ft::pair<iterator,iterator> equal_range (const value_type& val) const {
+			ft::pair<iterator,iterator> equal_range (const value_type& val) {
+				return (ft::make_pair(lower_bound(val), upper_bound(val)));
+			}
+
+			ft::pair<const_iterator,const_iterator> equal_range (const value_type& val) const {
 				return (ft::make_pair(lower_bound(val), upper_bound(val)));
 			}
 
