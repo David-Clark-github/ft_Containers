@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 23:12:04 by david             #+#    #+#             */
-/*   Updated: 2022/07/19 15:33:24 by david            ###   ########.fr       */
+/*   Updated: 2022/07/19 23:59:26 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ namespace ft {
 
 			iterator	insert(UNUSED iterator position, const value_type &val) {
 				insert(val);
-				return find(val.first);
+				return find(val);
 			}
 
 			template <class InputIterator>
@@ -209,6 +209,7 @@ namespace ft {
 				return (find(val) != end());
 			}
 
+			/*
 			// lower_bound
 			iterator lower_bound (const value_type& val) {
 				return (iterator(_rbt.get_root(), _rbt.get_end(), _rbt.lower_bound(val)));
@@ -235,16 +236,74 @@ namespace ft {
 			ft::pair<const_iterator,const_iterator> equal_range (const value_type& val) const {
 				return (ft::make_pair(lower_bound(val), upper_bound(val)));
 			}
+			*/
+			iterator		lower_bound(const key_type& k)
+			{ return       iterator(_rbt.get_root(), _rbt.get_end(), _rbt.lower_bound(k)); }
+
+			const_iterator	lower_bound(const key_type& k) const
+			{ return const_iterator(_rbt.get_root(), _rbt.get_end(), _rbt.lower_bound(k)); }
+
+			iterator		upper_bound(const key_type& k)
+			{ return       iterator(_rbt.get_root(), _rbt.get_end(), _rbt.upper_bound(k)); }
+
+			const_iterator	upper_bound(const key_type& k) const
+			{ return const_iterator(_rbt.get_root(), _rbt.get_end(), _rbt.upper_bound(k)); }
+
+			ft::pair<iterator, iterator>				equal_range(const key_type& k)
+			{ return ft::make_pair(lower_bound(k), upper_bound(k)); }
+
+			ft::pair<const_iterator, const_iterator>	equal_range(const key_type& k) const
+			{ return ft::make_pair(lower_bound(k), upper_bound(k)); }
+
 
 			// get_allocator
 			allocator_type get_allocator() const {
 				return (allocator_type());
 			}
 
+
+
 		private:
 			ft::RBT<value_type, value_compare>	_rbt;
 
 	};
+
+	template< class Key, class Compare, class Alloc >
+	void swap( ft::set<Key,Compare,Alloc>& lhs, ft::set<Key,Compare,Alloc>& rhs ) {
+		lhs.swap(rhs);
+	}
+
+	template< class Key, class Compare, class Alloc >
+	bool operator==( const ft::set<Key,Compare,Alloc>& lhs, const ft::set<Key,Compare,Alloc>& rhs ) {
+		if (lhs.size() != rhs.size())
+			return (false);
+		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+	}
+
+	template< class Key, class Compare, class Alloc >
+	bool operator!=( const ft::set<Key,Compare,Alloc>& lhs, const ft::set<Key,Compare,Alloc>& rhs ) {
+		return !(lhs == rhs);
+	}
+
+	template< class Key, class Compare, class Alloc >
+	bool operator<( const ft::set<Key,Compare,Alloc>& lhs, const ft::set<Key,Compare,Alloc>& rhs ) {
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
+
+	template< class Key, class Compare, class Alloc >
+	bool operator<=( const ft::set<Key,Compare,Alloc>& lhs, const ft::set<Key,Compare,Alloc>& rhs ) {
+		return !(rhs < lhs);
+	}
+
+	template< class Key, class Compare, class Alloc >
+	bool operator>( const ft::set<Key,Compare,Alloc>& lhs, const ft::set<Key,Compare,Alloc>& rhs ) {
+		return (rhs < lhs);
+	}
+
+	template< class Key, class Compare, class Alloc >
+	bool operator>=( const ft::set<Key,Compare,Alloc>& lhs, const ft::set<Key,Compare,Alloc>& rhs ) {
+		return !(lhs < rhs);
+	}
 
 };
 
