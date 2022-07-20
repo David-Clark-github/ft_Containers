@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/19 01:40:17 by david            ###   ########.fr       */
+/*   Updated: 2022/07/20 16:25:30 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ namespace ft {
 
 			template <class InputIterator>
 			vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, 
-			InputIterator last,
-			UNUSED const allocator_type &alloc = allocator_type()) {
+			InputIterator last, UNUSED const allocator_type &alloc = allocator_type()) {
 				difference_type n = (ft::distance(first, last));
 				_begin = _alloc.allocate(n);
 				_capacity = _begin + n;

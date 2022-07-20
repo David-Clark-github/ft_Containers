@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 11:51:52 by david             #+#    #+#             */
-/*   Updated: 2022/07/18 23:45:07 by david            ###   ########.fr       */
+/*   Updated: 2022/07/20 15:33:59 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,7 @@ namespace ft {
 			template<class InputIterator>
 			map (typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
 			InputIterator last, const key_compare& comp = key_compare(),
-			UNUSED const allocator_type& alloc = allocator_type())
-			: _rbt(value_compare(comp)) {
+			UNUSED const allocator_type& alloc = allocator_type()) : _rbt(value_compare(comp)) {
 				insert(first, last);
 			}
 
@@ -108,7 +107,7 @@ namespace ft {
 			/*-------- Iterators --------*/
 
 			// begin
-			iterator	begin() {
+			iterator		begin() {
 				return (iterator(_rbt.get_root(), _rbt.get_end(), _rbt.min()));
 			}
 
@@ -117,16 +116,16 @@ namespace ft {
 			}
 
 			// end
-			iterator	end() {
+			iterator		end() {
 				return (iterator(_rbt.get_root(), _rbt.get_end(), _rbt.get_end()));
 			}
 
-			const_iterator end() const {
+			const_iterator	end() const {
 				return (const_iterator(_rbt.get_root(), _rbt.get_end(), _rbt.get_end()));
 			}
 
 			// rbegin
-			reverse_iterator	rbegin() {
+			reverse_iterator		rbegin() {
 				return (reverse_iterator(end()));
 			}
 
@@ -135,7 +134,7 @@ namespace ft {
 			}
 
 			// rend
-			reverse_iterator	rend() {
+			reverse_iterator		rend() {
 				return (reverse_iterator(begin()));
 			}
 

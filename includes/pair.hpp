@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 11:13:48 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/19 23:29:03 by david            ###   ########.fr       */
+/*   Updated: 2022/07/20 15:56:16 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ namespace ft {
 				second = p.second;
 			}
 			return (*this);
+		}
+
+		operator	pair<const T1, const T2> (void) const {
+			return pair<const T1, const T2>(first, second);
 		}
 
 		first_type	first;

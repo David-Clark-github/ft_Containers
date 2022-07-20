@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/15 23:12:04 by david             #+#    #+#             */
-/*   Updated: 2022/07/19 23:59:26 by david            ###   ########.fr       */
+/*   Updated: 2022/07/20 15:33:15 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 namespace ft {
 	
-	template < class T, class Compare = less<T>, class Alloc = std::allocator<T> >
+	template < class T, class Compare = ft::less<T>, class Alloc = std::allocator<T> >
 	class set {
 		public:
 
@@ -86,25 +86,25 @@ namespace ft {
 			/*-------- Iterators --------*/
 
 			// begin
-			iterator begin() {
+			iterator		begin() {
 				return (iterator(_rbt.get_root(), _rbt.get_end(), _rbt.min()));
 			}
 
-			const_iterator begin() const {
+			const_iterator	begin() const {
 				return (const_iterator(_rbt.get_root(), _rbt.get_end(), _rbt.min()));
 			}
 
 			// end
-			iterator	end() {
+			iterator		end() {
 				return (iterator(_rbt.get_root(), _rbt.get_end(), _rbt.get_end()));
 			}
 
-			const_iterator end() const {
+			const_iterator	end() const {
 				return (const_iterator(_rbt.get_root(), _rbt.get_end(), _rbt.get_end()));
 			}
 
 			// rbegin
-			reverse_iterator	rbegin() {
+			reverse_iterator		rbegin() {
 				return (reverse_iterator(end()));
 			}
 
@@ -113,7 +113,7 @@ namespace ft {
 			}
 
 			// rend
-			reverse_iterator	rend() {
+			reverse_iterator		rend() {
 				return (reverse_iterator(begin()));
 			}
 
@@ -209,7 +209,6 @@ namespace ft {
 				return (find(val) != end());
 			}
 
-			/*
 			// lower_bound
 			iterator lower_bound (const value_type& val) {
 				return (iterator(_rbt.get_root(), _rbt.get_end(), _rbt.lower_bound(val)));
@@ -236,25 +235,6 @@ namespace ft {
 			ft::pair<const_iterator,const_iterator> equal_range (const value_type& val) const {
 				return (ft::make_pair(lower_bound(val), upper_bound(val)));
 			}
-			*/
-			iterator		lower_bound(const key_type& k)
-			{ return       iterator(_rbt.get_root(), _rbt.get_end(), _rbt.lower_bound(k)); }
-
-			const_iterator	lower_bound(const key_type& k) const
-			{ return const_iterator(_rbt.get_root(), _rbt.get_end(), _rbt.lower_bound(k)); }
-
-			iterator		upper_bound(const key_type& k)
-			{ return       iterator(_rbt.get_root(), _rbt.get_end(), _rbt.upper_bound(k)); }
-
-			const_iterator	upper_bound(const key_type& k) const
-			{ return const_iterator(_rbt.get_root(), _rbt.get_end(), _rbt.upper_bound(k)); }
-
-			ft::pair<iterator, iterator>				equal_range(const key_type& k)
-			{ return ft::make_pair(lower_bound(k), upper_bound(k)); }
-
-			ft::pair<const_iterator, const_iterator>	equal_range(const key_type& k) const
-			{ return ft::make_pair(lower_bound(k), upper_bound(k)); }
-
 
 			// get_allocator
 			allocator_type get_allocator() const {

@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:39:02 by david             #+#    #+#             */
-/*   Updated: 2022/07/19 00:40:12 by david            ###   ########.fr       */
+/*   Updated: 2022/07/20 16:14:14 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ namespace ft {
 			// operator=
 			vector_iterator	&operator=(const vector_iterator &v) {
 				if (this != &v) {
-					this->_p = v._p;
+					_p = v._p;
 				}
 				return (*this);
 			}
@@ -107,11 +107,11 @@ namespace ft {
 			}
 
 			// []
-			vector_iterator &operator[](difference_type index) {
-				return *(this->_p + index);
+			vector_iterator &operator[](const difference_type index) {
+				return *(_p + index);
 			}
 
-			operator	vector_iterator<const T>() {
+			operator	vector_iterator<const T>() const {
 				return (vector_iterator<const T>(_p));
 			}
 
