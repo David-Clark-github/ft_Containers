@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/19 01:40:17 by david            ###   ########.fr       */
+/*   Updated: 2022/07/21 01:38:36 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ namespace ft {
 				}
 
 				_end = _begin;
+				capacity = _begin + n;
 
 				for (; n != 0; n--) {
 					_alloc.construct(_end++, val);
 				}
-				_capacity = _end;
 			}
 
 			template <class InputIterator>
@@ -92,8 +92,10 @@ namespace ft {
 
 			// Destructor
 			~vector () {
-				clear();
-				_alloc.deallocate(_begin, capacity());
+				if (_begin != NULL) {
+					clear();
+					_alloc.deallocate(_begin, capacity());
+				}
 			}
 
 			// operator=
@@ -110,20 +112,20 @@ namespace ft {
 
 			// begin
 			iterator begin() {
-				return (iterator(this->_begin));
+				return (iterator(_begin));
 			}
 
 			const_iterator begin () const {
-				return (const_iterator(this->_begin));
+				return (const_iterator(_begin));
 			}
 
 			// end
 			iterator end() {
-				return (iterator(this->_end));
+				return (iterator(_end));
 			}
 
 			const_iterator end() const {
-				return (const_iterator(this->_end));
+				return (const_iterator(_end));
 			}
 
 			// rbegin
@@ -147,7 +149,7 @@ namespace ft {
 			/*-------- Capacity --------*/
 			// size
 			size_type	size() const {
-				return (_end - _begin);
+				return static_cast<size_type>(_end - _begin);
 			}
 
 			// max_size
@@ -411,7 +413,7 @@ namespace ft {
 	
 	/*-------- Non-member function overlords --------*/
 
-	// Operator ==
+	// ==
 	template <class T, class Alloc>
 	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
 		if (lhs.size() != rhs.size())
@@ -419,31 +421,31 @@ namespace ft {
 		return (std::equal(lhs.begin(), lhs.end(), rhs.begin()));
 	}
 
-	// Operator !=
+	// !=
 	template <class T, class Alloc>
 	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
 		return !(lhs == rhs);
 	}
 
-	// Operator <
+	// <
 	template <class T, class Alloc>
 	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
 		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 	}
 
-	// Operator <=
+	// <=
 	template <class T, class Alloc>
 	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
 		return !(rhs < lhs);
 	}
 
- 	// Operator >
+ 	// >
 	template <class T, class Alloc>
 	bool operator> (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
 		return (rhs < lhs);
 	}
 
-	// Operator >=
+	// >=
 	template <class T, class Alloc>
 	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
 		return !(lhs < rhs);

@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:39:02 by david             #+#    #+#             */
-/*   Updated: 2022/07/19 00:40:12 by david            ###   ########.fr       */
+/*   Updated: 2022/07/21 01:25:16 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,18 @@ namespace ft {
 		public:
 
 			/*-------- Member types --------*/
-			///*
+			/*
 			typedef	T								value_type;
 			typedef	T*								pointer;
 			typedef	T&								reference;
 			typedef	std::ptrdiff_t					difference_type;
 			typedef	std::random_access_iterator_tag	iterator_category;
-			//*/
-			/*
+		*/
 			typedef typename IT_RAND::value_type		value_type;
 			typedef typename IT_RAND::pointer			pointer;
 			typedef typename IT_RAND::reference			reference;
 			typedef typename IT_RAND::difference_type	difference_type;
 			typedef typename IT_RAND::iterator_category	iterator_category;
-			*/
 
 			/*-------- Constructor / Destructor --------*/
 
@@ -64,8 +62,8 @@ namespace ft {
 			/*-------- Operator --------*/
 
 			// *
-			reference operator*() {
-				return *(this->_p);
+			reference operator*() const {
+				return (*_p);
 			}
 
 			// ->
@@ -107,8 +105,22 @@ namespace ft {
 			}
 
 			// []
-			vector_iterator &operator[](difference_type index) {
-				return *(this->_p + index);
+			reference operator[](difference_type index) {
+				return *(_p + index);
+			}
+	
+			// +=
+			vector_iterator<T> &operator+=(difference_type d)
+			{
+				this->_p += d;
+				return (*this);
+			}
+
+			// -=
+			vector_iterator<T> &operator-=(difference_type d)
+			{
+				this->_p -= d;
+				return (*this);
 			}
 
 			operator	vector_iterator<const T>() {
@@ -118,12 +130,22 @@ namespace ft {
 			/*-------- Bool Operator --------*/
 
 			// ==
-			friend bool operator==(const vector_iterator &v1, const vector_iterator &v2) {
+			friend bool operator==(const vector_iterator<T> &v1, const vector_iterator<T> &v2) {
+				return (v1.base() == v2.base());
+			}
+
+			template<class U>
+			friend bool operator==(const vector_iterator<T> &v1, const vector_iterator<U> &v2) {
 				return (v1.base() == v2.base());
 			}
 
 			// !=
-			friend bool operator!=(const vector_iterator &v1, const vector_iterator &v2) {
+			friend bool operator!=(const vector_iterator<T> &v1, const vector_iterator<T> &v2) {
+				return (v1.base() != v2.base());
+			}
+			
+			template<class U>
+			friend bool operator!=(const vector_iterator<T> &v1, const vector_iterator<U> &v2) {
 				return (v1.base() != v2.base());
 			}
 
@@ -148,44 +170,34 @@ namespace ft {
 			}
 
 			// +
-			difference_type operator+(const vector_iterator &v) const
-			{
-				difference_type d = this->_p + v._p;
-				return (d);
+			friend vector_iterator<T> operator+(difference_type n, const vector_iterator<T> &v) {
+				return (v + n);
 			}
 
 			// -
-			vector_iterator operator-(difference_type d) const
-			{
-				vector_iterator v = this->_p - d;
-				return (v);
+			friend difference_type operator-(const vector_iterator<T> lhs, const vector_iterator<T> rhs) {
+				return (lhs.base() - rhs.base());
 			}
 
-			// -
-			difference_type operator-(const vector_iterator &v) const
-			{
-				difference_type d = this->_p - v._p;
-				return (d);
+			template<class U>	
+			friend difference_type operator-(const vector_iterator<T> lhs, const vector_iterator<U> rhs) {
+				return (lhs.base() - rhs.base());
 			}
 
-			// +=
-			vector_iterator<T> &operator+=(difference_type d)
-			{
-				this->_p += d;
-				return (*this);
-			}
-
-			// -=
-			vector_iterator<T> &operator-=(difference_type d)
-			{
-				this->_p -= d;
-				return (*this);
-			}
-
-		protected:
+			protected:
 			pointer	_p;
 	};
+	// distance
+	template<class InputIt>
+	typename ft::iterator_traits<InputIt>::difference_type
+	distance(InputIt first, InputIt last) {
+		typename ft::iterator_traits<InputIt>::difference_type size = 0;
+		for (; first != last; ++first, ++size);
+		return (size);
+	}
 
+
+	/*
 	// +
 	template <typename Iterator>
 	vector_iterator<Iterator> operator+(typename vector_iterator<Iterator>::difference_type d, const vector_iterator<Iterator> &it) {
@@ -197,12 +209,13 @@ namespace ft {
 	vector_iterator<Iterator> operator-(typename vector_iterator<Iterator>::difference_type d, const vector_iterator<Iterator> &it) {
 		return (vector_iterator<Iterator>(it.base() - d));
 	}
-
+	
 	// ==
 	template <typename it1, typename it2>
 	bool operator==(const vector_iterator<it1> &vi1, const vector_iterator<it2> &vi2) {
 		return (vi1.base() == vi2.base());
 	}
+	
 
 	// !=
 	template <typename it1, typename it2>
@@ -241,17 +254,7 @@ namespace ft {
 		return o;
 	}
 
-	// distance
-	template<class InputIt>
-	typename ft::iterator_traits<InputIt>::difference_type
-	distance(InputIt first, InputIt last) {
-		typename ft::iterator_traits<InputIt>::difference_type size = 0;
-		for (; first != last; ++first) {
-			size++;
-			//std::cout << "Loop ?" << std::endl; 
-		}
-		return (size);
-	}
+	*/
 
 
 };

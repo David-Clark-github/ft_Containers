@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 10:29:52 by david             #+#    #+#             */
-/*   Updated: 2022/07/18 17:19:54 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/21 00:43:55 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ namespace ft {
 
 		//+
 		reverse_iterator	operator+(difference_type d) const {
-			return (reverse_iterator(this->_current - d));
+			return (reverse_iterator(_current - d));
 		}
 
 		//++_current
@@ -91,7 +91,7 @@ namespace ft {
 
 		//-
 		reverse_iterator	operator-(difference_type d) const {
-			return (reverse_iterator(this->_current + d));
+			return (reverse_iterator(_current + d));
 		}
 
 		//--_current
