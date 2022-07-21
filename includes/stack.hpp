@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 10:04:35 by david             #+#    #+#             */
-/*   Updated: 2022/07/19 01:18:31 by david            ###   ########.fr       */
+/*   Updated: 2022/07/20 12:51:21 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ namespace ft {
 			}
 
 			const value_type& top() const {
-				return (c.back);
+				return (c.back());
 			}
 
 			// push

@@ -49,7 +49,7 @@ namespace ft {
 			// operator=
 			vector_iterator	&operator=(const vector_iterator &v) {
 				if (this != &v) {
-					this->_p = v._p;
+					_p = v._p;
 				}
 				return (*this);
 			}
@@ -123,7 +123,7 @@ namespace ft {
 				return (*this);
 			}
 
-			operator	vector_iterator<const T>() {
+			operator	vector_iterator<const T>() const {
 				return (vector_iterator<const T>(_p));
 			}
 

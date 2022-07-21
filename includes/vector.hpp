@@ -73,8 +73,7 @@ namespace ft {
 
 			template <class InputIterator>
 			vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, 
-			InputIterator last,
-			UNUSED const allocator_type &alloc = allocator_type()) {
+			InputIterator last, UNUSED const allocator_type &alloc = allocator_type()) {
 				difference_type n = (ft::distance(first, last));
 				_begin = _alloc.allocate(n);
 				_capacity = _begin + n;

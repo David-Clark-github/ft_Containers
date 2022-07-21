@@ -33,7 +33,7 @@ namespace ft {
 		/*-------- Constructor / Destructor --------*/
 
 		// Default
-		reverse_iterator() {}
+		reverse_iterator() : _current() {}
 
 		// Initialization
 		reverse_iterator(iterator_type it) : _current(it) {}
@@ -43,7 +43,7 @@ namespace ft {
 		reverse_iterator(const reverse_iterator<Iter> &rev_it) : _current(rev_it.base()) {}
 
 		// Destructor
-		virtual	~reverse_iterator() {}
+		/*virtual*/	~reverse_iterator() {}
 
 		/*-------- Member function --------*/
 		iterator_type	base() const {
@@ -60,7 +60,7 @@ namespace ft {
 		}
 
 		//*
-		value_type	&operator*() const {
+		reference	operator*() const {
 			iterator_type tmp = _current;
 			return *(--tmp);
 		}
@@ -72,15 +72,38 @@ namespace ft {
 
 		//++_current
 		reverse_iterator	&operator++() {
-			--this->_current;
+			--_current;
+			return (*this);
+		}
+
+		//--_current
+		reverse_iterator	&operator--() {
+			++_current;
 			return (*this);
 		}
 
 		//_current++
 		reverse_iterator	operator++(int) {
 			reverse_iterator tmp(*this);
-			this->_current--;
+			--_current;
 			return (tmp);
+		}
+
+		//_current--
+		reverse_iterator	operator--(int) {
+			reverse_iterator tmp(*this);
+			++_current;
+			return (tmp);
+		}
+
+		//+
+		reverse_iterator	operator+(difference_type d) const {
+			return (reverse_iterator(this->_current - d));
+		}
+
+		//-
+		reverse_iterator	operator-(difference_type d) const {
+			return (reverse_iterator(_current + d));
 		}
 
 		//+=
@@ -89,38 +112,19 @@ namespace ft {
 			return (*this);
 		}
 
-		//-
-		reverse_iterator	operator-(difference_type d) const {
-			return (reverse_iterator(_current + d));
-		}
-
-		//--_current
-		reverse_iterator	&operator--() {
-			++this->_current;
-			return (*this);
-		}
-
-		//_current--
-		reverse_iterator	operator--(int) {
-			reverse_iterator tmp(*this);
-			this->_current++;
-			return (tmp);
-		}
-
 		//-=
 		reverse_iterator	&operator-=(difference_type d) {
 			this->_current += d;
 			return (*this);
 		}
 
-		//->
-		pointer	operator->() const {
-			return &(operator*());
-		}
-
 		//[]
 		reference	operator[](difference_type d) const {
 			return (*(this->_current - d - 1));
+		}
+		
+		operator	reverse_iterator<const Iterator>(void) const {
+			return reverse_iterator<const Iterator>(_current);
 		}
 
 		/* https://en.cppreference.com/w/cpp/iterator/reverse_iterator*/
