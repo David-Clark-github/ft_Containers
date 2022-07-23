@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/21 01:38:36 by david            ###   ########.fr       */
+/*   Updated: 2022/07/23 01:44:07 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <equal_lexico_comp.hpp>
 #include <iterator>
 #include <iterator_traits.hpp>
-#include <iostream>
+#include <exception>
 
 #define UNUSED __attribute__((unused))
 
@@ -40,8 +40,8 @@ namespace ft {
 			typedef	typename allocator_type::const_reference				const_reference;
 			typedef	typename allocator_type::pointer						pointer;
 			typedef	typename allocator_type::const_pointer					const_pointer;
-			typedef	ft::vector_iterator<value_type>							iterator;
-			typedef	ft::vector_iterator<const value_type>					const_iterator;
+			typedef	ft::vector_iterator<value_type>					iterator;
+			typedef	ft::vector_iterator<const value_type>			const_iterator;
 			typedef	ft::reverse_iterator<iterator>							reverse_iterator;
 			typedef	ft::reverse_iterator<const_iterator>					const_reverse_iterator;
 
@@ -64,11 +64,11 @@ namespace ft {
 				}
 
 				_end = _begin;
-				capacity = _begin + n;
 
 				for (; n != 0; n--) {
 					_alloc.construct(_end++, val);
 				}
+				_capacity = _end;
 			}
 
 			template <class InputIterator>
@@ -84,8 +84,7 @@ namespace ft {
 			}
 
 			vector (const vector &x)
-			: _alloc(x._alloc), _capacity(NULL),
-			_begin(NULL), _end(NULL) {
+			: _alloc(x._alloc), _capacity(NULL), _begin(NULL), _end(NULL) {
 				insert(begin(), x.begin(), x.end());
 			}
 
@@ -266,7 +265,7 @@ namespace ft {
   			void assign(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
 			InputIterator last ) {
 				clear();
-				reserve(std::distance(first, last));
+				reserve(ft::distance(first, last));
 				for (; first != last; first++, _end++) {
 					_alloc.construct(_end, *first);
 				}
@@ -304,7 +303,7 @@ namespace ft {
 
 			// insert (fill)
 			void insert (iterator position, size_type n, const value_type& val) {
-				size_type pos = ft::distance(begin(), position);
+				const difference_type pos = ft::distance(begin(), position);
 
 				resize(size() + n); // resize OK
 				position = _begin + pos;

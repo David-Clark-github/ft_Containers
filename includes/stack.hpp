@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 10:04:35 by david             #+#    #+#             */
-/*   Updated: 2022/07/20 12:51:21 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/22 22:36:53 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,18 @@ namespace ft {
 			typedef typename Container::const_reference	const_reference;
 
 			/*-------- Constructor / Destructor --------*/
-			explicit stack (const container_type& ctnr = container_type()) : c(ctnr) {}
+			explicit stack (const container_type& ctnr = container_type())
+			: c(ctnr) {}
+
+			stack (const stack &other) {
+				*this = other;
+			}
 			
 			~stack(void) {}
+
+			stack	&operator=(const stack &s) {
+				c = s.c;
+			}
 
 			/*-------- [MEMBER FUNCTIONS] --------*/
 
@@ -44,11 +53,11 @@ namespace ft {
 			}
 
 			// top
-			value_type& top() {
+			reference top() {
 				return (c.back());
 			}
 
-			const value_type& top() const {
+			const_reference top() const {
 				return (c.back());
 			}
 
