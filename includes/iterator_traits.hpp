@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:20:36 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/23 01:42:00 by david            ###   ########.fr       */
+/*   Updated: 2022/07/23 17:49:30 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ namespace ft {
 				return (*this);
 			}
 
-			reverse_iterator& operator++(int) {
+			reverse_iterator operator++(int) {
 				reverse_iterator tmp(*this);
 				operator++();
 				return (tmp);
@@ -139,7 +139,7 @@ namespace ft {
 			}
 
 			reference operator[](difference_type d) const {
-				return (_it[-d - 1]);
+				return _it[-d - 1];
 			}
 
 			friend bool operator==(const reverse_iterator<Ite>& lhs, const reverse_iterator<Ite>& rhs) {

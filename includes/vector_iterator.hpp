@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:39:02 by david             #+#    #+#             */
-/*   Updated: 2022/07/23 01:41:02 by david            ###   ########.fr       */
+/*   Updated: 2022/07/23 17:47:16 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ namespace ft {
 			}
 
 			// []
-			reference operator[](difference_type index) {
+			reference operator[](difference_type index) const {
 				return *(_p + index);
 			}
 	
@@ -189,7 +189,20 @@ namespace ft {
 				return (lhs.base() >= rhs.base());
 			}
 
-			private:
+			friend vector_iterator<T> operator+(difference_type d, const vector_iterator<T>& v) {
+				return (v + d);
+			}
+
+			friend difference_type operator-(const vector_iterator<T> lhs, const vector_iterator<T> rhs) {
+				return (lhs.base() - rhs.base());
+			}
+
+			template<class U>
+			friend difference_type operator-(const vector_iterator<T> lhs, const vector_iterator<U> rhs) {
+				return (lhs.base() - rhs.base());
+			}
+
+		private:
 			pointer	_p;
 	};
 	// distance

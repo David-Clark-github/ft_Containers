@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/23 01:44:07 by david            ###   ########.fr       */
+/*   Updated: 2022/07/23 17:12:54 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,16 @@ namespace ft {
 				}
 
 				_end = _begin;
-
+				_capacity = _begin + n;
 				for (; n != 0; n--) {
 					_alloc.construct(_end++, val);
 				}
-				_capacity = _end;
 			}
 
 			template <class InputIterator>
 			vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, 
 			InputIterator last, UNUSED const allocator_type &alloc = allocator_type()) {
-				difference_type n = (ft::distance(first, last));
+				size_type n = static_cast<size_type>(ft::distance(first, last));
 				_begin = _alloc.allocate(n);
 				_capacity = _begin + n;
 				_end = _begin;
@@ -85,23 +84,33 @@ namespace ft {
 
 			vector (const vector &x)
 			: _alloc(x._alloc), _capacity(NULL), _begin(NULL), _end(NULL) {
-				insert(begin(), x.begin(), x.end());
+				//insert(begin(), x.begin(), x.end());
+				size_type n = x.size();
+				_begin = _alloc.allocate(n);
+				_end = _begin;
+				_capacity = _begin + n;
+
+				pointer tmp = x._begin;
+				for (; n != 0; n--)
+					_alloc.construct(_end++, *tmp++);
 			}
 
 			// Destructor
 			~vector () {
-				if (_begin != NULL) {
 					clear();
 					_alloc.deallocate(_begin, capacity());
-				}
 			}
 
 			// operator=
 			vector& operator= (const vector& x) {
 				if (this != &x) {
 					clear();
-					reserve(x.size());
-					insert(end(), x.begin(), x.end());
+					size_type s = x.size();
+					if (s > capacity())
+						reserve(s);
+					pointer tmp = x._begin;
+					for(; s != 0; s--)
+						_alloc.construct(_end++, *tmp++);
 				}
 				return (*this);
 			}

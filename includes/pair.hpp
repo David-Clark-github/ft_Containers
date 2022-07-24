@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 11:13:48 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/20 15:56:16 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/24 13:50:43 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,27 +58,27 @@ namespace ft {
 
 	template <class T1, class T2>
 	bool operator!=(const pair<T1, T2> &p1, const pair<T1, T2> &p2) {
-		return ((p1.first != p2.first) && (p1.second != p2.second));
+		return (!(p1 == p2));
 	}
 
 	template <class T1, class T2>
-	bool operator<(const pair<T1, T2> &p1, const pair<T1, T2> &p2) {
-		return ((p1.first < p2.first) && (p1.second < p2.second));
-	}
+	bool operator<  (const pair<T1,T2>& p1, const pair<T1,T2>& p2)
+	{ return p1.first<p2.first || (!(p2.first<p1.first) && p1.second<p2.second); }
+
 
 	template <class T1, class T2>
 	bool operator<=(const pair<T1, T2> &p1, const pair<T1, T2> &p2) {
-		return ((p1.first <= p2.first) && (p1.second <= p2.second));
+		return (!(p2 < p1));
 	}
 
 	template <class T1, class T2>
 	bool operator>(const pair<T1, T2> &p1, const pair<T1, T2> &p2) {
-		return ((p1.first > p2.first) && (p1.second > p2.second));
+		return (p2 < p1);
 	}
 
 	template <class T1, class T2>
 	bool operator>=(const pair<T1, T2> &p1, const pair<T1, T2> &p2) {
-		return ((p1.first >= p2.first) && (p1.second >= p2.second));
+		return (!(p2 < p1));
 	}
 
 	/*-------- MAKE_PAIR --------*/

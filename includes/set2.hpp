@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.hpp                                            :+:      :+:    :+:   */
+/*   set2.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 11:51:52 by david             #+#    #+#             */
-/*   Updated: 2022/07/23 17:58:54 by david            ###   ########.fr       */
+/*   Updated: 2022/07/24 14:52:37 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAP_HPP
-#define MAP_HPP
+#ifndef SET2_HPP
+#define SET2_HPP
 
-#include <pair.hpp>
 #include <binary_function.hpp>
 #include <node_iterator.hpp>
 #include <node.hpp>
@@ -28,17 +27,15 @@
 
 namespace ft {
 
-	template < class Key,
-		class T,
-		class Compare = ft::less<Key>,
-		class Allocator = std::allocator<ft::pair<const Key,T> > >
-	class map {
+	template <	class T,class Compare = ft::less<T>,
+	class Allocator = std::allocator<ft::pair<const Key,T> > >
+	class set {
 		public:
 			/*-------- [MEMBER_TYPES] --------*/
-			typedef			 	Key															key_type;
-			typedef 			T															mapped_type;
-			typedef 			ft::pair<const key_type, mapped_type>						value_type;
+			typedef			 	T															key_type;
+			typedef 			T															value_type;
 			typedef 			Compare														key_compare;
+			typedef				Compare														value_compare;
 			typedef 			Allocator													allocator_type;
 			typedef	typename	allocator_type::reference									reference;
 			typedef	typename	allocator_type::const_reference								const_reference;
@@ -51,52 +48,35 @@ namespace ft {
 			typedef				ft::reverse_iterator<iterator>								reverse_iterator;
 			typedef				ft::reverse_iterator<const_iterator>						const_reverse_iterator;
 
-			/*-------- [MEMBER CLASSES] --------*/
-
-			// Value Compare
-			class value_compare : ft::binary_function<value_type, value_type, bool>
-			{
-				friend class map;
-
-				protected:
-					key_compare	comp;
-					value_compare(key_compare c) : comp(c) {}
-
-				public:
-					bool operator()(const value_type& lhs, const value_type& rhs) const {
-						return (comp(lhs.first, rhs.first));
-					}
-			};
-
 			/*-------- [MEMBER FUNCTIONS] --------*/
 
 			// Constructor / Destructor
 
 			// empty
-			explicit map(const key_compare &comp = key_compare(), UNUSED const allocator_type &alloc = allocator_type())
+			explicit set(const key_compare &comp = key_compare(), UNUSED const allocator_type &alloc = allocator_type())
 			: _rbt(value_compare(comp)) {}
 
 			// range
 			template<class InputIterator>
-			map (typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
+			set (typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
 			InputIterator last, const key_compare& comp = key_compare(),
 			UNUSED const allocator_type& alloc = allocator_type()) : _rbt(value_compare(comp)) {
 				insert(first, last);
 			}
 
 			// copy
-			map (const map &m) : _rbt(value_compare(key_compare())) {
+			set (const set &m) : _rbt(value_compare(key_compare())) {
 				insert(m.begin(), m.end());
 			}
 
 			// Destructor
-			~map(void) {
+			~set(void) {
 				clear();
 				_rbt.destroy_end();
 			}
 
 			// operator=
-			map	&operator=(const map &m) {
+			set	&operator=(const set &m) {
 				if (&m != this) {
 					clear();
 					insert(m.begin(), m.end());
@@ -161,14 +141,6 @@ namespace ft {
 				return (_rbt.max_size());
 			}
 
-			/*-------- Element access --------*/
-
-			// operator[]
-			mapped_type& operator[](const key_type &k) {
-				insert(ft::make_pair(k, mapped_type()));
-				return (find(k)->second);
-			}
-			
 			/*-------- Modifiers --------*/
 
 			/* insert */

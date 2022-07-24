@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 10:16:28 by david             #+#    #+#             */
-/*   Updated: 2022/07/20 13:52:03 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/24 15:24:09 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ namespace ft {
 			}
 
 			// needed for conversion to a const_iterator
-			operator			node_iterator<const T, Node> (void) const
+			operator			node_iterator<const T, Node> (void) 
 			{
 				return node_iterator<const T, Node>(_begin, _end, _cur);
 			}

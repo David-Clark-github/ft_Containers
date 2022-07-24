@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 10:04:35 by david             #+#    #+#             */
-/*   Updated: 2022/07/22 22:36:53 by david            ###   ########.fr       */
+/*   Updated: 2022/07/24 20:36:26 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,6 @@ namespace ft {
 			/*-------- Constructor / Destructor --------*/
 			explicit stack (const container_type& ctnr = container_type())
 			: c(ctnr) {}
-
-			stack (const stack &other) {
-				*this = other;
-			}
 			
 			~stack(void) {}
 
