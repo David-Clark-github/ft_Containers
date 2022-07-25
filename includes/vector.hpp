@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/25 22:45:27 by david            ###   ########.fr       */
+/*   Updated: 2022/07/26 01:46:51 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,13 +155,11 @@ namespace ft {
 
 			// resize
 			void	resize(size_type n, value_type val = value_type()) {
-				if (n > max_size())
-					throw std::length_error("vector::resize");
-
 				size_type oldS = size();
 				size_type oldC = capacity();
-
-				if (n < oldS) {
+				if (n > max_size())
+					throw std::length_error("vector::resize");
+				else if (n < oldS) {
 					while (size() > n) {
 						_alloc.destroy(--_end);
 					}
@@ -198,7 +196,7 @@ namespace ft {
 				pointer		oldB1 = _begin; //Ancienne valeur a copier dans le nouveau
 				pointer		oldB2 = _begin; //Ancienn pointeur a copier pour suppression
 				pointer		oldE = _end;	 // Ancien pointeur (_end) pour s'arreter
-				size_type	oldC = capacity(); // anciens capacity pour la capacité a supprimer
+				size_type	oldC = capacity(); // anciens capacity pour supprimer la quantité de memoire
 				
 				if (n > max_size())
 					throw std::length_error("vector::reserve");
@@ -306,43 +304,28 @@ namespace ft {
 
 			// insert (fill)
 			void insert (iterator position, size_type n, const value_type& val) {
-				/*
-				std::cout << "*position = " << *position << std::endl; 
-				for (iterator pos = position; pos != end(); pos++) {
-					std::cout << "[" << *pos << "]\n";
-				}
-				*/
-				//std::cout << "begin\n";
+				difference_type bg_pos = ft::distance(begin(), position);
+				difference_type	pos_end = ft::distance(position, end());
+				difference_type	bg_end = ft::distance(begin(), end());
+
 				if (n == 0)
 					return;
-				for (iterator pos = begin(); pos != end(); pos++) {
-					//std::cout << "[" << *pos << "]\n";
+				if (n + size() <= capacity()) {
+					;
+				} else if (n + size() >= capacity() + 2) {
+					reserve(n + size());
+				} else {
+					reserve(size() * 2);
 				}
-				const difference_type pos = ft::distance(begin(), position);
-
-				resize(size() + n); // resize OK
-				position = begin() + pos;
-				
-				// delta du commencement de rajout a n
-				//std::cout << "OK 2\n";
-				size_type toMoveRight = ft::distance(position, end() - n);
-				//std::cout << "OK 2\n";
-				//std::cout << "toMoveRight = " << toMoveRight << std::endl;
-				//delta de de la fin (resizer) et debut de N 
-				pointer oldEnd = _end - n - 1;
-
-				// la valeur a l'dresse [changer avec resize] 
-				// (_end - 0 - 1) = l'ancienne valeur plus tôt
-				// on deplace la valeur plus ancienne plus haut dans le tableau
-				for (size_type i = 0; i < toMoveRight; i++) {
-					*(_end - i - 1) = *oldEnd--;
+				for (difference_type i = 1; i <= pos_end; i++) {
+					_alloc.construct(((_begin + bg_end + n) - i), *(_begin + bg_end - i));
+					_alloc.destroy(_begin + bg_end - i);
 				}
-
-				// la valeur a l'dresse (position + 0) (la où l'on veut rajouter la(les) nouvelles valeurs)
-				// = nouvelle val
 				for (size_type i = 0; i < n; i++) {
-					*(position + i) = val;
+					_alloc.construct((_begin + bg_pos + (i) ), val);
 				}
+				_end = _begin + size() + n;
+				position++;
 			}
 
 			// insert (range)
@@ -350,7 +333,6 @@ namespace ft {
 			void insert (iterator position, InputIterator first, InputIterator last,
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL) {
 
-				//std::cout << "Range\n";
 				size_type pos = static_cast<size_type>(ft::distance(begin(), position));
 				size_type n = static_cast<size_type>(ft::distance(first, last));
 
@@ -369,31 +351,31 @@ namespace ft {
 
 			// erase
 			iterator erase(iterator position) {
-				iterator pos = position;
-				size_type toDestroyPos = static_cast<size_type>(ft::distance(begin(), position));
-
-				_alloc.destroy(_begin + toDestroyPos);
-
-				for (; pos + 1 != end(); ++pos)
-					*pos = *(pos + 1);
-				--_end;
-				return iterator(position);
+				iterator tmp = position;
+				for (; position + 1 != end(); position++) {
+					_alloc.destroy(&(*position));
+					_alloc.construct(&(*position), *(position + 1));
+				}
+				_alloc.destroy(&(*position));
+				_end--;
+				return (tmp);
 			}
 
 			iterator erase (iterator first, iterator last) {
+				iterator tmp = first;
 				for (; first != last; --last)
 					erase(first);
-				return iterator(first);
+				return (tmp);
 			}
 
 			// swap
 			void swap(vector &x) {
-				allocator_type tmpA = get_allocator();
+				allocator_type tmpA = _alloc;
 				pointer tmpB = _begin;
 				pointer tmpE = _end;
 				pointer tmpC = _capacity;
 
-				_alloc = x.get_allocator();
+				_alloc = x._alloc;
 				_begin = x._begin;
 				_end = x._end;
 				_capacity = x._capacity;
