@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 10:04:35 by david             #+#    #+#             */
-/*   Updated: 2022/07/24 20:36:26 by david            ###   ########.fr       */
+/*   Updated: 2022/07/25 16:41:06 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ namespace ft {
 			~stack(void) {}
 
 			stack	&operator=(const stack &s) {
-				c = s.c;
+				if (s != &s)
+					c = s.c;
+				return (*this);
 			}
 
 			/*-------- [MEMBER FUNCTIONS] --------*/

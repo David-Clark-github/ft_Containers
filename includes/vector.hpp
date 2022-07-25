@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/23 17:12:54 by david            ###   ########.fr       */
+/*   Updated: 2022/07/25 16:29:11 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <exception>
 
 #define UNUSED __attribute__((unused))
+#include <iostream>
 
 namespace ft {
 	template<class T, class Alloc = std::allocator<T> >
@@ -84,7 +85,8 @@ namespace ft {
 
 			vector (const vector &x)
 			: _alloc(x._alloc), _capacity(NULL), _begin(NULL), _end(NULL) {
-				//insert(begin(), x.begin(), x.end());
+				insert(begin(), x.begin(), x.end());
+				/*
 				size_type n = x.size();
 				_begin = _alloc.allocate(n);
 				_end = _begin;
@@ -93,24 +95,29 @@ namespace ft {
 				pointer tmp = x._begin;
 				for (; n != 0; n--)
 					_alloc.construct(_end++, *tmp++);
+					*/
 			}
 
 			// Destructor
 			~vector () {
-					clear();
-					_alloc.deallocate(_begin, capacity());
+				clear();
+				_alloc.deallocate(_begin, capacity());
 			}
 
 			// operator=
 			vector& operator= (const vector& x) {
 				if (this != &x) {
 					clear();
+					/*
 					size_type s = x.size();
 					if (s > capacity())
 						reserve(s);
 					pointer tmp = x._begin;
 					for(; s != 0; s--)
 						_alloc.construct(_end++, *tmp++);
+						*/
+					reserve(x.size());
+					insert(end(), x.begin(), x.end());
 				}
 				return (*this);
 			}
@@ -184,10 +191,11 @@ namespace ft {
 						else {
 							reserve(n);
 						}
-					}
+					}				
 					for (; oldS < n; ++oldS, ++_end) {
 						_alloc.construct(_end, val);
 					}
+
 				}
 			}
 
@@ -209,19 +217,22 @@ namespace ft {
 				pointer		oldB2 = _begin; //Ancienn pointeur a copier pour suppression
 				pointer		oldE = _end;	 // Ancien pointeur (_end) pour s'arreter
 				size_type	oldC = capacity(); // anciens capacity pour la capacité a supprimer
-
-
+				
 				if (n > max_size())
 					throw std::length_error("vector::reserve");
 				
 				if (n > capacity()) {
 					_begin = _alloc.allocate(n);
 					_end = _begin;
-					_capacity = _begin + n;
-					for (; oldB2 != oldE; ++_end, ++oldB2) {
+					for (; oldB2 != oldE;) {
 						_alloc.construct(_end, *oldB2);
+						_alloc.destroy(oldB2);
+						++_end;
+						++oldB2;
 					}
 					_alloc.deallocate(oldB1, oldC); 
+					_capacity = _begin + n;
+					std::cout << ":)\n";
 				}
 			}
 
@@ -274,7 +285,7 @@ namespace ft {
   			void assign(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
 			InputIterator last ) {
 				clear();
-				reserve(ft::distance(first, last));
+				reserve(static_cast<size_type>(ft::distance(first, last)));
 				for (; first != last; first++, _end++) {
 					_alloc.construct(_end, *first);
 				}
@@ -306,19 +317,33 @@ namespace ft {
 
 			// insert (single element)
 			iterator insert(iterator position, const value_type& val) {
+				std::cout << "Single\n";
 				insert(position, 1, val);
 				return iterator(position);
 			}
 
 			// insert (fill)
 			void insert (iterator position, size_type n, const value_type& val) {
+				/*
+				std::cout << "*position = " << *position << std::endl; 
+				for (iterator pos = position; pos != end(); pos++) {
+					std::cout << "[" << *pos << "]\n";
+				}
+				*/
+				std::cout << "begin\n";
+				for (iterator pos = begin(); pos != end(); pos++) {
+					std::cout << "[" << *pos << "]\n";
+				}
 				const difference_type pos = ft::distance(begin(), position);
 
 				resize(size() + n); // resize OK
-				position = _begin + pos;
+				position = begin() + pos;
 				
 				// delta du commencement de rajout a n
+				std::cout << "OK 2\n";
 				size_type toMoveRight = ft::distance(position, end() - n);
+				std::cout << "OK 2\n";
+				//std::cout << "toMoveRight = " << toMoveRight << std::endl;
 				//delta de de la fin (resizer) et debut de N 
 				pointer oldEnd = _end - n - 1;
 
@@ -340,13 +365,15 @@ namespace ft {
 			template <class InputIterator>
 			void insert (iterator position, InputIterator first, InputIterator last,
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL) {
-				size_type pos = ft::distance(begin(), position);
-				size_type n = ft::distance(first, last);
+
+				//std::cout << "Range\n";
+				size_type pos = static_cast<size_type>(ft::distance(begin(), position));
+				size_type n = static_cast<size_type>(ft::distance(first, last));
 
 				resize(size() + n);
 				position = begin() + pos;
 
-				size_type toMoveRight = ft::distance(position, end() - n);
+				size_type toMoveRight = static_cast<size_type>(ft::distance(position, end() - n));
 				pointer oldEnd = _end - n - 1;
 				for (size_type i = 0; i < toMoveRight; i++) {
 					*(_end - i - 1) = *oldEnd--;
@@ -359,7 +386,7 @@ namespace ft {
 			// erase
 			iterator erase(iterator position) {
 				iterator pos = position;
-				size_type toDestroyPos = ft::distance(begin(), position);
+				size_type toDestroyPos = static_cast<size_type>(ft::distance(begin(), position));
 
 				_alloc.destroy(_begin + toDestroyPos);
 

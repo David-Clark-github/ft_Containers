@@ -6,7 +6,7 @@
 /*   By: david <dclark@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:39:02 by david             #+#    #+#             */
-/*   Updated: 2022/07/23 17:47:16 by david            ###   ########.fr       */
+/*   Updated: 2022/07/25 15:36:55 by dclark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define VECTOR_ITERATOR_HPP
 
 #include <iterator_traits.hpp>
+#include <iostream>
 #define IT_RAND ft::iterator<random_access_iterator_tag, T> 
 
 namespace ft {
@@ -210,6 +211,8 @@ namespace ft {
 	typename ft::iterator_traits<InputIt>::difference_type
 	distance(InputIt first, InputIt last) {
 		typename ft::iterator_traits<InputIt>::difference_type size = 0;
+		if (first == last)
+			return (0);
 		for (; first != last; ++first, ++size);
 		return (size);
 	}
