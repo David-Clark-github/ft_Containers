@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/25 16:29:11 by dclark           ###   ########.fr       */
+/*   Updated: 2022/07/25 22:45:27 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,18 @@ namespace ft {
 
 			/*-------- [MEMBER_TYPES] --------*/
 
-			typedef	T														value_type;
-			typedef	Alloc													allocator_type;
-			typedef	typename allocator_type::difference_type				difference_type;
-			typedef	typename allocator_type::size_type						size_type;
-			typedef	typename allocator_type::reference						reference;
-			typedef	typename allocator_type::const_reference				const_reference;
-			typedef	typename allocator_type::pointer						pointer;
-			typedef	typename allocator_type::const_pointer					const_pointer;
-			typedef	ft::vector_iterator<value_type>					iterator;
-			typedef	ft::vector_iterator<const value_type>			const_iterator;
-			typedef	ft::reverse_iterator<iterator>							reverse_iterator;
-			typedef	ft::reverse_iterator<const_iterator>					const_reverse_iterator;
+			typedef	T											value_type;
+			typedef	Alloc										allocator_type;
+			typedef	typename allocator_type::difference_type	difference_type;
+			typedef	typename allocator_type::size_type			size_type;
+			typedef	typename allocator_type::reference			reference;
+			typedef	typename allocator_type::const_reference	const_reference;
+			typedef	typename allocator_type::pointer			pointer;
+			typedef	typename allocator_type::const_pointer		const_pointer;
+			typedef	ft::vector_iterator<value_type>				iterator;
+			typedef	ft::vector_iterator<const value_type>		const_iterator;
+			typedef	ft::reverse_iterator<iterator>				reverse_iterator;
+			typedef	ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 
 			/*-------- [MEMBER FUNCTIONS] --------*/
 
@@ -86,16 +86,6 @@ namespace ft {
 			vector (const vector &x)
 			: _alloc(x._alloc), _capacity(NULL), _begin(NULL), _end(NULL) {
 				insert(begin(), x.begin(), x.end());
-				/*
-				size_type n = x.size();
-				_begin = _alloc.allocate(n);
-				_end = _begin;
-				_capacity = _begin + n;
-
-				pointer tmp = x._begin;
-				for (; n != 0; n--)
-					_alloc.construct(_end++, *tmp++);
-					*/
 			}
 
 			// Destructor
@@ -108,14 +98,6 @@ namespace ft {
 			vector& operator= (const vector& x) {
 				if (this != &x) {
 					clear();
-					/*
-					size_type s = x.size();
-					if (s > capacity())
-						reserve(s);
-					pointer tmp = x._begin;
-					for(; s != 0; s--)
-						_alloc.construct(_end++, *tmp++);
-						*/
 					reserve(x.size());
 					insert(end(), x.begin(), x.end());
 				}
@@ -232,7 +214,7 @@ namespace ft {
 					}
 					_alloc.deallocate(oldB1, oldC); 
 					_capacity = _begin + n;
-					std::cout << ":)\n";
+					//std::cout << ":)\n";
 				}
 			}
 
@@ -317,9 +299,9 @@ namespace ft {
 
 			// insert (single element)
 			iterator insert(iterator position, const value_type& val) {
-				std::cout << "Single\n";
+				difference_type d = ft::distance(begin(), position);
 				insert(position, 1, val);
-				return iterator(position);
+				return iterator(iterator(begin() + d));
 			}
 
 			// insert (fill)
@@ -330,9 +312,11 @@ namespace ft {
 					std::cout << "[" << *pos << "]\n";
 				}
 				*/
-				std::cout << "begin\n";
+				//std::cout << "begin\n";
+				if (n == 0)
+					return;
 				for (iterator pos = begin(); pos != end(); pos++) {
-					std::cout << "[" << *pos << "]\n";
+					//std::cout << "[" << *pos << "]\n";
 				}
 				const difference_type pos = ft::distance(begin(), position);
 
@@ -340,9 +324,9 @@ namespace ft {
 				position = begin() + pos;
 				
 				// delta du commencement de rajout a n
-				std::cout << "OK 2\n";
+				//std::cout << "OK 2\n";
 				size_type toMoveRight = ft::distance(position, end() - n);
-				std::cout << "OK 2\n";
+				//std::cout << "OK 2\n";
 				//std::cout << "toMoveRight = " << toMoveRight << std::endl;
 				//delta de de la fin (resizer) et debut de N 
 				pointer oldEnd = _end - n - 1;
