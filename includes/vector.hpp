@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/26 01:46:51 by david            ###   ########.fr       */
+/*   Updated: 2022/07/27 00:44:38 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,6 @@ namespace ft {
 					for (; oldS < n; ++oldS, ++_end) {
 						_alloc.construct(_end, val);
 					}
-
 				}
 			}
 
@@ -212,7 +211,6 @@ namespace ft {
 					}
 					_alloc.deallocate(oldB1, oldC); 
 					_capacity = _begin + n;
-					//std::cout << ":)\n";
 				}
 			}
 
