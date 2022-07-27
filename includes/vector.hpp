@@ -6,7 +6,7 @@
 /*   By: dclark <dclark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:49:13 by dclark            #+#    #+#             */
-/*   Updated: 2022/07/27 00:44:38 by david            ###   ########.fr       */
+/*   Updated: 2022/07/27 22:00:01 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,11 @@ namespace ft {
 			/*-------- Constructor / Destructor --------*/
 
 			// Constructor
+			// default_cons
 			explicit vector (const allocator_type& alloc = allocator_type())
 			: _alloc(alloc), _capacity(NULL), _begin(NULL), _end(NULL)  {}
 
+			// fill_cons
 			explicit vector (size_type n,
 				const value_type& val = value_type(),
 				const allocator_type& alloc = allocator_type())
@@ -71,6 +73,7 @@ namespace ft {
 				}
 			}
 
+			// range_cons
 			template <class InputIterator>
 			vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, 
 			InputIterator last, UNUSED const allocator_type &alloc = allocator_type()) {
@@ -83,9 +86,18 @@ namespace ft {
 				}
 			}
 
-			vector (const vector &x)
-			: _alloc(x._alloc), _capacity(NULL), _begin(NULL), _end(NULL) {
-				insert(begin(), x.begin(), x.end());
+			// copy_cons
+			vector (const vector &x) 
+			//: _alloc(x._alloc), _capacity(NULL), _begin(NULL), _end(NULL) {
+			//	insert(begin(), x.begin(), x.end());
+			: _alloc(x._alloc) {
+				_begin = _alloc.allocate(x.size());
+				_end = _begin;
+				_capacity = _begin + x.size();
+				pointer tmp = x._begin;
+				for (; tmp != x._end; tmp++, _end++) {
+					_alloc.construct(_end, *tmp);
+				}
 			}
 
 			// Destructor
@@ -295,6 +307,7 @@ namespace ft {
 
 			// insert (single element)
 			iterator insert(iterator position, const value_type& val) {
+				//std::cout << "Single" << std::endl;
 				difference_type d = ft::distance(begin(), position);
 				insert(position, 1, val);
 				return iterator(iterator(begin() + d));
@@ -302,6 +315,7 @@ namespace ft {
 
 			// insert (fill)
 			void insert (iterator position, size_type n, const value_type& val) {
+				//std::cout << "Fill" << std::endl;
 				difference_type bg_pos = ft::distance(begin(), position);
 				difference_type	pos_end = ft::distance(position, end());
 				difference_type	bg_end = ft::distance(begin(), end());
@@ -310,7 +324,7 @@ namespace ft {
 					return;
 				if (n + size() <= capacity()) {
 					;
-				} else if (n + size() >= capacity() + 2) {
+				} else if (n + size() >= capacity() * 2) {
 					reserve(n + size());
 				} else {
 					reserve(size() * 2);
@@ -330,6 +344,7 @@ namespace ft {
 			template <class InputIterator>
 			void insert (iterator position, InputIterator first, InputIterator last,
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL) {
+				//std::cout << "Range" << std::endl;
 
 				size_type pos = static_cast<size_type>(ft::distance(begin(), position));
 				size_type n = static_cast<size_type>(ft::distance(first, last));
